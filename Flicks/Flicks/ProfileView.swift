@@ -6,17 +6,34 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ProfileView: View {
     private let name = "Shamik Karkhanis"
     private let likes = ["Sci-Fi", "Cozy", "Thrillers", "Indie Gems"]
     private let watchlist = ["Dune: Part Two", "Past Lives", "The Holdovers", "Poor Things"]
 
+    // Cache the gradient and colors so we don’t recompute during body updates
+    @State private var backgroundGradient: LinearGradient?
+    @State private var backgroundColors: [UIColor] = []
+
+    // Centralized image load for downstream tasks
+    private var uiImage: UIImage? {
+        UIImage(named: "interstellar.jpg")
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
-                AppStyle.brandGradient
-                    .ignoresSafeArea()
+                Group {
+                    if let gradient = backgroundGradient {
+                        gradient
+                    } else {
+                        // Fallback while computing or if image/colors are unavailable
+                        AppStyle.brandGradient
+                    }
+                }
+                .ignoresSafeArea()
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -29,6 +46,9 @@ struct ProfileView: View {
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                populateGradientIfNeeded()
+            }
         }
     }
 
@@ -115,6 +135,23 @@ struct ProfileView: View {
                     .glassEffect(in: RoundedRectangle(cornerRadius: 14))
                 }
             }
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func populateGradientIfNeeded() {
+        // Only compute once per appearance unless you want it dynamic
+        guard backgroundGradient == nil else { return }
+        guard let uiImage else { return }
+
+        if backgroundColors.isEmpty {
+            backgroundColors = AppStyle.dominantColors(from: uiImage, sampleGrid: 4) ?? []
+        }
+        if !backgroundColors.isEmpty {
+            backgroundGradient = AppStyle.gradient(from: backgroundColors)
+        } else {
+            backgroundGradient = AppStyle.brandGradient
         }
     }
 }
