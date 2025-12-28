@@ -1,1275 +1,150 @@
 [
-    {
-        "adult": false,
-        "backdrop_path": "/2nwhxEyefcIFKwOrSigiamoIzu2.jpg",
-        "genre_ids": [
-            28,
-            53,
-            18
-        ],
-        "id": 1119878,
-        "original_language": "en",
-        "original_title": "Ice Road: Vengeance",
-        "overview": "Big rig ice road driver Mike McCann travels to Nepal to scatter his late brother\u2019s ashes on Mt. Everest. While on a packed tour bus traversing the deadly 12,000 ft. terrain of the infamous Road to the Sky, McCann and his mountain guide encounter a group of mercenaries and must fight to save themselves, the busload of innocent travelers, and the local villagers\u2019 homeland.",
-        "popularity": 24.1411,
-        "poster_path": "/cQN9rZj06rXMVkk76UF1DfBAico.jpg",
-        "release_date": "2025-06-27",
-        "title": "Ice Road: Vengeance",
-        "video": false,
-        "vote_average": 6.3,
-        "vote_count": 536,
-        "keywords": [
-            {
-                "id": 3070,
-                "name": "mercenary"
-            },
-            {
-                "id": 9663,
-                "name": "sequel"
-            },
-            {
-                "id": 192779,
-                "name": "mount everest"
-            },
-            {
-                "id": 314730,
-                "name": "suspenseful"
-            },
-            {
-                "id": 325773,
-                "name": "audacious"
-            },
-            {
-                "id": 325805,
-                "name": "embarrassed"
-            },
-            {
-                "id": 325840,
-                "name": "optimistic"
-            },
-            {
-                "id": 325855,
-                "name": "urgent"
-            }
-        ],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 53,
-                "name": "Thriller"
-            },
-            {
-                "id": 18,
-                "name": "Drama"
-            }
-        ]
+  {
+    "adult": false,
+    "backdrop_path": "/54BOXpX2ieTXMDzHymdDMnUIzYG.jpg",
+    "belongs_to_collection": {
+      "id": 1240438,
+      "name": "Five Nights at Freddy's Collection",
+      "poster_path": "/mziuu7XpcnsOb6eRvHDi666U6Nc.jpg",
+      "backdrop_path": "/537TH9PnmUk5X0FZaRP0wH1PJqV.jpg"
     },
-    {
-        "adult": false,
-        "backdrop_path": "/9MJifKtwH3hSDPSqguyvFfgdmtA.jpg",
-        "genre_ids": [
-            18
-        ],
-        "id": 1435092,
-        "original_language": "en",
-        "original_title": "Goodbye June",
-        "overview": "Four siblings' lives change drastically when their ailing mother takes a turn for the worse over the holiday season.",
-        "popularity": 24.1115,
-        "poster_path": "/ygsMOnttVCekvJZgvmnvaemxPHA.jpg",
-        "release_date": "2025-12-12",
-        "title": "Goodbye June",
-        "video": false,
-        "vote_average": 7.0,
-        "vote_count": 15,
-        "keywords": [],
-        "genres": [
-            {
-                "id": 18,
-                "name": "Drama"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/vXYRqIySwaa56quJGRKxXfSaTh0.jpg",
-        "genre_ids": [
-            35,
-            10749,
-            18
-        ],
-        "id": 993708,
-        "original_language": "en",
-        "original_title": "The Threesome",
-        "overview": "Connor and his long-time crush Olivia engage in a threesome with a sweet, alluring stranger named Jenny. This encounter sparks a relationship between Connor and Olivia, leading them to plan a life together. However, their romance faces challenges when Jenny reappears, thrusting all three into a difficult journey toward true accountability and adulthood.",
-        "popularity": 24.11,
-        "poster_path": "/7vQUAw3CX60dhzgzC7BQZFN7Y31.jpg",
-        "release_date": "2025-09-04",
-        "title": "The Threesome",
-        "video": false,
-        "vote_average": 5.886,
-        "vote_count": 35,
-        "keywords": [
-            {
-                "id": 3725,
-                "name": "pregnancy"
-            },
-            {
-                "id": 2604,
-                "name": "babysitter"
-            },
-            {
-                "id": 5521,
-                "name": "arkansas"
-            },
-            {
-                "id": 13027,
-                "name": "wedding"
-            },
-            {
-                "id": 15130,
-                "name": "gay marriage"
-            },
-            {
-                "id": 155262,
-                "name": "threesome"
-            }
-        ],
-        "genres": [
-            {
-                "id": 35,
-                "name": "Comedy"
-            },
-            {
-                "id": 10749,
-                "name": "Romance"
-            },
-            {
-                "id": 18,
-                "name": "Drama"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/uIpJPDNFoeX0TVml9smPrs9KUVx.jpg",
-        "genre_ids": [
-            27,
-            9648
-        ],
-        "id": 574475,
-        "original_language": "en",
-        "original_title": "Final Destination Bloodlines",
-        "overview": "Plagued by a violent recurring nightmare, college student Stefanie heads home to track down the one person who might be able to break the cycle and save her family from the grisly demise that inevitably awaits them all.",
-        "popularity": 24.0283,
-        "poster_path": "/6WxhEvFsauuACfv8HyoVX6mZKFj.jpg",
-        "release_date": "2025-05-14",
-        "title": "Final Destination Bloodlines",
-        "video": false,
-        "vote_average": 7.102,
-        "vote_count": 2472,
-        "keywords": [
-            {
-                "id": 1946,
-                "name": "restaurant"
-            },
-            {
-                "id": 10292,
-                "name": "gore"
-            },
-            {
-                "id": 9663,
-                "name": "sequel"
-            },
-            {
-                "id": 10170,
-                "name": "premonition"
-            },
-            {
-                "id": 10855,
-                "name": "fate"
-            },
-            {
-                "id": 18035,
-                "name": "family"
-            },
-            {
-                "id": 34079,
-                "name": "death"
-            },
-            {
-                "id": 157701,
-                "name": "psychotic"
-            },
-            {
-                "id": 173971,
-                "name": "taunting"
-            },
-            {
-                "id": 193897,
-                "name": "hard"
-            },
-            {
-                "id": 199686,
-                "name": "near-death experience"
-            },
-            {
-                "id": 201456,
-                "name": "paranoid"
-            },
-            {
-                "id": 201864,
-                "name": "hostile"
-            },
-            {
-                "id": 202760,
-                "name": "hopeless"
-            },
-            {
-                "id": 202798,
-                "name": "insecure"
-            },
-            {
-                "id": 208992,
-                "name": "1960s"
-            },
-            {
-                "id": 225012,
-                "name": "satirical"
-            },
-            {
-                "id": 230556,
-                "name": "ironic"
-            },
-            {
-                "id": 240606,
-                "name": "cheating death"
-            },
-            {
-                "id": 244530,
-                "name": "malicious"
-            },
-            {
-                "id": 249136,
-                "name": "suspicious"
-            },
-            {
-                "id": 256183,
-                "name": "supernatural horror"
-            },
-            {
-                "id": 263959,
-                "name": "vindictive"
-            },
-            {
-                "id": 304435,
-                "name": "negative"
-            },
-            {
-                "id": 315058,
-                "name": "horror"
-            },
-            {
-                "id": 316832,
-                "name": "tense"
-            },
-            {
-                "id": 320420,
-                "name": "hilarious"
-            },
-            {
-                "id": 325780,
-                "name": "callous"
-            },
-            {
-                "id": 325790,
-                "name": "cruel"
-            },
-            {
-                "id": 325799,
-                "name": "disheartening"
-            },
-            {
-                "id": 325818,
-                "name": "frightened"
-            },
-            {
-                "id": 325821,
-                "name": "ghoulish"
-            },
-            {
-                "id": 325825,
-                "name": "horrified"
-            },
-            {
-                "id": 325829,
-                "name": "inflammatory"
-            },
-            {
-                "id": 325834,
-                "name": "mean spirited"
-            },
-            {
-                "id": 325836,
-                "name": "mocking"
-            },
-            {
-                "id": 325839,
-                "name": "ominous"
-            },
-            {
-                "id": 325841,
-                "name": "pessimistic"
-            },
-            {
-                "id": 325845,
-                "name": "sarcastic"
-            },
-            {
-                "id": 325846,
-                "name": "sardonic"
-            }
-        ],
-        "genres": [
-            {
-                "id": 27,
-                "name": "Horror"
-            },
-            {
-                "id": 9648,
-                "name": "Mystery"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/mlxKite1x1PgmIhJgAxNS9eHmH8.jpg",
-        "genre_ids": [
-            16,
-            10751,
-            12,
-            35,
-            14
-        ],
-        "id": 508965,
-        "original_language": "en",
-        "original_title": "Klaus",
-        "overview": "A selfish postman and a reclusive toymaker form an unlikely friendship, delivering joy to a cold, dark town that desperately needs it.",
-        "popularity": 23.9967,
-        "poster_path": "/q125RHUDgR4gjwh1QkfYuJLYkL.jpg",
-        "release_date": "2019-11-08",
-        "title": "Klaus",
-        "video": false,
-        "vote_average": 8.226,
-        "vote_count": 4459,
-        "keywords": [
-            {
-                "id": 6054,
-                "name": "friendship"
-            },
-            {
-                "id": 1415,
-                "name": "small town"
-            },
-            {
-                "id": 2041,
-                "name": "island"
-            },
-            {
-                "id": 65,
-                "name": "holiday"
-            },
-            {
-                "id": 1991,
-                "name": "santa claus"
-            },
-            {
-                "id": 6513,
-                "name": "cartoon"
-            },
-            {
-                "id": 3344,
-                "name": "letter"
-            },
-            {
-                "id": 4461,
-                "name": "postman"
-            },
-            {
-                "id": 10385,
-                "name": "reindeer"
-            },
-            {
-                "id": 170711,
-                "name": "toy maker"
-            },
-            {
-                "id": 207317,
-                "name": "christmas"
-            },
-            {
-                "id": 207928,
-                "name": "19th century"
-            },
-            {
-                "id": 238565,
-                "name": "toymaker"
-            },
-            {
-                "id": 242214,
-                "name": "origin story"
-            },
-            {
-                "id": 269233,
-                "name": "good versus evil"
-            },
-            {
-                "id": 324713,
-                "name": "whimsical"
-            },
-            {
-                "id": 325762,
-                "name": "adoring"
-            },
-            {
-                "id": 325765,
-                "name": "amused"
-            },
-            {
-                "id": 325782,
-                "name": "cheerful"
-            },
-            {
-                "id": 325811,
-                "name": "excited"
-            }
-        ],
-        "genres": [
-            {
-                "id": 16,
-                "name": "Animation"
-            },
-            {
-                "id": 10751,
-                "name": "Family"
-            },
-            {
-                "id": 12,
-                "name": "Adventure"
-            },
-            {
-                "id": 35,
-                "name": "Comedy"
-            },
-            {
-                "id": 14,
-                "name": "Fantasy"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/5A01YSCPYoCOZOhh9tU7F3Htxkf.jpg",
-        "genre_ids": [
-            28,
-            14,
-            27,
-            53
-        ],
-        "id": 793387,
-        "original_language": "ko",
-        "original_title": "\uac70\ub8e9\ud55c \ubc24: \ub370\ubaac \ud5cc\ud130\uc2a4",
-        "overview": "When a devil-worshipping criminal network plunges Seoul into chaos, the police turn to Holy Night\u2014a trio of supernatural demon hunters\u2014to restore order and defeat the rising evil.",
-        "popularity": 23.9499,
-        "poster_path": "/v3Mo77Qjp6pctpD4eJaNT6kFRSB.jpg",
-        "release_date": "2025-04-30",
-        "title": "Holy Night: Demon Hunters",
-        "video": false,
-        "vote_average": 6.7,
-        "vote_count": 75,
-        "keywords": [
-            {
-                "id": 10114,
-                "name": "evil spirit"
-            },
-            {
-                "id": 15001,
-                "name": "demon"
-            },
-            {
-                "id": 156174,
-                "name": "occult"
-            },
-            {
-                "id": 177895,
-                "name": "dark fantasy"
-            },
-            {
-                "id": 285485,
-                "name": "teamwork"
-            },
-            {
-                "id": 288394,
-                "name": "suspense"
-            },
-            {
-                "id": 290489,
-                "name": "special power"
-            }
-        ],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 14,
-                "name": "Fantasy"
-            },
-            {
-                "id": 27,
-                "name": "Horror"
-            },
-            {
-                "id": 53,
-                "name": "Thriller"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/k1pJslKr4aDayw9kWwWnlC3MIP3.jpg",
-        "genre_ids": [
-            16,
-            14,
-            12
-        ],
-        "id": 615453,
-        "original_language": "zh",
-        "original_title": "\u54ea\u5412\u4e4b\u9b54\u7ae5\u964d\u4e16",
-        "overview": "A young boy is born as the reincarnation of a demonic power, into a society that hates and fears him. Destined by prophecy to bring destruction to the world, Nezha must choose between good and evil to see if he can change his fate.",
-        "popularity": 23.6126,
-        "poster_path": "/phM9bb6s9c60LA8qwsdk7U1N2cS.jpg",
-        "release_date": "2019-07-26",
-        "title": "Ne Zha",
-        "video": false,
-        "vote_average": 7.884,
-        "vote_count": 752,
-        "keywords": [
-            {
-                "id": 2343,
-                "name": "magic"
-            },
-            {
-                "id": 12554,
-                "name": "dragon"
-            },
-            {
-                "id": 15001,
-                "name": "demon"
-            },
-            {
-                "id": 185343,
-                "name": "based on myths, legends or folklore"
-            },
-            {
-                "id": 278823,
-                "name": "3d animation"
-            },
-            {
-                "id": 290656,
-                "name": "nezha"
-            },
-            {
-                "id": 315535,
-                "name": "donghua"
-            },
-            {
-                "id": 325765,
-                "name": "amused"
-            }
-        ],
-        "genres": [
-            {
-                "id": 16,
-                "name": "Animation"
-            },
-            {
-                "id": 14,
-                "name": "Fantasy"
-            },
-            {
-                "id": 12,
-                "name": "Adventure"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/jOuu4mEBOuJVb6CkkmRDpjnrZed.jpg",
-        "genre_ids": [
-            27,
-            9648
-        ],
-        "id": 937941,
-        "original_language": "en",
-        "original_title": "Shelby Oaks",
-        "overview": "A woman's obsessive search for her missing sister leads her into a terrifying mystery at the hands of an unknown evil.",
-        "popularity": 23.43,
-        "poster_path": "/i3omY4P6QUzFQlEeclWY92RuXCH.jpg",
-        "release_date": "2025-10-02",
-        "title": "Shelby Oaks",
-        "video": false,
-        "vote_average": 5.8,
-        "vote_count": 132,
-        "keywords": [
-            {
-                "id": 570,
-                "name": "rape"
-            },
-            {
-                "id": 2494,
-                "name": "ohio"
-            },
-            {
-                "id": 9720,
-                "name": "woods"
-            },
-            {
-                "id": 9853,
-                "name": "paranormal"
-            },
-            {
-                "id": 15043,
-                "name": "paranormal investigation"
-            },
-            {
-                "id": 156075,
-                "name": "evil"
-            },
-            {
-                "id": 163053,
-                "name": "found footage"
-            },
-            {
-                "id": 166701,
-                "name": "ghost town"
-            },
-            {
-                "id": 206440,
-                "name": "video tape"
-            },
-            {
-                "id": 256183,
-                "name": "supernatural horror"
-            },
-            {
-                "id": 280940,
-                "name": "sisters"
-            },
-            {
-                "id": 281776,
-                "name": "mysterious disappearance"
-            },
-            {
-                "id": 298934,
-                "name": "missing"
-            }
-        ],
-        "genres": [
-            {
-                "id": 27,
-                "name": "Horror"
-            },
-            {
-                "id": 9648,
-                "name": "Mystery"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/cmT2WYpFBRk4UjQ0P984BoF8Eba.jpg",
-        "genre_ids": [
-            35,
-            10749
-        ],
-        "id": 957119,
-        "original_language": "en",
-        "original_title": "Sidelined: The QB and Me",
-        "overview": "Dallas, a burdened but headstrong dancer, is determined to get into the best dance school in the country\u2014her late mother\u2019s alma mater. However, that dream is suddenly derailed when the cheeky yet secretly grieving football star, Drayton, crashes into her life with a unique story of his own. Will the two of them be able to grow into their dreams together, or will their dreams be sidelined?",
-        "popularity": 23.3874,
-        "poster_path": "/mSL6truNrWP1Bn9ng1rN0SkMI4f.jpg",
-        "release_date": "2025-02-06",
-        "title": "Sidelined: The QB and Me",
-        "video": false,
-        "vote_average": 6.1,
-        "vote_count": 117,
-        "keywords": [
-            {
-                "id": 6270,
-                "name": "high school"
-            },
-            {
-                "id": 818,
-                "name": "based on novel or book"
-            },
-            {
-                "id": 313356,
-                "name": "american football player"
-            },
-            {
-                "id": 318933,
-                "name": "based on web novel"
-            }
-        ],
-        "genres": [
-            {
-                "id": 35,
-                "name": "Comedy"
-            },
-            {
-                "id": 10749,
-                "name": "Romance"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/cVzAhirOhKh91AB1TFcGn0Rh5c3.jpg",
-        "genre_ids": [
-            28,
-            53
-        ],
-        "id": 1208561,
-        "original_language": "en",
-        "original_title": "Art of Eight Limbs",
-        "overview": "Four canisters of deadly VX nerve gas have fallen into the hands of an international arms dealer in Myanmar. A CIA recruit delivers a high-tech detection device to an agent already on the ground.",
-        "popularity": 23.3872,
-        "poster_path": "/tZRypLd2SU3Eeqg5tD5cwkk5CdL.jpg",
-        "release_date": "2024-08-16",
-        "title": "Art of Eight Limbs",
-        "video": false,
-        "vote_average": 6.4,
-        "vote_count": 37,
-        "keywords": [
-            {
-                "id": 779,
-                "name": "martial arts"
-            },
-            {
-                "id": 4654,
-                "name": "undercover agent"
-            },
-            {
-                "id": 302132,
-                "name": "action thriller"
-            }
-        ],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 53,
-                "name": "Thriller"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/4frrYwamVG0eXhdMTy3cpNNcCBp.jpg",
-        "genre_ids": [
-            28,
-            18,
-            80,
-            53
-        ],
-        "id": 1128650,
-        "original_language": "cn",
-        "original_title": "\u8aa4\u5224",
-        "overview": "A poor young man is wrongly charged with drug trafficking after being deceived. An ex-prosecutor investigates the case, uncovers a corrupt lawyer team's scheme, and restores justice despite obstruction from evil forces.",
-        "popularity": 23.1352,
-        "poster_path": "/n3ZnFqp988MWfIkT8OHofEJfjlt.jpg",
-        "release_date": "2024-12-08",
-        "title": "The Prosecutor",
-        "video": false,
-        "vote_average": 6.813,
-        "vote_count": 163,
-        "keywords": [
-            {
-                "id": 6148,
-                "name": "court"
-            },
-            {
-                "id": 2149,
-                "name": "drug trafficking"
-            },
-            {
-                "id": 2013,
-                "name": "attempted murder"
-            },
-            {
-                "id": 9672,
-                "name": "based on true story"
-            },
-            {
-                "id": 15127,
-                "name": "killer"
-            },
-            {
-                "id": 171989,
-                "name": "wrongful conviction"
-            },
-            {
-                "id": 181659,
-                "name": "political corruption"
-            },
-            {
-                "id": 208009,
-                "name": "gun fight"
-            }
-        ],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 18,
-                "name": "Drama"
-            },
-            {
-                "id": 80,
-                "name": "Crime"
-            },
-            {
-                "id": 53,
-                "name": "Thriller"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
-        "genre_ids": [
-            28,
-            878,
-            35,
-            10751
-        ],
-        "id": 939243,
-        "original_language": "en",
-        "original_title": "Sonic the Hedgehog 3",
-        "overview": "Sonic, Knuckles, and Tails reunite against a powerful new adversary, Shadow, a mysterious villain with powers unlike anything they have faced before. With their abilities outmatched in every way, Team Sonic must seek out an unlikely alliance in hopes of stopping Shadow and protecting the planet.",
-        "popularity": 23.0743,
-        "poster_path": "/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
-        "release_date": "2024-12-19",
-        "title": "Sonic the Hedgehog 3",
-        "video": false,
-        "vote_average": 7.641,
-        "vote_count": 3066,
-        "keywords": [
-            {
-                "id": 305,
-                "name": "moon"
-            },
-            {
-                "id": 9663,
-                "name": "sequel"
-            },
-            {
-                "id": 41645,
-                "name": "based on video game"
-            },
-            {
-                "id": 157701,
-                "name": "psychotic"
-            },
-            {
-                "id": 163129,
-                "name": "dual role"
-            },
-            {
-                "id": 179430,
-                "name": "aftercreditsstinger"
-            },
-            {
-                "id": 179431,
-                "name": "duringcreditsstinger"
-            },
-            {
-                "id": 208927,
-                "name": "hedgehog"
-            },
-            {
-                "id": 209220,
-                "name": "live action and animation"
-            },
-            {
-                "id": 239797,
-                "name": "complex"
-            },
-            {
-                "id": 245358,
-                "name": "grandfather grandson relationship"
-            },
-            {
-                "id": 258197,
-                "name": "animal human friendship"
-            },
-            {
-                "id": 269710,
-                "name": "anthropomorphic animal"
-            },
-            {
-                "id": 325435,
-                "name": "loss and grief"
-            }
-        ],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 878,
-                "name": "Science Fiction"
-            },
-            {
-                "id": 35,
-                "name": "Comedy"
-            },
-            {
-                "id": 10751,
-                "name": "Family"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/jK4m8gjLT5D2PNwoC0jJ0dGmWMu.jpg",
-        "genre_ids": [
-            53,
-            9648
-        ],
-        "id": 449459,
-        "original_language": "en",
-        "original_title": "The Vanishing",
-        "overview": "Three lighthouse keepers on an uninhabited island off the coast of Scotland discover something that isn't theirs to keep.",
-        "popularity": 23.0012,
-        "poster_path": "/owYLROHpJWbYWEHjaEvDsnoz4Ux.jpg",
-        "release_date": "2019-01-04",
-        "title": "The Vanishing",
-        "video": false,
-        "vote_average": 5.742,
-        "vote_count": 760,
-        "keywords": [
-            {
-                "id": 388,
-                "name": "scotland"
-            },
-            {
-                "id": 2580,
-                "name": "shipwreck"
-            },
-            {
-                "id": 2803,
-                "name": "affectation"
-            },
-            {
-                "id": 4079,
-                "name": "lighthouse"
-            },
-            {
-                "id": 9672,
-                "name": "based on true story"
-            },
-            {
-                "id": 8729,
-                "name": "lighthouse keeper   "
-            },
-            {
-                "id": 156630,
-                "name": "remote island"
-            },
-            {
-                "id": 194998,
-                "name": "curious"
-            },
-            {
-                "id": 230870,
-                "name": "vanished"
-            },
-            {
-                "id": 236170,
-                "name": "1900s"
-            },
-            {
-                "id": 239797,
-                "name": "complex"
-            },
-            {
-                "id": 251667,
-                "name": "anxious"
-            },
-            {
-                "id": 311998,
-                "name": "furious"
-            },
-            {
-                "id": 325762,
-                "name": "adoring"
-            },
-            {
-                "id": 325763,
-                "name": "ambiguous"
-            },
-            {
-                "id": 325766,
-                "name": "antagonistic"
-            },
-            {
-                "id": 325773,
-                "name": "audacious"
-            },
-            {
-                "id": 325787,
-                "name": "complicated"
-            },
-            {
-                "id": 325803,
-                "name": "dubious"
-            },
-            {
-                "id": 325810,
-                "name": "euphoric"
-            },
-            {
-                "id": 325821,
-                "name": "ghoulish"
-            }
-        ],
-        "genres": [
-            {
-                "id": 53,
-                "name": "Thriller"
-            },
-            {
-                "id": 9648,
-                "name": "Mystery"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/twsxsfao6ZOVvT8LfudH603MMi6.jpg",
-        "genre_ids": [
-            10751,
-            35,
-            16,
-            878
-        ],
-        "id": 519182,
-        "original_language": "en",
-        "original_title": "Despicable Me 4",
-        "overview": "Gru and Lucy and their girls\u2014Margo, Edith and Agnes\u2014welcome a new member to the Gru family, Gru Jr., who is intent on tormenting his dad. Gru also faces a new nemesis in Maxime Le Mal and his femme fatale girlfriend Valentina, forcing the family to go on the run.",
-        "popularity": 22.9629,
-        "poster_path": "/wWba3TaojhK7NdycRhoQpsG0FaH.jpg",
-        "release_date": "2024-06-20",
-        "title": "Despicable Me 4",
-        "video": false,
-        "vote_average": 7.003,
-        "vote_count": 3005,
-        "keywords": [
-            {
-                "id": 9715,
-                "name": "superhero"
-            },
-            {
-                "id": 3289,
-                "name": "villain"
-            },
-            {
-                "id": 9663,
-                "name": "sequel"
-            },
-            {
-                "id": 163074,
-                "name": "super villain"
-            },
-            {
-                "id": 179430,
-                "name": "aftercreditsstinger"
-            },
-            {
-                "id": 179431,
-                "name": "duringcreditsstinger"
-            },
-            {
-                "id": 208349,
-                "name": "kids"
-            },
-            {
-                "id": 209673,
-                "name": "calm"
-            },
-            {
-                "id": 274453,
-                "name": "illumination"
-            }
-        ],
-        "genres": [
-            {
-                "id": 10751,
-                "name": "Family"
-            },
-            {
-                "id": 35,
-                "name": "Comedy"
-            },
-            {
-                "id": 16,
-                "name": "Animation"
-            },
-            {
-                "id": 878,
-                "name": "Science Fiction"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/z8tNyAAnGk2d1XmO1L4i34UmP19.jpg",
-        "genre_ids": [
-            28,
-            53
-        ],
-        "id": 1367575,
-        "original_language": "en",
-        "original_title": "A Line of Fire",
-        "overview": "After working as a secret agent in the FBI for ten years, Jack 'Cash' Conry left it all behind after his wife passed in order to dedicate himself to his two daughters. Despite a fulfilling life at home, Cash misses the chance to make an impact and has been considering a return to the force. The decision is made for him when his old partner\u2019s niece Jamie calls him for help, launching Cash right back into a world of danger, corruption and intrigue.",
-        "popularity": 22.9316,
-        "poster_path": "/jSG2mg1998DUAam6X9EA6SeJmqD.jpg",
-        "release_date": "2025-12-11",
-        "title": "A Line of Fire",
-        "video": false,
-        "vote_average": 4.833,
-        "vote_count": 6,
-        "keywords": [],
-        "genres": [
-            {
-                "id": 28,
-                "name": "Action"
-            },
-            {
-                "id": 53,
-                "name": "Thriller"
-            }
-        ]
-    },
-    {
-        "adult": false,
-        "backdrop_path": "/mVr0UiqyltcfqxbAUcLl9zWL8ah.jpg",
-        "genre_ids": [
-            878,
-            18
-        ],
-        "id": 335984,
-        "original_language": "en",
-        "original_title": "Blade Runner 2049",
-        "overview": "Thirty years after the events of the first film, a new blade runner, LAPD Officer K, unearths a long-buried secret that has the potential to plunge what's left of society into chaos. K's discovery leads him on a quest to find Rick Deckard, a former LAPD blade runner who has been missing for 30 years.",
-        "popularity": 14.8044,
-        "poster_path": "/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg",
-        "release_date": "2017-10-04",
-        "title": "Blade Runner 2049",
-        "video": false,
-        "vote_average": 7.588,
-        "vote_count": 14614,
-        "keywords": [
-            {
-                "id": 2964,
-                "name": "future"
-            },
-            {
-                "id": 803,
-                "name": "android"
-            },
-            {
-                "id": 801,
-                "name": "bounty hunter"
-            },
-            {
-                "id": 310,
-                "name": "artificial intelligence (a.i.)"
-            },
-            {
-                "id": 6017,
-                "name": "genetics"
-            },
-            {
-                "id": 4565,
-                "name": "dystopia"
-            },
-            {
-                "id": 9663,
-                "name": "sequel"
-            },
-            {
-                "id": 12190,
-                "name": "cyberpunk"
-            },
-            {
-                "id": 12670,
-                "name": "los angeles, california"
-            },
-            {
-                "id": 14570,
-                "name": "las vegas"
-            },
-            {
-                "id": 178657,
-                "name": "tech noir"
-            },
-            {
-                "id": 197056,
-                "name": "meditative"
-            },
-            {
-                "id": 215131,
-                "name": "human clone"
-            },
-            {
-                "id": 233512,
-                "name": "blade runner"
-            },
-            {
-                "id": 243676,
-                "name": "2040s"
-            },
-            {
-                "id": 266753,
-                "name": "cautionary"
-            },
-            {
-                "id": 269808,
-                "name": "introspective"
-            },
-            {
-                "id": 325773,
-                "name": "audacious"
-            },
-            {
-                "id": 325786,
-                "name": "compassionate"
-            },
-            {
-                "id": 357496,
-                "name": "dystopian sci-fi"
-            }
-        ]
-    }
+    "budget": 36000000,
+    "genres": [
+      {
+        "id": 27,
+        "name": "Horror"
+      },
+      {
+        "id": 53,
+        "name": "Thriller"
+      }
+    ],
+    "homepage": "https://www.fivenightsatfreddys.movie",
+    "id": 1228246,
+    "imdb_id": "tt30274401",
+    "origin_country": [
+      "US"
+    ],
+    "original_language": "en",
+    "original_title": "Five Nights at Freddy's 2",
+    "overview": "One year since the supernatural nightmare at Freddy Fazbear's Pizza, the stories about what transpired there have been twisted into a campy local legend, inspiring the town's first ever Fazfest. With the truth kept from her, Abby sneaks out to reconnect with Freddy, Bonnie, Chica, and Foxy, setting into motion a terrifying series of events that will reveal dark secrets about the real origin of Freddy's, and unleash a decades-hidden horror.",
+    "popularity": 381.5918,
+    "poster_path": "/udAxQEORq2I5wxI97N2TEqdhzBE.jpg",
+    "production_companies": [
+      {
+        "id": 3172,
+        "logo_path": "/rzKluDcRkIwHZK2pHsiT667A2Kw.png",
+        "name": "Blumhouse Productions",
+        "origin_country": "US"
+      },
+      {
+        "id": 211144,
+        "logo_path": null,
+        "name": "Scott Cawthon Productions",
+        "origin_country": "US"
+      },
+      {
+        "id": 116736,
+        "logo_path": "/5qSrmPricJH5TKXvfRSmUc7o1wP.png",
+        "name": "Mind Hive Films",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      {
+        "iso_3166_1": "US",
+        "name": "United States of America"
+      }
+    ],
+    "release_date": "2025-12-03",
+    "revenue": 211217062,
+    "runtime": 104,
+    "spoken_languages": [
+      {
+        "english_name": "English",
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "status": "Released",
+    "tagline": "You there?",
+    "title": "Five Nights at Freddy's 2",
+    "video": false,
+    "vote_average": 6.8,
+    "vote_count": 355,
+    "keywords": [
+      {
+        "id": 1373,
+        "name": "killer robot"
+      },
+      {
+        "id": 4733,
+        "name": "pizzeria"
+      },
+      {
+        "id": 9663,
+        "name": "sequel"
+      },
+      {
+        "id": 10714,
+        "name": "serial killer"
+      },
+      {
+        "id": 41180,
+        "name": "security guard"
+      },
+      {
+        "id": 41645,
+        "name": "based on video game"
+      },
+      {
+        "id": 158340,
+        "name": "theme park"
+      },
+      {
+        "id": 170309,
+        "name": "dead children"
+      },
+      {
+        "id": 179430,
+        "name": "aftercreditsstinger"
+      },
+      {
+        "id": 179431,
+        "name": "duringcreditsstinger"
+      },
+      {
+        "id": 207400,
+        "name": "haunted attractions"
+      },
+      {
+        "id": 214846,
+        "name": "night guard"
+      },
+      {
+        "id": 215790,
+        "name": "animatronic"
+      },
+      {
+        "id": 240764,
+        "name": "possessed doll"
+      },
+      {
+        "id": 256183,
+        "name": "supernatural horror"
+      },
+      {
+        "id": 256908,
+        "name": "ghost child"
+      },
+      {
+        "id": 325665,
+        "name": "slasher horror"
+      },
+      {
+        "id": 340171,
+        "name": "android horror"
+      }
+    ]
+  }
 ]

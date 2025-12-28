@@ -41,14 +41,15 @@ TV_GENRES = {
     37: "Western",
 }
 
-with open("tmdb_dataset_with_keywords.json", "r") as f:
+with open("tmdb_dataset.json", "r") as f:
     data = json.load(f)
 
 for item in data:
     genre_ids = item.get("genre_ids", [])
+    del item["genre_ids"]
     item["genres"] = [
         {"id": gid, "name": MOVIE_GENRES.get(gid, "Unknown")} for gid in genre_ids
     ]
 
-with open("tmdb_dataset_with_genres.json", "w") as f:
+with open("tmdb_dataset.json", "w") as f:
     json.dump(data, f, indent=2, ensure_ascii=True)

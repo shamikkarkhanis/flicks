@@ -1,30 +1,13 @@
 import json
 
 import chromadb
-from sentence_transformers import SentenceTransformer
+
+from user import build_user_text, encode_user_text, load_user_profile
 
 
-def build_user_text(profile):
-    genres = profile.get("genres", [])
-    keywords = profile.get("keywords", [])
-    parts = []
-    if genres:
-        parts.append("Genres: " + ", ".join(genres))
-    if keywords:
-        parts.append("Keywords: " + ", ".join(keywords))
-    return " | ".join(parts)
-
-
-with open("user_1.json", "r") as f:
-    user_profiles = json.load(f)
-
-if not user_profiles:
-    raise ValueError("user_1.json is empty.")
-
-query_text = build_user_text(user_profiles[0])
-
-model = SentenceTransformer("all-MiniLM-L6-v2")
-query_embedding = model.encode([query_text]).tolist()
+profile = load_user_profile("user_1.json")
+query_text = build_user_text(profile)
+query_embedding = encode_user_text(query_text)
 
 client = chromadb.PersistentClient(path="chroma")
 collection = client.get_or_create_collection(name="movies")

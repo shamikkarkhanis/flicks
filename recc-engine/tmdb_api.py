@@ -22,9 +22,9 @@ class TMDBClient:
         return response.json()
 
     def movie_details(self, movie_id: int) -> Dict[str, Any]:
-        return self._get(f"/movie/{movie_id}")
+        return self._get(f"movie/{movie_id}?language=en-US")
 
-    # def movie_credits(self, movie_id: int) -> Dict[str, Any]:
+    # def movie_credits(self, movie_id: int) -> Dict[str, Any]
     #     return self._get(f"/movie/{movie_id}/credits")
 
     # def search_movie(self, query: str, *, page: int = 1) -> Dict[str, Any]:
@@ -45,3 +45,4 @@ class TMDBClient:
     # def genre_list(self) -> List[Dict[str, Any]]:
     #     data = self._get("/genre/movie/list")
     #     return data.get("genres", [])
+

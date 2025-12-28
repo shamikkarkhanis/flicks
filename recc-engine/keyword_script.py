@@ -4,7 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from dotenv import load_dotenv
 
-from tmdb_api import TMDBClient
+from data.tmdb_api import TMDBClient
 
 load_dotenv()
 
