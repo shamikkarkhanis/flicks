@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct FlicksApp: App {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-            
+            OnboardingView()
         }
     }
 }

@@ -5,12 +5,14 @@ struct MovieCardView: View {
     let subtitle: String
     let imageName: String
     let friendInitials: [String]
+    var disableDetail: Bool = false
 
     @State private var showDetail = false
     @State private var tapSpin = false
 
     var body: some View {
         Button {
+            guard !disableDetail else { return }
             withAnimation(.snappy(duration: 0.25, extraBounce: 0.05)) {
                 tapSpin = true
             }
