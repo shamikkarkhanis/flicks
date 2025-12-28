@@ -14,7 +14,7 @@ struct ContentView: View {
     // Navbar selection (pages)
     enum Page: Int, CaseIterable, Identifiable {
         case personal
-        case groups
+//        case groups
         case profile
 
         var id: Int { rawValue }
@@ -22,7 +22,7 @@ struct ContentView: View {
         var title: String {
             switch self {
             case .personal: return "Personal"
-            case .groups: return "Groups"
+//            case .groups: return "Groups"
             case .profile: return "Profile"
             }
         }
@@ -30,7 +30,7 @@ struct ContentView: View {
         var systemImage: String {
             switch self {
             case .personal: return "person.fill"
-            case .groups: return "person.2.fill"
+//            case .groups: return "person.2.fill"
             case .profile: return "person.crop.circle"
             }
         }
@@ -162,8 +162,8 @@ struct ContentView: View {
         switch selectedPage {
         case .personal:
             ForYouView()
-        case .groups:
-            GroupView()
+//        case .groups:
+//            GroupView()
         case .profile:
             ProfileView()
         }

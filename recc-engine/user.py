@@ -56,13 +56,23 @@ def upsert_user_profile(user_id, text, embedding, profile):
     )
 
 
-def search_movies(embedding, top_k):
+def search_movies(embedding, top_k, filters=None):
     client = chromadb.PersistentClient(path="chroma")
     collection = client.get_or_create_collection(name="movies")
+    
+    where_filter = None
+    if filters:
+        conditions = [{f"is_{genre}": True} for genre in filters]
+        if len(conditions) == 1:
+            where_filter = conditions[0]
+        else:
+            where_filter = {"$and": conditions}
+
     return collection.query(
         query_embeddings=embedding,
         n_results=top_k,
         include=["metadatas", "distances", "documents"],
+        where=where_filter
     )
 
 
@@ -71,6 +81,7 @@ def main():
     parser.add_argument("--user-profile", default="users/user_1.json")
     parser.add_argument("--encode", action="store_true")
     parser.add_argument("--top-k", type=int, default=10)
+    parser.add_argument("--genres", help="Comma-separated list of genres to filter by")
     args = parser.parse_args()
 
 
@@ -84,9 +95,15 @@ def main():
         user_id = os.path.splitext(os.path.basename(args.user_profile))[0]
         embedding = [get_profile_from_db(user_id)["embeddings"][0]]
 
+    filters = []
+    if args.genres:
+        filters = [g.strip() for g in args.genres.split(",")]
+    else:
+        filters = load_user_profile(args.user_profile).get("genres", [])
+
     # pull user embedding from chroma
 
-    results = search_movies(embedding, args.top_k)
+    results = search_movies(embedding, args.top_k, filters=filters)
     for idx, movie_id in enumerate(results["ids"][0]):
         metadata = results["metadatas"][0][idx]
         payload = json.loads(metadata.get("payload", "{}"))

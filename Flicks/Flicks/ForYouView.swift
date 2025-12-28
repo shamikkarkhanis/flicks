@@ -51,6 +51,7 @@ struct ForYouView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
+        
     }
 
     @ViewBuilder
@@ -59,7 +60,7 @@ struct ForYouView: View {
             title: movie.title,
             subtitle: movie.subtitle,
             imageName: movie.imageName,
-            friendInitials: []
+            friendInitials: ["SK", "GJ", "CB"]
         )
         .id(movie.id)                               // mark as scroll target
         .onTapGesture {

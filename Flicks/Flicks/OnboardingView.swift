@@ -31,9 +31,13 @@ struct OnboardingView: View {
                             subtitle: movie.subtitle,
                             imageName: movie.imageName,
                             friendInitials: movie.friendInitials,
-                            disableDetail: true
+                            disableDetail: true,
+                            onRemove: {
+                                // Remove this movie from the deck when the card commits a swipe
+                                mediaDeck.removeAll { $0.id == movie.id }
+                            }
                         )
-                        .frame(height: 360)
+                        .scaleEffect(0.95)
                         .padding(.horizontal, 20)
                         .zIndex(Double(index))
                     }
