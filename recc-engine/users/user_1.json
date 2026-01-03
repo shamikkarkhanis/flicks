@@ -1,6 +1,35 @@
 [
     {
-        "genres": ["Adventure", "Thriller", "Science Fiction"],
-        "keywords": ["future", "space travel", "dystopia"]
+        "name": "user_1",
+        "genres": [
+            "Action",
+            "Adventure",
+            "Science Fiction"
+        ],
+        "keywords": [
+            "paris, france",
+            "heist",
+            "dream world",
+            "dreams",
+            "kidnapping",
+            "car crash",
+            "architecture",
+            "memory",
+            "los angeles, california",
+            "philosophy",
+            "virtual reality",
+            "dream",
+            "manipulation",
+            "spy",
+            "mission",
+            "allegory",
+            "death",
+            "rescue",
+            "subconscious",
+            "airplane"
+        ],
+        "movie_ids": [
+            27205
+        ]
     }
 ]

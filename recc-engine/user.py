@@ -66,7 +66,7 @@ def search_movies(embedding, top_k, filters=None):
         if len(conditions) == 1:
             where_filter = conditions[0]
         else:
-            where_filter = {"$and": conditions}
+            where_filter = {"$or": conditions}
 
     return collection.query(
         query_embeddings=embedding,
@@ -108,8 +108,9 @@ def main():
         metadata = results["metadatas"][0][idx]
         payload = json.loads(metadata.get("payload", "{}"))
         title = payload.get("title", "Unknown")
+        backdrop = payload.get("backdrop_path", "No Backdrop")
         score = results["distances"][0][idx]
-        print(f"{idx + 1}. {title} (id={movie_id}, distance={score:.4f})")
+        print(f"{idx + 1}. {title} (id={movie_id}, distance={score:.4f}, backdrop={backdrop})")
 
 
 if __name__ == "__main__":

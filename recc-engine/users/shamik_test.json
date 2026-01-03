@@ -1,0 +1,34 @@
+[
+    {
+        "name": "shamik_test",
+        "genres": [
+            "Action",
+            "Science Fiction"
+        ],
+        "movie_ids": [
+            27205
+        ],
+        "keywords": [
+            "mission",
+            "dream world",
+            "spy",
+            "virtual reality",
+            "rescue",
+            "airplane",
+            "los angeles, california",
+            "dreams",
+            "dream",
+            "architecture",
+            "manipulation",
+            "philosophy",
+            "kidnapping",
+            "allegory",
+            "memory",
+            "death",
+            "car crash",
+            "heist",
+            "subconscious",
+            "paris, france"
+        ]
+    }
+]

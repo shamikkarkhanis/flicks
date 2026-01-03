@@ -1,0 +1,10 @@
+[
+    {
+        "name": "John Doe",
+        "genres": [
+            "Action"
+        ],
+        "movie_ids": [],
+        "keywords": []
+    }
+]

@@ -1,6 +1,8 @@
 [
     {
+        "name": "user_3",
         "genres": ["Animation", "Family", "Comedy"],
-        "keywords": ["bunny", "cop", "embarrassed", "excited", "talent show"]
+        "keywords": ["bunny", "cop", "embarrassed", "excited", "talent show"],
+        "movie_ids": []
     }
 ]

@@ -1,6 +1,8 @@
 [
     {
+        "name": "user_2",
         "genres": ["Romance", "Drama", "Comedy"],
-        "keywords": ["love", "holidays", "christmas", "relationships", "heartbreak"]
+        "keywords": ["love", "holidays", "christmas", "relationships", "heartbreak"],
+        "movie_ids": []
     }
 ]
