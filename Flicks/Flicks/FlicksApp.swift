@@ -10,10 +10,22 @@ import SwiftUI
 @main
 struct FlicksApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @StateObject private var userState = UserState()
+
+    init() {
+        // FOR TESTING ONLY: Reset onboarding state on every launch
+        UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+    }
 
     var body: some Scene {
         WindowGroup {
-            OnboardingView()
+            if hasCompletedOnboarding {
+                ContentView()
+                    .environmentObject(userState)
+            } else {
+                OnboardingView()
+                    .environmentObject(userState)
+            }
         }
     }
 }

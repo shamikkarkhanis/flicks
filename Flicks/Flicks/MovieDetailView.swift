@@ -16,14 +16,12 @@ struct MovieDetailView: View {
     
     // Cache primary colors for other uses
     @State private var backgroundColors: [UIColor] = []
+    
+    // Holds the image for both display and analysis
+    @State private var loadedImage: UIImage?
 
     // A sensible maximum content width to avoid overly wide layouts on larger devices
     private let maxContentWidth: CGFloat = 700
-
-    // Centralized image load for downstream tasks
-    private var uiImage: UIImage? {
-        UIImage(named: imageName)
-    }
 
     var body: some View {
         GeometryReader { proxy in
@@ -47,12 +45,21 @@ struct MovieDetailView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             if !imageName.isEmpty {
                                 // Constrain the image to contentWidth and crop as needed
-                                Image(imageName)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: contentWidth - 32, height: 240) // subtract padding to align edges
-                                    .clipped()
-                                    .cornerRadius(16)
+                                Group {
+                                    if let uiImage = loadedImage {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: contentWidth - 32, height: 240)
+                                            .clipped()
+                                            .cornerRadius(16)
+                                    } else {
+                                        Color.gray.opacity(0.3)
+                                            .frame(width: contentWidth - 32, height: 240)
+                                            .cornerRadius(16)
+                                            .overlay(ProgressView())
+                                    }
+                                }
                             }
 
                             Section {
@@ -142,14 +149,14 @@ struct MovieDetailView: View {
                     withAnimation(.snappy(duration: 0.35, extraBounce: 0.05)) {
                         appearSpin = false
                     }
-
-                    populateGradient()
+                    loadImageAndAnalyze()
                 }
                 // If imageName can change while presented, recompute
                 .onChange(of: imageName) { _ in
+                    loadedImage = nil
                     backgroundColors.removeAll()
                     backgroundGradient = nil
-                    populateGradient()
+                    loadImageAndAnalyze()
                 }
             }
         }
@@ -176,13 +183,38 @@ struct MovieDetailView: View {
 // MARK: - Helpers
 
 private extension MovieDetailView {
-    func populateGradient() {
-        guard let uiImage = uiImage else { return }
+    func loadImageAndAnalyze() {
+        if imageName.hasPrefix("http"), let url = URL(string: imageName) {
+            Task {
+                do {
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    if let image = UIImage(data: data) {
+                        await MainActor.run {
+                            self.loadedImage = image
+                            analyzeColors(from: image)
+                        }
+                    }
+                } catch {
+                    print("Failed to load remote image: \(error)")
+                }
+            }
+        } else {
+            // Local image
+            if let image = UIImage(named: imageName) {
+                self.loadedImage = image
+                analyzeColors(from: image)
+            }
+        }
+    }
+
+    func analyzeColors(from image: UIImage) {
         if backgroundColors.isEmpty {
-            backgroundColors = AppStyle.dominantColors(from: uiImage, sampleGrid: 4) ?? []
+            backgroundColors = AppStyle.dominantColors(from: image, sampleGrid: 4) ?? []
         }
         if backgroundGradient == nil, !backgroundColors.isEmpty {
-            backgroundGradient = AppStyle.gradient(from: backgroundColors)
+            withAnimation {
+                backgroundGradient = AppStyle.gradient(from: backgroundColors)
+            }
         }
     }
 }

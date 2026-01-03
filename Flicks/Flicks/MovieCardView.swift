@@ -23,13 +23,34 @@ struct MovieCardView: View {
             }
         } label: {
             ZStack(alignment: .bottomLeading) {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFill()
+                if imageName.hasPrefix("http"), let url = URL(string: imageName) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            Color.gray.opacity(0.3)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        case .failure:
+                            Color.gray
+                        @unknown default:
+                            Color.gray
+                        }
+                    }
                     .aspectRatio(16.0 / 9.0, contentMode: .fit)
                     .clipped()
                     .cornerRadius(20)
                     .shadow(radius: 10)
+                } else {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .aspectRatio(16.0 / 9.0, contentMode: .fit)
+                        .clipped()
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                }
 
                 LinearGradient(
                     gradient: Gradient(colors: [.black.opacity(0.6), .clear]),

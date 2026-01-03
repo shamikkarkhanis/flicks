@@ -1,7 +1,14 @@
 import SwiftUI
 
 struct ForYouView: View {
-    private let movies: [Movie] = sampleMovies
+    @EnvironmentObject var userState: UserState
+    
+    private var movies: [Movie] {
+        if !userState.recommendations.isEmpty {
+            return userState.recommendations
+        }
+        return sampleMovies
+    }
 
     // bind scroll position to a Movie.ID
     @State private var scrollPosition: Movie.ID?

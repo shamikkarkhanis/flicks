@@ -8,7 +8,8 @@ struct VerticalMovieCardView: View {
     var disableDetail: Bool = true
 
     // Callback the parent can provide to remove this card from a deck
-    var onRemove: (() -> Void)? = nil
+    // true = liked (right swipe), false = passed (left swipe)
+    var onSwipe: ((Bool) -> Void)? = nil
 
     @State private var showDetail = false
     @State private var tapSpin = false
@@ -24,11 +25,26 @@ struct VerticalMovieCardView: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
-                .frame(width: cardWidth, height: cardHeight, alignment: .center)
+            if imageName.hasPrefix("http"), let url = URL(string: imageName) {
+                AsyncImage(url: url) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                    } else {
+                        Color.gray
+                            .frame(width: cardWidth, height: cardHeight)
+                    }
+                }
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            } else {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            }
 
             Rectangle()
                 .fill(color.opacity(0.2))
@@ -75,10 +91,10 @@ struct VerticalMovieCardView: View {
         switch width {
         case -500...(-150): // Swipe left
             offset = CGSize(width: -500, height: 0)
-            commitRemoval()
+            commitRemoval(liked: false)
         case 150...500: // Swipe right
             offset = CGSize(width: 500, height: 0)
-            commitRemoval()
+            commitRemoval(liked: true)
         default:
             // Not far enough: snap back
             offset = .zero
@@ -97,10 +113,10 @@ struct VerticalMovieCardView: View {
         }
     }
 
-    private func commitRemoval() {
-        if let onRemove {
+    private func commitRemoval(liked: Bool) {
+        if let onSwipe {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-                onRemove()
+                onSwipe(liked)
             }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {

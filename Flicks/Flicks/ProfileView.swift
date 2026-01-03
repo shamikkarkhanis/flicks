@@ -9,9 +9,8 @@ import SwiftUI
 import UIKit
 
 struct ProfileView: View {
+    @EnvironmentObject var userState: UserState
     private let name = "Shamik Karkhanis"
-    private let likes = ["Sci-Fi", "Cozy", "Thrillers", "Indie Gems"]
-    private let watchlist = ["Dune: Part Two", "Past Lives", "The Holdovers", "Poor Things"]
 
     // Cache the gradient and colors so we don’t recompute during body updates
     @State private var backgroundGradient: LinearGradient?
@@ -95,7 +94,7 @@ struct ProfileView: View {
                 alignment: .leading,
                 spacing: 10
             ) {
-                ForEach(likes, id: \.self) { like in
+                ForEach(userState.likes, id: \.self) { like in
                     Text(like)
                         .font(.system(size: 14, weight: .medium))
                         .padding(.horizontal, 12)
@@ -112,27 +111,34 @@ struct ProfileView: View {
             Text("Watchlist")
                 .font(.system(size: 18, weight: .semibold))
 
-            VStack(spacing: 10) {
-                ForEach(watchlist, id: \.self) { title in
-                    HStack {
-                        Image(systemName: "film")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.secondary)
-                            .frame(width: 28)
+            if userState.watchlist.isEmpty {
+                Text("Your watchlist is empty. Swipe right on movies to add them here!")
+                    .font(.system(size: 15))
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 8)
+            } else {
+                VStack(spacing: 10) {
+                    ForEach(userState.watchlist) { movie in
+                        HStack {
+                            Image(systemName: "film")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(.secondary)
+                                .frame(width: 28)
 
-                        Text(title)
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundStyle(.primary)
+                            Text(movie.title)
+                                .font(.system(size: 15, weight: .medium))
+                                .foregroundStyle(.primary)
 
-                        Spacer()
+                            Spacer()
 
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.tertiary)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundStyle(.tertiary)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 12)
+                        .glassEffect(in: RoundedRectangle(cornerRadius: 14))
                     }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .glassEffect(in: RoundedRectangle(cornerRadius: 14))
                 }
             }
         }
