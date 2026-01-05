@@ -28,8 +28,15 @@
             "subconscious",
             "airplane"
         ],
-        "movie_ids": [
-            27205
-        ]
+        "history": {
+            "liked": [
+                27205
+            ],
+            "disliked": [],
+            "watchlist": [],
+            "seen": [
+                27205
+            ]
+        }
     }
 ]

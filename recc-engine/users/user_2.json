@@ -1,8 +1,23 @@
 [
     {
         "name": "user_2",
-        "genres": ["Romance", "Drama", "Comedy"],
-        "keywords": ["love", "holidays", "christmas", "relationships", "heartbreak"],
-        "movie_ids": []
+        "genres": [
+            "Romance",
+            "Drama",
+            "Comedy"
+        ],
+        "keywords": [
+            "love",
+            "holidays",
+            "christmas",
+            "relationships",
+            "heartbreak"
+        ],
+        "history": {
+            "liked": [],
+            "disliked": [],
+            "watchlist": [],
+            "seen": []
+        }
     }
 ]

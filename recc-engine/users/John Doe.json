@@ -4,7 +4,12 @@
         "genres": [
             "Action"
         ],
-        "movie_ids": [],
-        "keywords": []
+        "keywords": [],
+        "history": {
+            "liked": [],
+            "disliked": [],
+            "watchlist": [],
+            "seen": []
+        }
     }
 ]

@@ -37,11 +37,16 @@ def encode_user(user_data: UserCreate):
     Fetches keywords for movie_ids, saves the profile to disk, and encodes/upserts to DB.
     """
     try:
-        # Construct initial profile
+        # Construct initial profile with new history structure
         profile = {
             "name": user_data.name,
             "genres": user_data.genres,
-            "movie_ids": user_data.movie_ids,
+            "history": {
+                "liked": user_data.movie_ids,
+                "disliked": [],
+                "watchlist": [],
+                "seen": user_data.movie_ids[:] # Copy liked to seen
+            },
             "keywords": []
         }
         
@@ -63,10 +68,15 @@ def encode_user(user_data: UserCreate):
             
             profile["keywords"] = list(current_keywords)
 
-        # Save to disk as a list (matching existing format)
+        # Save to disk using user.py's helper to ensure consistency
+        # We can't use user.save_user_profile directly because we need to handle the path logic here 
+        # or update the helper. But let's just use the logic we know.
         file_path = f"users/{user_data.name}.json"
-        with open(file_path, "w") as f:
-            json.dump([profile], f, indent=4)
+        
+        # Use the helper from user.py if possible, or replicate safe save
+        # Importing save_user_profile would be better if I exposed it.
+        # I did expose it in the previous step.
+        user.save_user_profile(file_path, profile)
 
         # Encode and Upsert
         query_text = user.build_user_text(profile)
@@ -85,7 +95,7 @@ def encode_user(user_data: UserCreate):
 @app.get("/users/{user_id}/recommendations", response_model=List[Recommendation])
 def get_recommendations(
     user_id: str, 
-    top_k: int = 10, 
+    top_k: int = 30, 
     genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by")
 ):
     """

@@ -20,13 +20,100 @@ def build_user_text(profile):
 def load_user_profile(path):
     with open(path, "r") as f:
         data = json.load(f)
+    
     if isinstance(data, list):
         if not data:
             raise ValueError(f"{path} is empty.")
-        return data[0]
-    if not isinstance(data, dict):
+        profile = data[0]
+    elif isinstance(data, dict):
+        profile = data
+    else:
         raise ValueError(f"{path} must be a JSON object or a list of objects.")
-    return data
+    
+    # Ensure history structure exists
+    if "history" not in profile:
+        profile["history"] = {
+            "liked": [],
+            "disliked": [],
+            "watchlist": [],
+            "seen": []
+        }
+    else:
+        # Ensure all keys exist
+        for key in ["liked", "disliked", "watchlist", "seen"]:
+            if key not in profile["history"]:
+                profile["history"][key] = []
+                
+    return profile
+
+def save_user_profile(path, profile):
+    # Check if original file was a list (simple heuristic or we could store this state)
+    # For now, we follow the convention of the existing files which seem to be lists.
+    # We can check the file content if we want to be 100% sure, but let's assume list for now 
+    # if that's the project standard, or check if the path exists and read it.
+    
+    # We will read the file first to preserve the structure (list vs dict)
+    is_list = True
+    if os.path.exists(path):
+        with open(path, "r") as f:
+            try:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    is_list = False
+            except:
+                pass 
+    
+    output_data = [profile] if is_list else profile
+    
+    with open(path, "w") as f:
+        json.dump(output_data, f, indent=4)
+
+def update_user_history(user_path, movie_id, action):
+    profile = load_user_profile(user_path)
+    history = profile["history"]
+    
+    # Ensure ID is int if stored as such, or string. Consistency matters.
+    # Assuming int based on previous file inspection.
+    try:
+        movie_id = int(movie_id)
+    except ValueError:
+        pass # Keep as string if not castable
+
+    if action == "liked":
+        if movie_id not in history["liked"]:
+            history["liked"].append(movie_id)
+        # Liked implies seen
+        if movie_id not in history["seen"]:
+            history["seen"].append(movie_id)
+        # Remove from disliked if present
+        if movie_id in history["disliked"]:
+            history["disliked"].remove(movie_id)
+            
+    elif action == "disliked":
+        if movie_id not in history["disliked"]:
+            history["disliked"].append(movie_id)
+        # Disliked implies seen
+        if movie_id not in history["seen"]:
+            history["seen"].append(movie_id)
+        # Remove from liked if present
+        if movie_id in history["liked"]:
+            history["liked"].remove(movie_id)
+            
+    elif action == "watchlist":
+        if movie_id not in history["watchlist"]:
+            history["watchlist"].append(movie_id)
+            
+    elif action == "seen":
+        if movie_id not in history["seen"]:
+            history["seen"].append(movie_id)
+            
+    elif action == "remove_watchlist":
+         if movie_id in history["watchlist"]:
+            history["watchlist"].remove(movie_id)
+            
+    save_user_profile(user_path, profile)
+    return profile
+
 
 def get_profile_from_db(user_id):
     client = chromadb.PersistentClient(path="chroma")

@@ -5,9 +5,6 @@
             "Action",
             "Science Fiction"
         ],
-        "movie_ids": [
-            27205
-        ],
         "keywords": [
             "mission",
             "dream world",
@@ -29,6 +26,16 @@
             "heist",
             "subconscious",
             "paris, france"
-        ]
+        ],
+        "history": {
+            "liked": [
+                27205
+            ],
+            "disliked": [],
+            "watchlist": [],
+            "seen": [
+                27205
+            ]
+        }
     }
 ]
