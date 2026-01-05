@@ -5,6 +5,8 @@ class UserState: ObservableObject {
     @Published var likes: [String] = []
     @Published var recommendations: [Movie] = []
     
+    private var allFetchedMovies: [Movie] = []
+    
     // Add a movie to the watchlist if it's not already there
     func addToWatchlist(_ movie: Movie) {
         if !watchlist.contains(where: { $0.id == movie.id }) {
@@ -53,12 +55,22 @@ class UserState: ObservableObject {
                 )
             }
             
+            self.allFetchedMovies = movies
+            
             await MainActor.run {
-                self.recommendations = movies
+                self.recommendations = Array(movies.prefix(10))
             }
             
         } catch {
             print("Failed to sync user profile or fetch recommendations: \(error)")
         }
+    }
+    
+    func loadMoreMovies() {
+        let currentCount = recommendations.count
+        guard currentCount < allFetchedMovies.count else { return }
+        
+        let nextBatch = allFetchedMovies.dropFirst(currentCount).prefix(10)
+        recommendations.append(contentsOf: nextBatch)
     }
 }

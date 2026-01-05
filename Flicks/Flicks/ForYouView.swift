@@ -23,19 +23,33 @@ struct ForYouView: View {
         NavigationStack {
             ZStack {
                 ScrollView(.vertical) {
-                    LazyVStack(spacing: 24) {
+                    LazyVStack(spacing: 0) {
                         // main item
                         ForEach(movies) { movie in
                             movieCard(for: movie)
+                                .visualEffect { content, proxy in
+                                    let frame = proxy.frame(in: .scrollView(axis: .vertical))
+                                    let bounds = proxy.bounds(of: .scrollView(axis: .vertical)) ?? .zero
+                                    let distance = abs(frame.midY - bounds.height / 2)
+                                    let scale = 1.0 - (distance / bounds.height) * 0.3
+                                    return content.scaleEffect(max(0.9, scale))
+                                }
+                                .padding(.vertical, 12)
                                 .onTapGesture {
                                     // Present detail for this movie
                                     selectedMovie = movie
                                 }
+                                .onAppear {
+                                    if movie.id == movies.last?.id {
+                                        userState.loadMoreMovies()
+                                    }
+                                }
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, 16)
+                    .scrollTargetLayout()
                 }
+                .scrollTargetBehavior(.viewAligned)
+                .contentMargins(.vertical, 40, for: .scrollContent)
                 .scrollIndicators(.hidden)
                 .background(Color.white.ignoresSafeArea())
                 SearchOverlay(
@@ -80,4 +94,5 @@ struct ForYouView: View {
 
 #Preview {
     ForYouView()
+        .environmentObject(UserState())
 }

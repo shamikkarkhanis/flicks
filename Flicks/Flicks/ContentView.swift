@@ -225,4 +225,5 @@ private struct IconPanel: View {
 
 #Preview {
     ContentView()
+        .environmentObject(UserState())
 }
