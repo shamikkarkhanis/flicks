@@ -24,19 +24,10 @@ struct ForYouView: View {
             ZStack {
                 ScrollView(.vertical) {
                     LazyVStack(spacing: 0) {
-                        // main item
                         ForEach(movies) { movie in
                             movieCard(for: movie)
-                                .visualEffect { content, proxy in
-                                    let frame = proxy.frame(in: .scrollView(axis: .vertical))
-                                    let bounds = proxy.bounds(of: .scrollView(axis: .vertical)) ?? .zero
-                                    let distance = abs(frame.midY - bounds.height / 2)
-                                    let scale = 1.0 - (distance / bounds.height) * 0.3
-                                    return content.scaleEffect(max(0.9, scale))
-                                }
-                                .padding(.vertical, 12)
+                                .containerRelativeFrame([.horizontal, .vertical])
                                 .onTapGesture {
-                                    // Present detail for this movie
                                     selectedMovie = movie
                                 }
                                 .onAppear {
@@ -48,10 +39,10 @@ struct ForYouView: View {
                     }
                     .scrollTargetLayout()
                 }
-                .scrollTargetBehavior(.viewAligned)
-                .contentMargins(.vertical, 40, for: .scrollContent)
+                .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
-                .background(Color.white.ignoresSafeArea())
+                .ignoresSafeArea()
+                
                 SearchOverlay(
                     isSearching: $isSearching,
                     query: $query,
@@ -72,23 +63,24 @@ struct ForYouView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
-        
     }
 
     @ViewBuilder
     private func movieCard(for movie: Movie) -> some View {
-        MovieCardView(
-            title: movie.title,
-            subtitle: movie.subtitle,
-            imageName: movie.imageName,
-            friendInitials: ["SK", "GJ", "CB"]
-        )
-        .id(movie.id)                               // mark as scroll target
-        .onTapGesture {
-            withAnimation(.snappy(duration: 0.3,  extraBounce: 0.1)) {
-                scrollPosition = movie.id               // snap to this card when tapped
-            }
+        GeometryReader { proxy in
+            VerticalMovieCardView(
+                title: movie.title,
+                subtitle: movie.subtitle,
+                imageName: movie.imageName,
+                friendInitials: ["SK", "GJ", "CB"],
+                disableDetail: false,
+                cardWidth: proxy.size.width,
+                cardHeight: proxy.size.height,
+                enableSwipe: false,
+                cornerRadius: 0
+            )
         }
+        .id(movie.id)
     }
 }
 

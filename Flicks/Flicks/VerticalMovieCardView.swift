@@ -21,10 +21,11 @@ struct VerticalMovieCardView: View {
     // Provide width and height for the card’s frame
     var cardWidth: CGFloat = 400
     var cardHeight: CGFloat = 600
-    private var cornerRadius: CGFloat { 30 }
-
+    var enableSwipe: Bool = true
+    var cornerRadius: CGFloat = 30
+    
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
+        let content = ZStack(alignment: .bottomLeading) {
             if imageName.hasPrefix("http"), let url = URL(string: imageName) {
                 AsyncImage(url: url) { phase in
                     if let image = phase.image {
@@ -68,23 +69,29 @@ struct VerticalMovieCardView: View {
         .opacity(isHidden ? 0 : 1)
         .frame(width: cardWidth, height: cardHeight) // ensure overlays match image bounds
         .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-        .offset(x: offset.width * 0.4, y: offset.height * 0.4)
-        .rotationEffect(.degrees(Double(offset.width / 40)))
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    offset = gesture.translation
-                    withAnimation {
-                        changeColor(width: offset.width)
-                    }
-                }
-                .onEnded { gesture in
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                        swipeCard(width: gesture.translation.width)
-                        changeColor(width: offset.width)
-                    }
-                }
-        )
+
+        if enableSwipe {
+            content
+                .offset(x: offset.width * 0.4, y: offset.height * 0.4)
+                .rotationEffect(.degrees(Double(offset.width / 40)))
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            offset = gesture.translation
+                            withAnimation {
+                                changeColor(width: offset.width)
+                            }
+                        }
+                        .onEnded { gesture in
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                swipeCard(width: gesture.translation.width)
+                                changeColor(width: offset.width)
+                            }
+                        }
+                )
+        } else {
+            content
+        }
     }
     
     func swipeCard(width: CGFloat) {
