@@ -87,7 +87,6 @@ struct VerticalMovieCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
 
             VStack(alignment: .trailing, spacing: 0) {
-                Spacer()
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(title)
                         .font(.title)
@@ -102,9 +101,10 @@ struct VerticalMovieCardView: View {
                         .multilineTextAlignment(.trailing)
                 }
                 .padding()
-                .padding(.bottom, 60) // Extra padding for the bottom area
+                .padding(.top, 60) // Extra padding for the top area
+                Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         }
         .opacity(isHidden ? 0 : 1)
         .frame(width: cardWidth, height: cardHeight) // ensure overlays match image bounds

@@ -48,15 +48,17 @@ struct ForYouView: View {
                 .background(.black)
                 
                 // "For You" Indicator
-//                VStack {
-//                    
-//                    Text("For You")
-//                        .font(.system(size: 16, weight: .bold))
-//                        .foregroundColor(.white)
-//                        .padding(10)
-//                        .glassEffect()
-//                    Spacer()
-//                }
+                VStack {
+                    
+                    Spacer()
+                    
+                    Text("For You")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .glassEffect()
+                    
+                }
                 
 //                SearchOverlay(
 //                    isSearching: $isSearching,
