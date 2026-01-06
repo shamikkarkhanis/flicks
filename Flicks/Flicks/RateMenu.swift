@@ -106,6 +106,15 @@ struct RateButton: View {
     var body: some View {
         Button(action: action) {
             ZStack {
+                // Subtle highlight glow behind the button
+                if isSelected {
+                    Circle()
+
+                        .frame(width: 80, height: 80)
+                        .transition(.opacity.combined(with: .scale))
+                        .glassEffect()
+                }
+
                 Circle()
                     .glassEffect()
                     .frame(width: 70, height: 70)
@@ -114,7 +123,6 @@ struct RateButton: View {
                     .font(.system(size: 30, weight: .bold))
                     .scaleEffect(isSelected ? 1.2 : 1.0)
                     .foregroundColor(color)
-                    
             }
         }
         .buttonStyle(PlainButtonStyle())
