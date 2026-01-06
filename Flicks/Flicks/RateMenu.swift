@@ -13,7 +13,7 @@ struct RateMenu: View {
     @State private var selectedOption: Option?
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             // Background dimmer
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
@@ -52,17 +52,12 @@ struct RateMenu: View {
             }
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
-            .background(.ultraThinMaterial)
-            .clipShape(Capsule())
-            .overlay(
-                Capsule()
-                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-            )
+            .glassEffect()
             .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
             .scaleEffect(selectedOption != nil ? 0.95 : 1.0)
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: selectedOption)
+            .padding(.bottom, 40) // Match position with MenuButton
         }
-        .transition(.opacity.combined(with: .scale(scale: 0.9)))
     }
 
     private func select(_ option: Option) {
@@ -95,11 +90,12 @@ struct RateButton: View {
         Button(action: action) {
             ZStack {
                 Circle()
-                    .fill(isSelected ? color : Color.white.opacity(0.1))
+    
                     .frame(width: 60, height: 60)
                     .overlay(
                         Circle()
                             .stroke(isSelected ? color : Color.white.opacity(0.2), lineWidth: 1)
+                            .glassEffect(.regular.tint(.white.opacity(0.1)).interactive())
                     )
 
                 Image(systemName: icon)

@@ -80,13 +80,17 @@ struct ForYouView: View {
                             }
                         }
                     )
+                    .transition(.opacity)
                     .zIndex(100)
                 }
                 
                 // "For You" Menu Button
-                MenuButton(currentTitle: "For You")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                    .padding(.bottom, 10)
+                if !showRateMenu {
+                    MenuButton(currentTitle: "For You")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                        .padding(.bottom, 10)
+                        .transition(.opacity)
+                }
                 
 //                SearchOverlay(
 //                    isSearching: $isSearching,
