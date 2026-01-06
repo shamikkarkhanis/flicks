@@ -37,6 +37,7 @@ struct ContentView: View {
     }
 
     @State private var selectedPage: Page = .personal
+    @State private var showDemo = false
 
     // Panel auto-minimize delay when expanded and idle
     private let panelIdleCollapseDelay: TimeInterval = 3.0
@@ -96,6 +97,26 @@ struct ContentView: View {
             } else {
                 panelIdleTaskID = UUID()
             }
+        }
+        .sheet(isPresented: $showDemo) {
+            if #available(iOS 17.0, *) {
+                Depth3DDemoView()
+            } else {
+                Text("Requires iOS 17")
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                showDemo = true
+            } label: {
+                Image(systemName: "cube.transparent")
+                    .font(.title2)
+                    .padding()
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+            }
+            .padding(.top, 50)
+            .padding(.trailing, 20)
         }
     }
 

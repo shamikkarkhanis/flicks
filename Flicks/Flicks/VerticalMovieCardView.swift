@@ -1,5 +1,8 @@
 import SwiftUI
 import UIKit
+import CoreMotion
+import Vision
+import CoreImage.CIFilterBuiltins
 
 struct VerticalMovieCardView: View {
     let title: String
@@ -10,6 +13,7 @@ struct VerticalMovieCardView: View {
     let friendInitials: [String]
     var disableDetail: Bool = true
     var dynamicFeathering: Bool = false
+    var enableDepthEffect: Bool = false
 
     // Callback the parent can provide to remove this card from a deck
     // true = liked (right swipe), false = passed (left swipe)
@@ -24,7 +28,7 @@ struct VerticalMovieCardView: View {
     
     @State private var topColor: Color = .black
     @State private var bottomColor: Color = .black
-
+    
     // Provide width and height for the card’s frame
     var cardWidth: CGFloat = 400
     var cardHeight: CGFloat = 600
@@ -45,7 +49,20 @@ struct VerticalMovieCardView: View {
             }
             
             Group {
-                if imageName.hasPrefix("http"), let url = URL(string: imageName) {
+                if enableDepthEffect {
+                    if #available(iOS 17.0, *) {
+                        InteractiveDepthCard(imageName: imageName)
+                            .frame(width: cardWidth, height: cardHeight)
+                            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                    } else {
+                        // Fallback for older iOS versions
+                        Image(imageName)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                    }
+                } else if imageName.hasPrefix("http"), let url = URL(string: imageName) {
                     AsyncImage(url: url) { phase in
                         if let image = phase.image {
                             image
@@ -57,14 +74,15 @@ struct VerticalMovieCardView: View {
                                 .frame(width: cardWidth, height: cardHeight)
                         }
                     }
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 } else {
                     Image(imageName)
                         .resizable()
                         .scaledToFill()
                         .frame(width: cardWidth, height: cardHeight, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
 
             Rectangle()
                 .fill(color.opacity(0.2))
@@ -109,6 +127,9 @@ struct VerticalMovieCardView: View {
         .opacity(isHidden ? 0 : 1)
         .frame(width: cardWidth, height: cardHeight) // ensure overlays match image bounds
         .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        .onAppear {
+//            analyzeImageColors()
+        }
 
         if enableSwipe {
             content

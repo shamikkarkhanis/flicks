@@ -94,6 +94,7 @@ struct ForYouView: View {
                 friendInitials: ["SK", "GJ", "CB"],
                 disableDetail: false,
                 dynamicFeathering: true,
+                enableDepthEffect: true,
                 cardWidth: proxy.size.width,
                 cardHeight: proxy.size.height,
                 enableSwipe: false,
