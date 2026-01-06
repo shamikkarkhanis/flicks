@@ -89,7 +89,7 @@ struct ForYouView: View {
                     MenuButton(currentTitle: "For You")
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                         .padding(.bottom, 10)
-                        .transition(.opacity)
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
                 }
                 
 //                SearchOverlay(

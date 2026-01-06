@@ -11,18 +11,19 @@ struct RateMenu: View {
     var onDismiss: () -> Void
 
     @State private var selectedOption: Option?
+    @State private var isAnimated = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background dimmer
-            Color.black.opacity(0.4)
+            Color.black.opacity(isAnimated ? 0.4 : 0)
                 .ignoresSafeArea()
                 .onTapGesture {
                     onDismiss()
                 }
 
             // The Menu Capsule
-            HStack(spacing: selectedOption == nil ? 20 : 0) {
+            HStack(spacing: isAnimated ? (selectedOption == nil ? 20 : 0) : -70) {
                 // Dislike Button
                 if selectedOption == nil || selectedOption == .dislike {
                     RateButton(
@@ -62,9 +63,14 @@ struct RateMenu: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
 //            .glassEffect()
-            .scaleEffect(selectedOption != nil ? 0.95 : 1.0)
+            .scaleEffect(isAnimated ? (selectedOption != nil ? 0.95 : 1.0) : 0.5)
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: selectedOption)
             .padding(.bottom, 40) // Match position with MenuButton
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
+                isAnimated = true
+            }
         }
     }
 
@@ -109,10 +115,10 @@ struct RateButton: View {
                 // Subtle highlight glow behind the button
                 if isSelected {
                     Circle()
-
+    
                         .frame(width: 80, height: 80)
+    
                         .transition(.opacity.combined(with: .scale))
-                        .glassEffect()
                 }
 
                 Circle()
