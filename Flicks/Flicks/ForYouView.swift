@@ -16,6 +16,8 @@ struct ForYouView: View {
     @State private var query = ""
     @State private var selectedVibes: Set<String> = []
     @State private var selectedMovie: Movie?   // controls detail presentation
+    @State private var showRateMenu = false
+    @State private var interactingMovie: Movie?
 
     private let vibes = ["Cozy", "Sci-Fi", "Epic", "Feel-good", "Dark", "Romantic", "Nostalgic"] // dynamic based on user history
 
@@ -30,6 +32,12 @@ struct ForYouView: View {
                             
                             movieCard(for: movie, prevImage: prevMovie?.imageName, nextImage: nextMovie?.imageName)
                                 .containerRelativeFrame([.horizontal, .vertical])
+                                .onTapGesture(count: 2) {
+                                    interactingMovie = movie
+                                    withAnimation(.spring()) {
+                                        showRateMenu = true
+                                    }
+                                }
                                 .onTapGesture {
                                     selectedMovie = movie
                                 }
@@ -46,6 +54,34 @@ struct ForYouView: View {
                 .scrollIndicators(.hidden)
                 .ignoresSafeArea()
                 .background(.black)
+                
+                // Rate Menu Overlay
+                if showRateMenu {
+                    RateMenu(
+                        onDislike: {
+                            if let movie = interactingMovie {
+                                print("Disliked \(movie.title)")
+                            }
+                        },
+                        onNeutral: {
+                            if let movie = interactingMovie {
+                                print("Neutral \(movie.title)")
+                            }
+                        },
+                        onLike: {
+                            if let movie = interactingMovie {
+                                userState.addToWatchlist(movie)
+                                print("Liked \(movie.title)")
+                            }
+                        },
+                        onDismiss: {
+                            withAnimation {
+                                showRateMenu = false
+                            }
+                        }
+                    )
+                    .zIndex(100)
+                }
                 
                 // "For You" Menu Button
                 MenuButton(currentTitle: "For You")
