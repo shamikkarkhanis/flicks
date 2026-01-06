@@ -21,11 +21,14 @@ struct ForYouView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .top) {
                 ScrollView(.vertical) {
                     LazyVStack(spacing: 0) {
-                        ForEach(movies) { movie in
-                            movieCard(for: movie)
+                        ForEach(Array(movies.enumerated()), id: \.element.id) { index, movie in
+                            let prevMovie = movies.indices.contains(index - 1) ? movies[index - 1] : nil
+                            let nextMovie = movies.indices.contains(index + 1) ? movies[index + 1] : nil
+                            
+                            movieCard(for: movie, prevImage: prevMovie?.imageName, nextImage: nextMovie?.imageName)
                                 .containerRelativeFrame([.horizontal, .vertical])
                                 .onTapGesture {
                                     selectedMovie = movie
@@ -42,15 +45,27 @@ struct ForYouView: View {
                 .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
                 .ignoresSafeArea()
+                .background(.black)
                 
-                SearchOverlay(
-                    isSearching: $isSearching,
-                    query: $query,
-                    selectedVibes: $selectedVibes,
-                    vibes: vibes
-                ) {
-                    // Handle search submit if needed
-                }
+                // "For You" Indicator
+//                VStack {
+//                    
+//                    Text("For You")
+//                        .font(.system(size: 16, weight: .bold))
+//                        .foregroundColor(.white)
+//                        .padding(10)
+//                        .glassEffect()
+//                    Spacer()
+//                }
+                
+//                SearchOverlay(
+//                    isSearching: $isSearching,
+//                    query: $query,
+//                    selectedVibes: $selectedVibes,
+//                    vibes: vibes
+//                ) {
+//                    // Handle search submit if needed
+//                }
             }
         }
         .sheet(item: $selectedMovie) { movie in
@@ -60,20 +75,23 @@ struct ForYouView: View {
                 imageName: movie.imageName,
                 friendInitials: movie.friendInitials
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.large, .large])
             .presentationDragIndicator(.visible)
         }
     }
 
     @ViewBuilder
-    private func movieCard(for movie: Movie) -> some View {
+    private func movieCard(for movie: Movie, prevImage: String?, nextImage: String?) -> some View {
         GeometryReader { proxy in
             VerticalMovieCardView(
                 title: movie.title,
                 subtitle: movie.subtitle,
                 imageName: movie.imageName,
+                prevImageName: prevImage,
+                nextImageName: nextImage,
                 friendInitials: ["SK", "GJ", "CB"],
                 disableDetail: false,
+                dynamicFeathering: true,
                 cardWidth: proxy.size.width,
                 cardHeight: proxy.size.height,
                 enableSwipe: false,

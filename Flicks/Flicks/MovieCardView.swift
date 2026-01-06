@@ -112,7 +112,7 @@ struct MovieCardView: View {
         title: "Everything Everywhere All at Once",
         subtitle: "Action · Comedy · Sci‑Fi",
         imageName: "everything.jpg",
-        friendInitials: []
+        friendInitials: ["SK", "FG"]
     )
     .padding()
     .background(Color.black)

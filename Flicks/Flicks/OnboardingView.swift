@@ -52,6 +52,8 @@ struct OnboardingView: View {
                             title: movie.title,
                             subtitle: movie.subtitle,
                             imageName: movie.imageName,
+                            prevImageName: nil,
+                            nextImageName: nil,
                             friendInitials: movie.friendInitials,
                             disableDetail: true,
                             onSwipe: { liked in

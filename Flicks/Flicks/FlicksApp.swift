@@ -14,7 +14,7 @@ struct FlicksApp: App {
 
     init() {
         // FOR TESTING ONLY: Reset onboarding state on every launch
-        UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
     }
 
     var body: some Scene {

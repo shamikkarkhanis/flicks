@@ -96,3 +96,27 @@ private extension AppStyle {
         return result
     }
 }
+
+struct SprocketHole: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 2)
+            .fill(Color.white.opacity(0.3))
+            .frame(width: 12, height: 8) // Rotated for horizontal
+    }
+}
+
+struct FilmSeamDivider: View {
+    var body: some View {
+        GeometryReader { geometry in
+            let count = Int(geometry.size.width / 20) // 12pt width + 8pt spacing
+            HStack(spacing: 8) {
+                ForEach(0..<count, id: \.self) { _ in
+                    SprocketHole()
+                }
+            }
+            .frame(width: geometry.size.width, alignment: .center)
+        }
+        .frame(height: 20)
+        .background(Color.black.opacity(0.8))
+    }
+}

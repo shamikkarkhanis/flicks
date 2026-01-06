@@ -48,17 +48,17 @@ struct ContentView: View {
             currentPageView
 
             // Bottom-left floating nav: single circle trigger that expands into a glass panel with page icons
-            VStack {
-                Spacer()
-                HStack(alignment: .bottom, spacing: 0) {
-                    expandingMenuControl
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 30)
-                .padding(.bottom, 0)
-            }
-            .ignoresSafeArea(.keyboard)
+//            VStack {
+//                Spacer()
+//                HStack(alignment: .bottom, spacing: 0) {
+//                    expandingMenuControl
+//                    Spacer()
+//                }
+//                .frame(maxWidth: .infinity, alignment: .leading)
+//                .padding(.leading, 30)
+//                .padding(.bottom, 0)
+//            }
+//            .ignoresSafeArea(.keyboard)
         }
         // Tap anywhere to collapse (without blocking drags)
         .contentShape(Rectangle())
