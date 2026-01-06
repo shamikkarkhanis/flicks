@@ -14,7 +14,7 @@ struct FlicksApp: App {
 
     init() {
         // FOR TESTING ONLY: Reset onboarding state on every launch
-        UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
     }
 
     var body: some Scene {
@@ -22,9 +22,11 @@ struct FlicksApp: App {
             if hasCompletedOnboarding {
                 ContentView()
                     .environmentObject(userState)
+                    .statusBarHidden(true)
             } else {
                 OnboardingView()
                     .environmentObject(userState)
+                    .statusBarHidden(true)
             }
         }
     }

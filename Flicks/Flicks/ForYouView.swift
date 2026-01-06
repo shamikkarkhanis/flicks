@@ -47,18 +47,10 @@ struct ForYouView: View {
                 .ignoresSafeArea()
                 .background(.black)
                 
-                // "For You" Indicator
-                VStack {
-                    
-                    Spacer()
-                    
-                    Text("For You")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .glassEffect()
-                    
-                }
+                // "For You" Menu Button
+                MenuButton(currentTitle: "For You")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .padding(.bottom, 10)
                 
 //                SearchOverlay(
 //                    isSearching: $isSearching,
