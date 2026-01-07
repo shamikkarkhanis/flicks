@@ -59,7 +59,7 @@ struct MenuButton: View {
                 }) {
                     HStack(spacing: 6) {
                         Text(currentTitle)
-                            .font(.system(size: 14, weight: .bold))
+                            .font(.system(size: 18, weight: .bold))
                     }
                     .foregroundColor(.white)
                     .padding(.horizontal, 18)
@@ -83,14 +83,14 @@ struct MenuPill: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: icon)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 18, weight: .semibold))
             
             Text(title)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 18, weight: .semibold))
         }
         .foregroundColor(.white)
         .padding(.horizontal, 18)
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
         .glassEffect()
     }
 }
@@ -109,6 +109,5 @@ struct BouncyButtonStyle: ButtonStyle {
             .ignoresSafeArea()
         
         MenuButton(currentTitle: "For You")
-            .padding(.bottom, 30)
     }
 }

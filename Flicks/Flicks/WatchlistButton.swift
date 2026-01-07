@@ -19,10 +19,12 @@ struct WatchlistButton: View {
                     .foregroundColor(.white)
                     .contentTransition(.symbolEffect(.replace))
             }
-            .frame(width: 56, height: 56)
+            .frame(width: 50, height: 50)
             .glassEffect()
             .clipShape(Circle())
+            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
         }
+        .contentShape(Circle())
         .buttonStyle(.plain)
     }
 }
