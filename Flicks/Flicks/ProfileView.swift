@@ -86,58 +86,42 @@ struct ProfileView: View {
 
     private var likesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("What I like")
+            Text("Genres")
                 .font(.system(size: 18, weight: .semibold))
 
-            LazyVGrid(
-                columns: [GridItem(.adaptive(minimum: 110), spacing: 10)],
-                alignment: .leading,
-                spacing: 10
-            ) {
-                ForEach(userState.likes, id: \.self) { like in
-                    Text(like)
-                        .font(.system(size: 14, weight: .medium))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .glassEffect(in: RoundedRectangle(cornerRadius: 14))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(userState.likes, id: \.self) { like in
+                        Text(like)
+                            .font(.system(size: 14, weight: .medium))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .glassEffect(in: RoundedRectangle(cornerRadius: 14))
+                    }
                 }
+                .padding(.horizontal, 1) // Tiny padding to avoid clipping shadows if any
             }
         }
     }
 
     private var watchlistSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Watchlist")
+            Text("History")
                 .font(.system(size: 18, weight: .semibold))
 
             if userState.watchlist.isEmpty {
-                Text("Your watchlist is empty. Swipe right on movies to add them here!")
+                Text("Your history is empty. Swipe right on movies to add them here!")
                     .font(.system(size: 15))
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 8)
             } else {
                 VStack(spacing: 10) {
                     ForEach(userState.watchlist) { movie in
-                        HStack {
-                            Image(systemName: "film")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(.secondary)
-                                .frame(width: 28)
-
-                            Text(movie.title)
-                                .font(.system(size: 15, weight: .medium))
-                                .foregroundStyle(.primary)
-
-                            Spacer()
-
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundStyle(.tertiary)
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 12)
-                        .glassEffect(in: RoundedRectangle(cornerRadius: 14))
+                        MovieCardMiniView(
+                            title: movie.title,
+                            dateWatched: movie.dateAdded,
+                            imageName: movie.imageName
+                        )
                     }
                 }
             }
@@ -164,4 +148,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(UserState())
 }

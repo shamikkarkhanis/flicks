@@ -1,11 +1,17 @@
 import SwiftUI
 
 class UserState: ObservableObject {
-    @Published var watchlist: [Movie] = []
+    @Published var watchlist: [Movie] = sampleMovies
     @Published var likes: [String] = []
     @Published var recommendations: [Movie] = []
     
     private var allFetchedMovies: [Movie] = []
+
+    init() {
+        for movie in watchlist {
+            extractGenres(from: movie)
+        }
+    }
     
     // Add a movie to the watchlist if it's not already there
     func addToWatchlist(_ movie: Movie) {
