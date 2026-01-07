@@ -1,7 +1,9 @@
 import SwiftUI
 
-struct GroupView: View {
-    private let movies: [Movie] = sampleMovies
+struct WatchlistView: View {
+    private var movies: [Movie] {
+        sampleMovies.sorted { $0.dateAdded > $1.dateAdded }
+    }
 
     // bind scroll position to a Movie.ID
     @State private var scrollPosition: Movie.ID?
@@ -31,14 +33,6 @@ struct GroupView: View {
                 }
                 .scrollIndicators(.hidden)
                 .background(Color.white.ignoresSafeArea())
-                SearchOverlay(
-                    isSearching: $isSearching,
-                    query: $query,
-                    selectedVibes: $selectedVibes,
-                    vibes: vibes
-                ) {
-                    // Handle search submit if needed
-                }
             }
         }
         .sheet(item: $selectedMovie) { movie in
@@ -58,6 +52,7 @@ struct GroupView: View {
         MovieCardView(
             title: movie.title,
             subtitle: movie.subtitle,
+            dateAdded: movie.dateAdded,
             imageName: movie.imageName,
             friendInitials: movie.friendInitials
         )
@@ -71,5 +66,5 @@ struct GroupView: View {
 }
 
 #Preview {
-    GroupView()
+    WatchlistView()
 }

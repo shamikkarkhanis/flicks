@@ -51,7 +51,8 @@ class UserState: ObservableObject {
                     title: dto.title,
                     subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
                     imageName: dto.backdrop_path.map { "https://image.tmdb.org/t/p/original\($0)" } ?? "",
-                    friendInitials: []
+                    friendInitials: [],
+                    dateAdded: Date()
                 )
             }
             

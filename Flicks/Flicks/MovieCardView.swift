@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieCardView: View {
     let title: String
     let subtitle: String
+    let dateAdded: Date
     let imageName: String
     let friendInitials: [String]
     var disableDetail: Bool = false
@@ -61,33 +62,19 @@ struct MovieCardView: View {
                 
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
+                        Text(formattedDate)
+                            .font(.subheadline)
+                            .foregroundColor(.white.opacity(0.8))
+                            .lineLimit(1)
                         Text(title)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .lineLimit(2)
-                        Text(subtitle)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
-                            .lineLimit(1)
+                        
                     }
                     .padding()
 
-                    HStack(spacing: -10) {
-                        ForEach(Array(friendInitials.prefix(4).enumerated()), id: \.offset) { _, initials in
-                            ZStack {
-                                Circle()
-                                    .frame(width: 32, height: 32)
-                                    .glassEffect()
-                                Text(initials)
-                                    .font(.caption2)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                            }
-                        }
-                    }
-                    .padding(10)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 }
             }
             .rotation3DEffect(.degrees(tapSpin ? 8 : 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
@@ -105,12 +92,36 @@ struct MovieCardView: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title), \(subtitle)")
     }
+
+    private var formattedDate: String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(dateAdded) {
+            return "Today"
+        }
+        
+        let startOfNow = calendar.startOfDay(for: Date())
+        let startOfAdded = calendar.startOfDay(for: dateAdded)
+        let components = calendar.dateComponents([.day], from: startOfAdded, to: startOfNow)
+        
+        if let day = components.day, day < 7 {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEEE"
+            return formatter.string(from: dateAdded)
+        }
+        
+        // Fallback to DateFormatter for compatibility with older SDKs
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: dateAdded)
+    }
 }
 
 #Preview {
     MovieCardView(
         title: "Everything Everywhere All at Once",
         subtitle: "Action · Comedy · Sci‑Fi",
+        dateAdded: Date(),
         imageName: "everything.jpg",
         friendInitials: ["SK", "FG"]
     )
