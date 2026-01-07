@@ -39,7 +39,7 @@ struct MenuButton: View {
                     .zIndex(2)
                     
                     // Option 2: Watchlist
-                    NavigationLink(destination: ProfileView()) {
+                    NavigationLink(destination: WatchlistView()) {
                         MenuPill(icon: "bookmark.fill", title: "Watchlist")
                     }
                     .transition(

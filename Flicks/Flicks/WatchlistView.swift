@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct WatchlistView: View {
     private var movies: [Movie] {
@@ -12,6 +13,10 @@ struct WatchlistView: View {
     @State private var selectedVibes: Set<String> = []
     @State private var selectedMovie: Movie?   // controls detail presentation
 
+    // Dynamic background state
+    @State private var backgroundGradient: LinearGradient = AppStyle.brandGradient
+    @State private var currentTopMovieID: UUID?
+
     private let vibes = ["Cozy", "Sci-Fi", "Epic", "Feel-good", "Dark", "Romantic", "Nostalgic"] // dynamic based on user history
 
     var body: some View {
@@ -22,6 +27,15 @@ struct WatchlistView: View {
                         // main item
                         ForEach(movies) { movie in
                             movieCard(for: movie)
+                                .background(
+                                    GeometryReader { geo in
+                                        Color.clear
+                                            .preference(
+                                                key: MovieScrollPreferenceKey.self,
+                                                value: [movie.id: geo.frame(in: .named("scrollContainer")).minY]
+                                            )
+                                    }
+                                )
                                 .onTapGesture {
                                     // Present detail for this movie
                                     selectedMovie = movie
@@ -32,7 +46,21 @@ struct WatchlistView: View {
                     .padding(.vertical, 16)
                 }
                 .scrollIndicators(.hidden)
-                .background(Color.white.ignoresSafeArea())
+                .coordinateSpace(name: "scrollContainer")
+                .onPreferenceChange(MovieScrollPreferenceKey.self) { preferences in
+                    // Find the movie closest to the top-ish area (e.g. 100pt down)
+                    let targetY: CGFloat = 100
+                    
+                    // Filter for reasonable visibility (e.g. somewhat on screen)
+                    // and find closest to target
+                    if let closest = preferences.min(by: { abs($0.value - targetY) < abs($1.value - targetY) }) {
+                        if closest.key != currentTopMovieID {
+                            currentTopMovieID = closest.key
+                            updateBackground(for: closest.key)
+                        }
+                    }
+                }
+                .background(backgroundGradient.ignoresSafeArea())
             }
         }
         .sheet(item: $selectedMovie) { movie in
@@ -44,6 +72,18 @@ struct WatchlistView: View {
             )
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
+        }
+    }
+
+    private func updateBackground(for movieID: UUID) {
+        guard let movie = movies.first(where: { $0.id == movieID }),
+              let uiImage = UIImage(named: movie.imageName),
+              let colors = AppStyle.dominantColors(from: uiImage),
+              let newGradient = AppStyle.gradient(from: colors)
+        else { return }
+
+        withAnimation(.linear(duration: 0.6)) {
+            self.backgroundGradient = newGradient
         }
     }
 
@@ -62,6 +102,13 @@ struct WatchlistView: View {
                 scrollPosition = movie.id               // snap to this card when tapped
             }
         }
+    }
+}
+
+struct MovieScrollPreferenceKey: PreferenceKey {
+    static var defaultValue: [UUID: CGFloat] = [:]
+    static func reduce(value: inout [UUID: CGFloat], nextValue: () -> [UUID: CGFloat]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }
 
