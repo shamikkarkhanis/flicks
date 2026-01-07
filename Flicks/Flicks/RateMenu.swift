@@ -112,26 +112,31 @@ struct RateButton: View {
     var body: some View {
         Button(action: action) {
             ZStack {
-                // Subtle highlight glow behind the button
+                // Selection highlight glow
                 if isSelected {
                     Circle()
-    
-                        .frame(width: 80, height: 80)
-    
+                        .fill(color.opacity(0.3))
+                        .frame(width: 84, height: 84)
+                        .blur(radius: 12)
                         .transition(.opacity.combined(with: .scale))
                 }
 
-                Circle()
-                    .glassEffect()
-                    .frame(width: 70, height: 70)
-
                 Image(systemName: icon)
-                    .font(.system(size: 30, weight: .bold))
-                    .scaleEffect(isSelected ? 1.2 : 1.0)
+                    .font(.system(size: 28, weight: .bold))
                     .foregroundColor(color)
+                    .frame(width: 70, height: 70)
+                    .glassEffect()
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .stroke(color.opacity(isSelected ? 0.5 : 0), lineWidth: 2)
+                    )
             }
+            .contentShape(Circle())
         }
         .buttonStyle(PlainButtonStyle())
+        .scaleEffect(isSelected ? 1.15 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
     }
 }
 
