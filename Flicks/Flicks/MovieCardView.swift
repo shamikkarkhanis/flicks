@@ -83,7 +83,6 @@ struct MovieCardView: View {
                     .padding()
                 }
             }
-            .rotation3DEffect(.degrees(tapSpin ? 8 : 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
             .scaleEffect(tapSpin ? 0.98 : 1.0)
         }
         .buttonStyle(.plain)
