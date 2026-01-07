@@ -5,14 +5,7 @@ struct WatchlistButton: View {
     var action: () -> Void
     
     var body: some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                isAdded.toggle()
-            }
-            if isAdded {
-                action()
-            }
-        }) {
+        Button(action: toggle) {
             ZStack {
                 Image(systemName: isAdded ? "checkmark" : "plus")
                     .font(.system(size: 24, weight: .bold))
@@ -24,8 +17,22 @@ struct WatchlistButton: View {
             .clipShape(Circle())
             .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
         }
-        .contentShape(Circle())
+        .overlay(
+            Color.clear
+                .frame(width: 80, height: 80)
+                .contentShape(Circle())
+                .onTapGesture(perform: toggle)
+        )
         .buttonStyle(.plain)
+    }
+
+    private func toggle() {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            isAdded.toggle()
+        }
+        if isAdded {
+            action()
+        }
     }
 }
 
