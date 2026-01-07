@@ -28,6 +28,7 @@ struct RateMenu: View {
                 if selectedOption == nil || selectedOption == .dislike {
                     RateButton(
                         icon: "hand.thumbsdown.fill",
+                        label: "Dislike",
                         color: .red,
                         isSelected: selectedOption == .dislike
                     ) {
@@ -40,6 +41,7 @@ struct RateMenu: View {
                 if selectedOption == nil || selectedOption == .neutral {
                     RateButton(
                         icon: "minus",
+                        label: "Neutral",
                         color: .gray,
                         isSelected: selectedOption == .neutral
                     ) {
@@ -52,6 +54,7 @@ struct RateMenu: View {
                 if selectedOption == nil || selectedOption == .like {
                     RateButton(
                         icon: "hand.thumbsup.fill",
+                        label: "Like",
                         color: .green,
                         isSelected: selectedOption == .like
                     ) {
@@ -105,34 +108,42 @@ struct RateMenu: View {
 
 struct RateButton: View {
     let icon: String
+    let label: String
     let color: Color
     let isSelected: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            ZStack {
-                // Selection highlight glow
-                if isSelected {
-                    Circle()
-                        .fill(color.opacity(0.3))
-                        .frame(width: 84, height: 84)
-                        .blur(radius: 12)
-                        .transition(.opacity.combined(with: .scale))
-                }
-
-                Image(systemName: icon)
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(color)
-                    .frame(width: 70, height: 70)
-                    .glassEffect()
-                    .clipShape(Circle())
-                    .overlay(
+            VStack(spacing: 8) {
+                ZStack {
+                    // Selection highlight glow
+                    if isSelected {
                         Circle()
-                            .stroke(color.opacity(isSelected ? 0.5 : 0), lineWidth: 2)
-                    )
+                            .fill(color.opacity(0.3))
+                            .frame(width: 84, height: 84)
+                            .blur(radius: 12)
+                            .transition(.opacity.combined(with: .scale))
+                    }
+
+                    Image(systemName: icon)
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundColor(color)
+                        .frame(width: 70, height: 70)
+                        .glassEffect()
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(color.opacity(isSelected ? 0.5 : 0), lineWidth: 2)
+                        )
+                }
+                .contentShape(Circle())
+                
+                Text(label)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white.opacity(0.9))
             }
-            .contentShape(Circle())
         }
         .buttonStyle(PlainButtonStyle())
         .scaleEffect(isSelected ? 1.15 : 1.0)
