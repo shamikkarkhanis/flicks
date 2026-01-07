@@ -13,6 +13,14 @@ struct RateMenu: View {
     @State private var selectedOption: Option?
     @State private var isAnimated = false
 
+    init(initialRating: Option? = nil, onDislike: @escaping () -> Void, onNeutral: @escaping () -> Void, onLike: @escaping () -> Void, onDismiss: @escaping () -> Void) {
+        _selectedOption = State(initialValue: initialRating)
+        self.onDislike = onDislike
+        self.onNeutral = onNeutral
+        self.onLike = onLike
+        self.onDismiss = onDismiss
+    }
+
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background dimmer

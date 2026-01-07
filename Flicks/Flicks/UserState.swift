@@ -2,24 +2,63 @@ import SwiftUI
 
 class UserState: ObservableObject {
     @Published var history: [Movie] = []
+    @Published var watchlist: [Movie] = []
     @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
+    
+    @Published var likedMovies: [Movie] = []
+    @Published var neutralMovies: [Movie] = []
+    @Published var dislikedMovies: [Movie] = []
     
     private var allFetchedMovies: [Movie] = []
 
     init() {
         for movie in history {
-            extractGenres(from: movie)
+            // Need to persist rating state to reconstruct these lists properly if persistence was implemented
+            // For now, assume history doesn't reconstruct ratings on init without persistence
+            // extractGenres logic moved to addToHistory
         }
     }
     
-    // Add a movie to the history if it's not already there
-    func addToHistory(_ movie: Movie, withGenres: Bool = true) {
+    func addToWatchlist(_ movie: Movie) {
+        if !watchlist.contains(where: { $0.id == movie.id }) {
+            var newMovie = movie
+            newMovie.dateAdded = Date()
+            watchlist.append(newMovie)
+        }
+    }
+
+    func removeFromWatchlist(_ movie: Movie) {
+        watchlist.removeAll { $0.id == movie.id }
+    }
+    
+    enum UserRating {
+        case like, neutral, dislike
+    }
+    
+    // Add or update a movie rating
+    func addToHistory(_ movie: Movie, rating: UserRating) {
+        // Ensure movie is in history
         if !history.contains(where: { $0.id == movie.id }) {
-            history.append(movie)
-            if withGenres {
-                extractGenres(from: movie)
-            }
+            var newMovie = movie
+            newMovie.dateWatched = Date()
+            history.append(newMovie)
+        }
+        
+        // Remove from existing rating lists to prevent duplicates/conflicts
+        likedMovies.removeAll { $0.id == movie.id }
+        neutralMovies.removeAll { $0.id == movie.id }
+        dislikedMovies.removeAll { $0.id == movie.id }
+        
+        // Add to new rating list
+        switch rating {
+        case .like:
+            likedMovies.append(movie)
+            extractGenres(from: movie)
+        case .neutral:
+            neutralMovies.append(movie)
+        case .dislike:
+            dislikedMovies.append(movie)
         }
     }
     
@@ -60,7 +99,8 @@ class UserState: ObservableObject {
                     subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
                     imageName: dto.backdrop_path.map { "https://image.tmdb.org/t/p/original\($0)" } ?? "",
                     friendInitials: [],
-                    dateAdded: Date()
+                    dateAdded: Date(),
+                    dateWatched: Date()
                 )
             }
             

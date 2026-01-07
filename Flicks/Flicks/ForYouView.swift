@@ -58,21 +58,28 @@ struct ForYouView: View {
                 // Rate Menu Overlay
                 if showRateMenu {
                     RateMenu(
+                        initialRating: {
+                            guard let movie = interactingMovie else { return nil }
+                            if userState.likedMovies.contains(where: { $0.id == movie.id }) { return .like }
+                            if userState.neutralMovies.contains(where: { $0.id == movie.id }) { return .neutral }
+                            if userState.dislikedMovies.contains(where: { $0.id == movie.id }) { return .dislike }
+                            return nil
+                        }(),
                         onDislike: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, withGenres: false)
+                                userState.addToHistory(movie, rating: .dislike)
                                 print("Disliked \(movie.title)")
                             }
                         },
                         onNeutral: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, withGenres: false)
+                                userState.addToHistory(movie, rating: .neutral)
                                 print("Neutral \(movie.title)")
                             }
                         },
                         onLike: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, withGenres: true)
+                                userState.addToHistory(movie, rating: .like)
                                 print("Liked \(movie.title)")
                             }
                         },
