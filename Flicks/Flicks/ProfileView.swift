@@ -99,8 +99,20 @@ struct ProfileView: View {
                             .glassEffect(in: RoundedRectangle(cornerRadius: 14))
                     }
                 }
-                .padding(.horizontal, 1) // Tiny padding to avoid clipping shadows if any
+                .padding(.horizontal, 20)
             }
+            .mask(
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .black, location: 0.05),
+                        .init(color: .black, location: 0.95),
+                        .init(color: .clear, location: 1)
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
         }
     }
 
