@@ -7,7 +7,8 @@ struct Movie: Identifiable, Hashable {
     let subtitle: String
     let imageName: String
     let friendInitials: [String]
-    let dateAdded: Date
+    var dateAdded: Date
+    var dateWatched: Date?
 }
 
 // Centralized sample data for the app

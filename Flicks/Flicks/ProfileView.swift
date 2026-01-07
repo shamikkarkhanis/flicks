@@ -140,7 +140,7 @@ struct ProfileView: View {
                     ForEach(userState.history) { movie in
                         MovieCardMiniView(
                             title: movie.title,
-                            dateWatched: movie.dateAdded,
+                            dateWatched: movie.dateWatched ?? movie.dateAdded,
                             imageName: movie.imageName
                         )
                     }

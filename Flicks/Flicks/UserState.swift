@@ -16,7 +16,9 @@ class UserState: ObservableObject {
     
     func addToWatchlist(_ movie: Movie) {
         if !watchlist.contains(where: { $0.id == movie.id }) {
-            watchlist.append(movie)
+            var newMovie = movie
+            newMovie.dateAdded = Date()
+            watchlist.append(newMovie)
         }
     }
 
@@ -27,9 +29,11 @@ class UserState: ObservableObject {
     // Add a movie to the history if it's not already there
     func addToHistory(_ movie: Movie, withGenres: Bool = true) {
         if !history.contains(where: { $0.id == movie.id }) {
-            history.append(movie)
+            var newMovie = movie
+            newMovie.dateWatched = Date()
+            history.append(newMovie)
             if withGenres {
-                extractGenres(from: movie)
+                extractGenres(from: newMovie)
             }
         }
     }
