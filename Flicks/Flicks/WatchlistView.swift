@@ -3,8 +3,10 @@ import UIKit
 
 struct WatchlistView: View {
     private var movies: [Movie] {
-        sampleMovies.sorted { $0.dateAdded > $1.dateAdded }
+        userState.watchlist.sorted { $0.dateAdded > $1.dateAdded }
     }
+    
+    @EnvironmentObject var userState: UserState
 
     // bind scroll position to a Movie.ID
     @State private var scrollPosition: Movie.ID?
@@ -114,4 +116,5 @@ struct MovieScrollPreferenceKey: PreferenceKey {
 
 #Preview {
     WatchlistView()
+        .environmentObject(UserState())
 }

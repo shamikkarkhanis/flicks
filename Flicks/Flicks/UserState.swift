@@ -35,7 +35,7 @@ class UserState: ObservableObject {
     enum UserRating {
         case like, neutral, dislike
     }
-    
+
     // Add or update a movie rating
     func addToHistory(_ movie: Movie, rating: UserRating) {
         // Ensure movie is in history
@@ -45,7 +45,7 @@ class UserState: ObservableObject {
             history.append(newMovie)
         }
         
-        // Remove from existing rating lists to prevent duplicates/conflicts
+        // Remove from existing rating lists
         likedMovies.removeAll { $0.id == movie.id }
         neutralMovies.removeAll { $0.id == movie.id }
         dislikedMovies.removeAll { $0.id == movie.id }
@@ -54,28 +54,37 @@ class UserState: ObservableObject {
         switch rating {
         case .like:
             likedMovies.append(movie)
-            extractGenres(from: movie)
         case .neutral:
             neutralMovies.append(movie)
         case .dislike:
             dislikedMovies.append(movie)
         }
+        
+        rebuildGenres()
     }
     
     // Remove a movie from the history
     func removeFromHistory(_ movie: Movie) {
         history.removeAll { $0.id == movie.id }
+        likedMovies.removeAll { $0.id == movie.id }
+        neutralMovies.removeAll { $0.id == movie.id }
+        dislikedMovies.removeAll { $0.id == movie.id }
+        
+        rebuildGenres()
     }
 
-    private func extractGenres(from movie: Movie) {
-        // Subtitle format: "Action · Comedy · Sci‑Fi"
-        let genresList = movie.subtitle.components(separatedBy: " · ")
-        for genre in genresList {
-            let trimmed = genre.trimmingCharacters(in: .whitespaces)
-            if !trimmed.isEmpty && !genres.contains(trimmed) {
-                genres.append(trimmed)
+    private func rebuildGenres() {
+        var newGenres: Set<String> = []
+        for movie in likedMovies {
+            let list = movie.subtitle.components(separatedBy: " · ")
+            for genre in list {
+                let trimmed = genre.trimmingCharacters(in: .whitespaces)
+                if !trimmed.isEmpty {
+                    newGenres.insert(trimmed)
+                }
             }
         }
+        self.genres = Array(newGenres).sorted()
     }
 
     func syncUserProfile() async {

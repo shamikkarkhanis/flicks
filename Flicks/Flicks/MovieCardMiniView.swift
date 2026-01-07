@@ -5,6 +5,7 @@ struct MovieCardMiniView: View {
     let title: String
     let dateWatched: Date
     let imageName: String
+    var prefix: String = "Watched on"
     
     @State private var backgroundGradient: LinearGradient?
     @State private var backgroundColors: [UIColor] = []
@@ -18,9 +19,15 @@ struct MovieCardMiniView: View {
                     .lineLimit(1)
                 
                 let dateString = DateHelpers.formatDate(dateWatched)
-                Text(dateString == "Today" ? "Watched Today" : "Watched on \(dateString)")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.8))
+                if prefix == "Watched on" && dateString == "Today" {
+                    Text("Watched Today")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.8))
+                } else {
+                    Text("\(prefix) \(dateString)")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.8))
+                }
             }
             Spacer()
         }
