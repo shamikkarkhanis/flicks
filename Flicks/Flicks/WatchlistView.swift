@@ -52,9 +52,9 @@ struct WatchlistView: View {
         MovieCardView(
             title: movie.title,
             subtitle: movie.subtitle,
-            dateAdded: movie.dateAdded,
             imageName: movie.imageName,
-            friendInitials: movie.friendInitials
+            friendInitials: movie.friendInitials,
+            dateAdded: movie.dateAdded
         )
         .id(movie.id)                               // mark as scroll target
         .onTapGesture {

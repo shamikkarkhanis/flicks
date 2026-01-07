@@ -3,9 +3,9 @@ import SwiftUI
 struct MovieCardView: View {
     let title: String
     let subtitle: String
-    let dateAdded: Date
     let imageName: String
     let friendInitials: [String]
+    let dateAdded: Date
     var disableDetail: Bool = false
 
     @State private var showDetail = false
@@ -24,57 +24,63 @@ struct MovieCardView: View {
             }
         } label: {
             ZStack(alignment: .bottomLeading) {
-                if imageName.hasPrefix("http"), let url = URL(string: imageName) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .empty:
-                            Color.gray.opacity(0.3)
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        case .failure:
-                            Color.gray
-                        @unknown default:
-                            Color.gray
+                // Card image with bounded overlays
+                Group {
+                    if imageName.hasPrefix("http"), let url = URL(string: imageName) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                Color.gray.opacity(0.3)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            case .failure:
+                                Color.gray
+                            @unknown default:
+                                Color.gray
+                            }
                         }
+                    } else {
+                        Image(imageName)
+                            .resizable()
+                            .scaledToFill()
                     }
-                    .aspectRatio(16.0 / 9.0, contentMode: .fit)
-                    .clipped()
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                } else {
-                    Image(imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .aspectRatio(16.0 / 9.0, contentMode: .fit)
-                        .clipped()
-                        .cornerRadius(20)
-                        .shadow(radius: 10)
                 }
-
-                LinearGradient(
-                    gradient: Gradient(colors: [.black.opacity(0.6), .clear]),
-                    startPoint: .bottom,
-                    endPoint: .center
-                )
+                .aspectRatio(16.0 / 9.0, contentMode: .fit)
+                .clipped()
                 .cornerRadius(20)
-                
+                .shadow(radius: 10)
+                // Place the date relative to the card/image bounds
+                .overlay(alignment: .topTrailing) {
+                    Text(formattedDate)
+                        .font(.subheadline).bold()
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .glassEffect()
+                        .padding(10) // inset from the card’s corner
+                }
+                // Readability gradient
+                .overlay(
+                    LinearGradient(
+                        gradient: Gradient(colors: [.black.opacity(0.6), .clear]),
+                        startPoint: .bottom,
+                        endPoint: .center
+                    )
+                    .cornerRadius(20)
+                )
+
+                // Bottom-left: title and subtitle within the card
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(formattedDate)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
-                            .lineLimit(1)
                         Text(title)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .lineLimit(2)
-                        
                     }
                     .padding()
-
                 }
             }
             .rotation3DEffect(.degrees(tapSpin ? 8 : 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
@@ -92,28 +98,34 @@ struct MovieCardView: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title), \(subtitle)")
     }
+}
 
-    private var formattedDate: String {
+private extension MovieCardView {
+    func formatDate(_ date: Date) -> String {
         let calendar = Calendar.current
-        if calendar.isDateInToday(dateAdded) {
+
+        if calendar.isDateInToday(date) {
             return "Today"
         }
-        
+
         let startOfNow = calendar.startOfDay(for: Date())
-        let startOfAdded = calendar.startOfDay(for: dateAdded)
-        let components = calendar.dateComponents([.day], from: startOfAdded, to: startOfNow)
-        
+        let startOfDate = calendar.startOfDay(for: date)
+        let components = calendar.dateComponents([.day], from: startOfDate, to: startOfNow)
+
         if let day = components.day, day < 7 {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE"
-            return formatter.string(from: dateAdded)
+            let weekdayFormatter = DateFormatter()
+            weekdayFormatter.dateFormat = "EEEE"
+            return weekdayFormatter.string(from: date)
         }
-        
-        // Fallback to DateFormatter for compatibility with older SDKs
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: dateAdded)
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        return dateFormatter.string(from: date)
+    }
+
+    var formattedDate: String {
+        formatDate(dateAdded)
     }
 }
 
@@ -121,9 +133,9 @@ struct MovieCardView: View {
     MovieCardView(
         title: "Everything Everywhere All at Once",
         subtitle: "Action · Comedy · Sci‑Fi",
-        dateAdded: Date(),
         imageName: "everything.jpg",
-        friendInitials: ["SK", "FG"]
+        friendInitials: ["SK", "FG"],
+        dateAdded: Date()
     )
     .padding()
     .background(Color.black)
