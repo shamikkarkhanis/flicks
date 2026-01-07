@@ -86,13 +86,15 @@ struct MovieCardView: View {
             .scaleEffect(tapSpin ? 0.98 : 1.0)
         }
         .buttonStyle(.plain)
-        .fullScreenCover(isPresented: $showDetail) {
+        .sheet(isPresented: $showDetail) {
             MovieDetailView(
                 title: title,
                 subtitle: subtitle,
                 imageName: imageName,
                 friendInitials: friendInitials
             )
+            .presentationDetents([.large, .large])
+            .presentationDragIndicator(.visible)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title), \(subtitle)")
