@@ -99,6 +99,16 @@ class UserState: ObservableObject {
             try await APIService.shared.createUserProfile(request: request)
             print("User profile synced successfully.")
             
+            await fetchRecommendations()
+            
+        } catch {
+            print("Failed to sync user profile or fetch recommendations: \(error)")
+        }
+    }
+    
+    func fetchRecommendations() async {
+        let name = "Shamik Karkhanis"
+        do {
             // Fetch recommendations
             let dtos = try await APIService.shared.fetchRecommendations(for: name)
             let movies = dtos.map { dto in
@@ -118,9 +128,8 @@ class UserState: ObservableObject {
             await MainActor.run {
                 self.recommendations = Array(movies.prefix(10))
             }
-            
         } catch {
-            print("Failed to sync user profile or fetch recommendations: \(error)")
+            print("Failed to fetch recommendations: \(error)")
         }
     }
     
