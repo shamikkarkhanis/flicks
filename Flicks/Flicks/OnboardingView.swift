@@ -58,7 +58,7 @@ struct OnboardingView: View {
                             disableDetail: true,
                             onSwipe: { liked in
                                 if liked {
-                                    userState.addToWatchlist(movie)
+                                    userState.addToHistory(movie)
                                 }
                                 // Remove this movie from the deck when the card commits a swipe
                                 mediaDeck.removeAll { $0.id == movie.id }

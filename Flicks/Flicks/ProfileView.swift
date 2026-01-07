@@ -38,7 +38,7 @@ struct ProfileView: View {
                     VStack(alignment: .leading, spacing: 24) {
                         header
                         likesSection
-                        watchlistSection
+                        historySection
                     }
                     .padding(20)
                 }
@@ -88,11 +88,19 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Genres")
                 .font(.system(size: 18, weight: .semibold))
+            
+            if userState.genres.isEmpty {
+                Text("Genres you like will appear here.")
+                    .font(.system(size: 15))
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 8)
+                
+            }
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
-                    ForEach(userState.likes, id: \.self) { like in
-                        Text(like)
+                    ForEach(userState.genres, id: \.self) { genre in
+                        Text(genre)
                             .font(.system(size: 14, weight: .medium))
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
@@ -101,6 +109,7 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal, 20)
             }
+            .padding(.horizontal, -20)
             .mask(
                 LinearGradient(
                     gradient: Gradient(stops: [
@@ -116,19 +125,19 @@ struct ProfileView: View {
         }
     }
 
-    private var watchlistSection: some View {
+    private var historySection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("History")
                 .font(.system(size: 18, weight: .semibold))
 
-            if userState.watchlist.isEmpty {
-                Text("Your history is empty. Swipe right on movies to add them here!")
+            if userState.history.isEmpty {
+                Text("Your history is empty. Rate movies to add them here!")
                     .font(.system(size: 15))
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 8)
             } else {
                 VStack(spacing: 10) {
-                    ForEach(userState.watchlist) { movie in
+                    ForEach(userState.history) { movie in
                         MovieCardMiniView(
                             title: movie.title,
                             dateWatched: movie.dateAdded,

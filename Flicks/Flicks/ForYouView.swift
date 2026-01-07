@@ -60,17 +60,19 @@ struct ForYouView: View {
                     RateMenu(
                         onDislike: {
                             if let movie = interactingMovie {
+                                userState.addToHistory(movie, withGenres: false)
                                 print("Disliked \(movie.title)")
                             }
                         },
                         onNeutral: {
                             if let movie = interactingMovie {
+                                userState.addToHistory(movie, withGenres: false)
                                 print("Neutral \(movie.title)")
                             }
                         },
                         onLike: {
                             if let movie = interactingMovie {
-                                userState.addToWatchlist(movie)
+                                userState.addToHistory(movie, withGenres: true)
                                 print("Liked \(movie.title)")
                             }
                         },

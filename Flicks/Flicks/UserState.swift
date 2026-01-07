@@ -1,38 +1,40 @@
 import SwiftUI
 
 class UserState: ObservableObject {
-    @Published var watchlist: [Movie] = sampleMovies
-    @Published var likes: [String] = []
+    @Published var history: [Movie] = []
+    @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
     
     private var allFetchedMovies: [Movie] = []
 
     init() {
-        for movie in watchlist {
+        for movie in history {
             extractGenres(from: movie)
         }
     }
     
-    // Add a movie to the watchlist if it's not already there
-    func addToWatchlist(_ movie: Movie) {
-        if !watchlist.contains(where: { $0.id == movie.id }) {
-            watchlist.append(movie)
-            extractGenres(from: movie)
+    // Add a movie to the history if it's not already there
+    func addToHistory(_ movie: Movie, withGenres: Bool = true) {
+        if !history.contains(where: { $0.id == movie.id }) {
+            history.append(movie)
+            if withGenres {
+                extractGenres(from: movie)
+            }
         }
     }
     
-    // Remove a movie from the watchlist
-    func removeFromWatchlist(_ movie: Movie) {
-        watchlist.removeAll { $0.id == movie.id }
+    // Remove a movie from the history
+    func removeFromHistory(_ movie: Movie) {
+        history.removeAll { $0.id == movie.id }
     }
 
     private func extractGenres(from movie: Movie) {
         // Subtitle format: "Action · Comedy · Sci‑Fi"
-        let genres = movie.subtitle.components(separatedBy: " · ")
-        for genre in genres {
+        let genresList = movie.subtitle.components(separatedBy: " · ")
+        for genre in genresList {
             let trimmed = genre.trimmingCharacters(in: .whitespaces)
-            if !trimmed.isEmpty && !likes.contains(trimmed) {
-                likes.append(trimmed)
+            if !trimmed.isEmpty && !genres.contains(trimmed) {
+                genres.append(trimmed)
             }
         }
     }
@@ -41,8 +43,8 @@ class UserState: ObservableObject {
         let name = "Shamik Karkhanis"
         let request = CreateUserProfileRequest(
             name: name, // Ideally this comes from a user input or auth
-            genres: likes,
-            movie_ids: watchlist.map { $0.tmdbId }
+            genres: genres,
+            movie_ids: history.map { $0.tmdbId }
         )
 
         do {
