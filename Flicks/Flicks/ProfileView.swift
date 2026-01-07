@@ -37,7 +37,7 @@ struct ProfileView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         header
-                        likesSection
+                        genreSection
                         historySection
                     }
                     .padding(20)
@@ -84,7 +84,7 @@ struct ProfileView: View {
         }
     }
 
-    private var likesSection: some View {
+    private var genreSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Genres")
                 .font(.system(size: 18, weight: .semibold))

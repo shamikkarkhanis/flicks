@@ -50,10 +50,45 @@ struct ForYouView: View {
                     }
                     .scrollTargetLayout()
                 }
+                .scrollPosition(id: $scrollPosition)
                 .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
                 .ignoresSafeArea()
                 .background(.black)
+                .onAppear {
+                    if scrollPosition == nil, let first = movies.first {
+                        scrollPosition = first.id
+                    }
+                }
+                
+                // Watchlist Add Button
+                if !showRateMenu, let currentId = scrollPosition ?? movies.first?.id, let currentMovie = movies.first(where: { $0.id == currentId }) {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            WatchlistButton(
+                                isAdded: Binding(
+                                    get: { userState.watchlist.contains(where: { $0.id == currentMovie.id }) },
+                                    set: { added in
+                                        if added {
+                                            userState.addToWatchlist(currentMovie)
+                                        } else {
+                                            userState.removeFromWatchlist(currentMovie)
+                                        }
+                                    }
+                                ),
+                                action: {
+                                    // Action handled in binding setter or here if specific trigger needed
+                                }
+                            )
+                        }
+                        .padding(.trailing, 30)
+                        .padding(.bottom, 10)
+                    }
+                    .transition(.opacity)
+                    .zIndex(50)
+                }
                 
                 // Rate Menu Overlay
                 if showRateMenu {

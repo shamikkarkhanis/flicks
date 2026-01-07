@@ -2,6 +2,7 @@ import SwiftUI
 
 class UserState: ObservableObject {
     @Published var history: [Movie] = []
+    @Published var watchlist: [Movie] = []
     @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
     
@@ -11,6 +12,16 @@ class UserState: ObservableObject {
         for movie in history {
             extractGenres(from: movie)
         }
+    }
+    
+    func addToWatchlist(_ movie: Movie) {
+        if !watchlist.contains(where: { $0.id == movie.id }) {
+            watchlist.append(movie)
+        }
+    }
+
+    func removeFromWatchlist(_ movie: Movie) {
+        watchlist.removeAll { $0.id == movie.id }
     }
     
     // Add a movie to the history if it's not already there
