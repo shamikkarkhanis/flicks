@@ -83,7 +83,7 @@ struct ForYouView: View {
                                 }
                             )
                         }
-                        .padding(.trailing, 30)
+                        .padding(.trailing, 43)
                         .padding(.bottom, 10)
                     }
                     .transition(.opacity)
