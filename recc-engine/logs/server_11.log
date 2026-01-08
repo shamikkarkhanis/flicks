@@ -1,0 +1,328 @@
+2026-01-08 13:57:14,946 [INFO] Starting server run #11. Logging to logs/server_11.log
+2026-01-08 14:00:20,360 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0081s | status 200
+2026-01-08 14:00:20,643 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-08 14:00:20,910 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 247
+2026-01-08 14:00:21,185 [INFO] action search_movies | duration 0.2765s | exclude_count 177
+2026-01-08 14:00:21,186 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.7041s | status 200
+2026-01-08 14:00:40,167 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0036s | status 404
+2026-01-08 14:00:40,225 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 150
+2026-01-08 14:00:40,286 [INFO] action search_movies | duration 0.0638s | exclude_count 0
+2026-01-08 14:00:40,289 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0801s | status 200
+2026-01-08 14:00:51,781 [INFO] Use pytorch device_name: mps
+2026-01-08 14:00:51,782 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:00:54,085 [INFO] action encode_user_text | duration 2.3574s
+2026-01-08 14:00:54,119 [INFO] path /encode | method POST | duration 3.5594s | status 200
+2026-01-08 14:00:54,186 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:00:54,437 [INFO] action search_movies | duration 0.2531s | exclude_count 9
+2026-01-08 14:00:54,438 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2570s | status 200
+2026-01-08 14:00:58,892 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0066s | status 200
+2026-01-08 14:01:02,579 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0044s | status 200
+2026-01-08 14:01:08,555 [INFO] Use pytorch device_name: mps
+2026-01-08 14:01:08,555 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:01:10,576 [INFO] action encode_user_text | duration 2.0221s
+2026-01-08 14:01:10,600 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.3543s | status 200
+2026-01-08 14:01:10,670 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0014s | status 200
+2026-01-08 14:01:16,834 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 14:01:19,779 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:01:21,571 [INFO] Use pytorch device_name: mps
+2026-01-08 14:01:21,571 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:01:23,415 [INFO] action encode_user_text | duration 1.8450s
+2026-01-08 14:01:23,437 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0248s | status 200
+2026-01-08 14:01:23,470 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:01:23,674 [INFO] action search_movies | duration 0.2050s | exclude_count 21
+2026-01-08 14:01:23,674 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2082s | status 200
+2026-01-08 14:01:26,536 [INFO] Use pytorch device_name: mps
+2026-01-08 14:01:26,536 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:01:28,506 [INFO] action encode_user_text | duration 1.9709s
+2026-01-08 14:01:28,525 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0966s | status 200
+2026-01-08 14:01:28,677 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0019s | status 200
+2026-01-08 14:01:34,058 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:01:36,630 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0066s | status 200
+2026-01-08 14:01:40,464 [INFO] Use pytorch device_name: mps
+2026-01-08 14:01:40,464 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:01:42,276 [INFO] action encode_user_text | duration 1.8131s
+2026-01-08 14:01:42,313 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9570s | status 200
+2026-01-08 14:01:42,523 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:01:42,740 [INFO] action search_movies | duration 0.2195s | exclude_count 27
+2026-01-08 14:01:42,742 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2277s | status 200
+2026-01-08 14:01:42,809 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-08 14:01:48,236 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 14:01:52,873 [INFO] Use pytorch device_name: mps
+2026-01-08 14:01:52,873 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:01:54,767 [INFO] action encode_user_text | duration 1.8954s
+2026-01-08 14:01:54,787 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0395s | status 200
+2026-01-08 14:01:57,427 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0053s | status 200
+2026-01-08 14:01:58,328 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0027s | status 200
+2026-01-08 14:02:02,701 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0152s | status 200
+2026-01-08 14:02:04,741 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:02:16,932 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 14:02:21,116 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0044s | status 200
+2026-01-08 14:02:24,589 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0081s | status 200
+2026-01-08 14:02:24,592 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:02:24,803 [INFO] action search_movies | duration 0.2136s | exclude_count 44
+2026-01-08 14:02:24,803 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2321s | status 200
+2026-01-08 14:03:02,204 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0041s | status 200
+2026-01-08 14:03:07,825 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0051s | status 200
+2026-01-08 14:03:11,198 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:03:13,548 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 14:03:17,632 [INFO] Use pytorch device_name: mps
+2026-01-08 14:03:17,632 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:03:19,711 [INFO] action encode_user_text | duration 2.0812s
+2026-01-08 14:03:19,732 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1932s | status 200
+2026-01-08 14:03:19,800 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:03:20,001 [INFO] action search_movies | duration 0.2033s | exclude_count 56
+2026-01-08 14:03:20,002 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2069s | status 200
+2026-01-08 14:03:23,788 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:03:27,751 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0058s | status 200
+2026-01-08 14:03:28,808 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:03:31,984 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 14:03:36,895 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:03:41,347 [INFO] Use pytorch device_name: mps
+2026-01-08 14:03:41,347 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:03:43,086 [INFO] action encode_user_text | duration 1.7397s
+2026-01-08 14:03:43,108 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9145s | status 200
+2026-01-08 14:03:43,140 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0025s | status 200
+2026-01-08 14:03:46,843 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:03:49,286 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0050s | status 200
+2026-01-08 14:03:51,594 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.1537s | status 200
+2026-01-08 14:03:51,598 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:03:51,791 [INFO] action search_movies | duration 0.3479s | exclude_count 74
+2026-01-08 14:03:51,792 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.3612s | status 200
+2026-01-08 14:03:54,204 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0060s | status 200
+2026-01-08 14:03:54,318 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 150
+2026-01-08 14:03:54,409 [INFO] action search_movies | duration 0.0939s | exclude_count 76
+2026-01-08 14:03:54,410 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1032s | status 200
+2026-01-08 14:03:59,205 [INFO] Use pytorch device_name: mps
+2026-01-08 14:03:59,205 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:04:01,137 [INFO] action encode_user_text | duration 1.9334s
+2026-01-08 14:04:01,157 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1467s | status 200
+2026-01-08 14:04:01,171 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0023s | status 200
+2026-01-08 14:04:11,595 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 14:04:17,718 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0016s | status 200
+2026-01-08 14:04:20,314 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 14:04:23,995 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 14:04:28,199 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:04:30,454 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0055s | status 200
+2026-01-08 14:04:30,476 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 161
+2026-01-08 14:04:30,679 [INFO] action search_movies | duration 0.2063s | exclude_count 91
+2026-01-08 14:04:30,680 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2145s | status 200
+2026-01-08 14:04:37,588 [INFO] Use pytorch device_name: mps
+2026-01-08 14:04:37,589 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:04:39,419 [INFO] action encode_user_text | duration 1.8317s
+2026-01-08 14:04:39,438 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9751s | status 200
+2026-01-08 14:04:39,763 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:04:44,548 [INFO] Use pytorch device_name: mps
+2026-01-08 14:04:44,548 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:04:46,300 [INFO] action encode_user_text | duration 1.7526s
+2026-01-08 14:04:46,320 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9459s | status 200
+2026-01-08 14:04:46,430 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0023s | status 200
+2026-01-08 14:04:48,169 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0066s | status 200
+2026-01-08 14:04:51,283 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0067s | status 200
+2026-01-08 14:04:54,719 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0028s | status 200
+2026-01-08 14:04:57,184 [INFO] Use pytorch device_name: mps
+2026-01-08 14:04:57,184 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:04:58,979 [INFO] action encode_user_text | duration 1.7956s
+2026-01-08 14:04:59,000 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9978s | status 200
+2026-01-08 14:04:59,012 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 176
+2026-01-08 14:04:59,212 [INFO] action search_movies | duration 0.2011s | exclude_count 106
+2026-01-08 14:04:59,213 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2045s | status 200
+2026-01-08 14:05:01,381 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0067s | status 200
+2026-01-08 14:05:05,071 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0043s | status 200
+2026-01-08 14:05:07,115 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0057s | status 200
+2026-01-08 14:05:08,548 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0056s | status 200
+2026-01-08 14:05:10,497 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:05:12,544 [INFO] Use pytorch device_name: mps
+2026-01-08 14:05:12,545 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:05:14,344 [INFO] action encode_user_text | duration 1.8000s
+2026-01-08 14:05:14,367 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9349s | status 200
+2026-01-08 14:05:15,307 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:05:18,171 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 14:05:31,346 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0109s | status 200
+2026-01-08 14:05:31,351 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 190
+2026-01-08 14:05:31,358 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0020s | status 200
+2026-01-08 14:05:31,574 [INFO] action search_movies | duration 0.2253s | exclude_count 120
+2026-01-08 14:05:31,575 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2379s | status 200
+2026-01-08 14:05:38,294 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 14:05:41,672 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:05:44,845 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:05:46,375 [INFO] Use pytorch device_name: mps
+2026-01-08 14:05:46,376 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:05:48,304 [INFO] action encode_user_text | duration 1.9294s
+2026-01-08 14:05:48,328 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1489s | status 200
+2026-01-08 14:05:49,431 [INFO] Use pytorch device_name: mps
+2026-01-08 14:05:49,431 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:05:51,276 [INFO] action encode_user_text | duration 1.8468s
+2026-01-08 14:05:51,297 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0534s | status 200
+2026-01-08 14:05:51,310 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 203
+2026-01-08 14:05:51,508 [INFO] action search_movies | duration 0.2000s | exclude_count 133
+2026-01-08 14:05:51,509 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2028s | status 200
+2026-01-08 14:05:51,525 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-08 14:05:53,310 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 14:05:57,748 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0065s | status 200
+2026-01-08 14:06:00,777 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:06:04,507 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 14:06:06,665 [INFO] Use pytorch device_name: mps
+2026-01-08 14:06:06,665 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:06:08,675 [INFO] action encode_user_text | duration 2.0106s
+2026-01-08 14:06:08,695 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1484s | status 200
+2026-01-08 14:06:10,650 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 14:06:17,543 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 14:06:20,286 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 221
+2026-01-08 14:06:20,287 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0093s | status 200
+2026-01-08 14:06:20,491 [INFO] action search_movies | duration 0.2103s | exclude_count 151
+2026-01-08 14:06:20,492 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2227s | status 200
+2026-01-08 14:06:25,317 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:06:28,654 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0022s | status 200
+2026-01-08 14:06:32,077 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:06:35,956 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:06:49,207 [INFO] Use pytorch device_name: mps
+2026-01-08 14:06:49,208 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:06:51,033 [INFO] action encode_user_text | duration 1.8266s
+2026-01-08 14:06:51,054 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0011s | status 200
+2026-01-08 14:06:54,677 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:06:59,025 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 238
+2026-01-08 14:06:59,027 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0039s | status 200
+2026-01-08 14:06:59,240 [INFO] action search_movies | duration 0.2185s | exclude_count 168
+2026-01-08 14:06:59,240 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2278s | status 200
+2026-01-08 14:07:03,500 [INFO] Use pytorch device_name: mps
+2026-01-08 14:07:03,500 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:07:05,346 [INFO] action encode_user_text | duration 1.8463s
+2026-01-08 14:07:05,370 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9891s | status 200
+2026-01-08 14:07:05,440 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 240
+2026-01-08 14:07:05,643 [INFO] action search_movies | duration 0.2051s | exclude_count 170
+2026-01-08 14:07:05,644 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2088s | status 200
+2026-01-08 14:07:07,892 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 14:07:13,556 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 14:07:17,415 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:07:21,000 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 14:07:28,481 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 14:07:30,691 [INFO] Use pytorch device_name: mps
+2026-01-08 14:07:30,691 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:07:32,449 [INFO] action encode_user_text | duration 1.7593s
+2026-01-08 14:07:32,472 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9974s | status 200
+2026-01-08 14:07:33,798 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-08 14:07:35,645 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0055s | status 200
+2026-01-08 14:07:39,020 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 14:07:47,130 [INFO] Use pytorch device_name: mps
+2026-01-08 14:07:47,130 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:07:49,020 [INFO] action encode_user_text | duration 1.8909s
+2026-01-08 14:07:49,041 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1196s | status 200
+2026-01-08 14:07:49,162 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0018s | status 200
+2026-01-08 14:07:55,515 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 14:07:57,864 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 14:07:57,877 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 269
+2026-01-08 14:07:58,084 [INFO] action search_movies | duration 0.2100s | exclude_count 199
+2026-01-08 14:07:58,085 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2173s | status 200
+2026-01-08 14:08:01,159 [INFO] Use pytorch device_name: mps
+2026-01-08 14:08:01,160 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:08:03,036 [INFO] action encode_user_text | duration 1.8779s
+2026-01-08 14:08:03,058 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1287s | status 200
+2026-01-08 14:08:03,071 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 270
+2026-01-08 14:08:03,146 [INFO] action search_movies | duration 0.0766s | exclude_count 200
+2026-01-08 14:08:03,147 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0796s | status 200
+2026-01-08 14:08:03,160 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0035s | status 200
+2026-01-08 14:08:22,411 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-08 14:08:28,757 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:08:33,493 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0014s | status 200
+2026-01-08 14:08:40,144 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 14:08:45,559 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:08:47,333 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:08:47,336 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 287
+2026-01-08 14:08:47,548 [INFO] action search_movies | duration 0.2146s | exclude_count 217
+2026-01-08 14:08:47,549 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2331s | status 200
+2026-01-08 14:08:55,895 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 14:09:00,578 [INFO] Use pytorch device_name: mps
+2026-01-08 14:09:00,578 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:09:02,626 [INFO] action encode_user_text | duration 2.0493s
+2026-01-08 14:09:02,652 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1559s | status 200
+2026-01-08 14:09:07,289 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:09:11,797 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0067s | status 200
+2026-01-08 14:09:15,378 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 14:09:19,272 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0078s | status 200
+2026-01-08 14:09:24,088 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 302
+2026-01-08 14:09:24,089 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 14:09:24,305 [INFO] action search_movies | duration 0.2200s | exclude_count 232
+2026-01-08 14:09:24,305 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2286s | status 200
+2026-01-08 14:09:28,583 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-08 14:09:33,195 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:09:38,618 [INFO] Use pytorch device_name: mps
+2026-01-08 14:09:38,618 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:09:40,418 [INFO] action encode_user_text | duration 1.8004s
+2026-01-08 14:09:40,442 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0276s | status 200
+2026-01-08 14:09:40,470 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0012s | status 200
+2026-01-08 14:09:44,751 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-08 14:09:47,329 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 14:09:47,343 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 319
+2026-01-08 14:09:47,559 [INFO] action search_movies | duration 0.2185s | exclude_count 249
+2026-01-08 14:09:47,559 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2265s | status 200
+2026-01-08 14:09:57,371 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-08 14:10:00,743 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:10:09,253 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0084s | status 200
+2026-01-08 14:10:09,274 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 326
+2026-01-08 14:10:09,484 [INFO] action search_movies | duration 0.2134s | exclude_count 256
+2026-01-08 14:10:09,485 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2211s | status 200
+2026-01-08 14:10:12,643 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-08 14:10:18,467 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-08 14:10:22,451 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-08 14:10:26,854 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:10:33,459 [INFO] Use pytorch device_name: mps
+2026-01-08 14:10:33,459 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:10:35,620 [INFO] action encode_user_text | duration 2.1614s
+2026-01-08 14:10:35,643 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.3318s | status 200
+2026-01-08 14:10:36,277 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-08 14:10:41,181 [INFO] Use pytorch device_name: mps
+2026-01-08 14:10:41,181 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:10:42,035 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 341
+2026-01-08 14:10:42,244 [INFO] action search_movies | duration 0.2104s | exclude_count 271
+2026-01-08 14:10:42,245 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2210s | status 200
+2026-01-08 14:10:42,931 [INFO] action encode_user_text | duration 1.7513s
+2026-01-08 14:10:42,959 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.8755s | status 200
+2026-01-08 14:10:43,041 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0037s | status 200
+2026-01-08 14:10:49,576 [INFO] Use pytorch device_name: mps
+2026-01-08 14:10:49,576 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:10:51,300 [INFO] action encode_user_text | duration 1.7253s
+2026-01-08 14:10:51,321 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9329s | status 200
+2026-01-08 14:10:51,436 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 344
+2026-01-08 14:10:51,526 [INFO] action search_movies | duration 0.0915s | exclude_count 274
+2026-01-08 14:10:51,527 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0956s | status 200
+2026-01-08 14:10:51,544 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0024s | status 200
+2026-01-08 14:10:53,171 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 14:10:55,310 [INFO] Use pytorch device_name: mps
+2026-01-08 14:10:55,310 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:10:57,036 [INFO] action encode_user_text | duration 1.7270s
+2026-01-08 14:10:57,060 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9431s | status 200
+2026-01-08 14:10:58,499 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0072s | status 200
+2026-01-08 14:11:02,083 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0067s | status 200
+2026-01-08 14:11:05,746 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0024s | status 200
+2026-01-08 14:11:15,198 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-08 14:11:15,321 [INFO] Use pytorch device_name: mps
+2026-01-08 14:11:15,322 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:11:17,105 [INFO] action encode_user_text | duration 1.7842s
+2026-01-08 14:11:17,129 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9180s | status 200
+2026-01-08 14:11:17,650 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-08 14:11:24,004 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-08 14:11:26,869 [INFO] Use pytorch device_name: mps
+2026-01-08 14:11:26,870 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:11:28,634 [INFO] action encode_user_text | duration 1.7656s
+2026-01-08 14:11:28,658 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9050s | status 200
+2026-01-08 14:11:28,713 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 367
+2026-01-08 14:11:28,925 [INFO] action search_movies | duration 0.2137s | exclude_count 297
+2026-01-08 14:11:28,925 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2185s | status 200
+2026-01-08 14:11:32,900 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0032s | status 200
+2026-01-08 14:11:36,933 [INFO] Use pytorch device_name: mps
+2026-01-08 14:11:36,933 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 14:11:38,697 [INFO] action encode_user_text | duration 1.7643s
+2026-01-08 14:11:38,720 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9306s | status 200
+2026-01-08 14:11:42,218 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0040s | status 200
+2026-01-08 14:11:45,191 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 14:11:48,571 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-08 14:11:54,515 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:11:58,607 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-08 14:12:05,883 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 14:12:07,449 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 14:12:07,453 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Classic": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Music": true}, {"is_Mystery": true}, {"is_Romance": true}, {"is_Sci\u2011Fi": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 385
+2026-01-08 14:12:07,663 [INFO] action search_movies | duration 0.2140s | exclude_count 315
+2026-01-08 14:12:07,664 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2285s | status 200
+2026-01-08 14:12:13,036 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-08 14:12:17,350 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0116s | status 200
+2026-01-08 14:12:50,336 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200

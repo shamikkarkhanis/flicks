@@ -187,3 +187,220 @@
 2026-01-08 13:02:44,591 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
 2026-01-08 13:02:52,077 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
 2026-01-08 13:02:58,357 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 13:05:50,152 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0063s | status 200
+2026-01-08 13:05:50,401 [INFO] action search_movies | duration 0.1829s | exclude_count 127
+2026-01-08 13:05:50,402 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2017s | status 200
+2026-01-08 13:06:01,353 [INFO] Use pytorch device_name: mps
+2026-01-08 13:06:01,353 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:06:03,348 [INFO] action encode_user_text | duration 1.9979s
+2026-01-08 13:06:03,372 [INFO] path /encode | method POST | duration 2.5747s | status 200
+2026-01-08 13:06:03,673 [INFO] action search_movies | duration 0.2116s | exclude_count 9
+2026-01-08 13:06:03,674 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2150s | status 200
+2026-01-08 13:06:07,345 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0047s | status 200
+2026-01-08 13:06:19,797 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 13:06:23,824 [INFO] Use pytorch device_name: mps
+2026-01-08 13:06:23,825 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:06:23,934 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0034s | status 200
+2026-01-08 13:06:25,406 [INFO] action encode_user_text | duration 1.5820s
+2026-01-08 13:06:25,423 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7472s | status 200
+2026-01-08 13:06:26,660 [INFO] Use pytorch device_name: mps
+2026-01-08 13:06:26,660 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:06:28,431 [INFO] action encode_user_text | duration 1.7723s
+2026-01-08 13:06:28,446 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.8547s | status 200
+2026-01-08 13:06:28,758 [INFO] action search_movies | duration 0.2095s | exclude_count 12
+2026-01-08 13:06:28,759 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2133s | status 200
+2026-01-08 13:06:30,591 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0045s | status 200
+2026-01-08 13:06:39,607 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 13:06:48,771 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0040s | status 200
+2026-01-08 13:06:56,079 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-08 13:07:00,426 [INFO] Use pytorch device_name: mps
+2026-01-08 13:07:00,426 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:07:02,276 [INFO] action encode_user_text | duration 1.8507s
+2026-01-08 13:07:02,293 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.1153s | status 200
+2026-01-08 13:07:04,177 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 13:07:14,964 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 13:07:19,175 [INFO] Use pytorch device_name: mps
+2026-01-08 13:07:19,175 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:07:20,741 [INFO] action encode_user_text | duration 1.5674s
+2026-01-08 13:07:20,759 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7379s | status 200
+2026-01-08 13:07:25,173 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0047s | status 200
+2026-01-08 13:07:28,856 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:07:33,260 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-08 13:07:37,570 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0034s | status 200
+2026-01-08 13:07:37,776 [INFO] action search_movies | duration 0.2115s | exclude_count 32
+2026-01-08 13:07:37,777 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2223s | status 200
+2026-01-08 13:08:02,738 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 13:08:05,460 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-08 13:08:07,988 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 13:08:10,597 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:08:19,548 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 13:08:29,809 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 13:08:32,848 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 13:08:37,362 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-08 13:08:47,830 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0043s | status 200
+2026-01-08 13:16:32,496 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0058s | status 200
+2026-01-08 13:16:32,800 [INFO] action search_movies | duration 0.2213s | exclude_count 50
+2026-01-08 13:16:32,801 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2457s | status 200
+2026-01-08 13:16:43,061 [INFO] Use pytorch device_name: mps
+2026-01-08 13:16:43,062 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:16:45,085 [INFO] action encode_user_text | duration 2.0259s
+2026-01-08 13:16:45,108 [INFO] path /encode | method POST | duration 2.5498s | status 200
+2026-01-08 13:16:45,362 [INFO] action search_movies | duration 0.2014s | exclude_count 9
+2026-01-08 13:16:45,363 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2052s | status 200
+2026-01-08 13:16:49,109 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0022s | status 200
+2026-01-08 13:17:11,543 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 13:17:11,612 [INFO] Use pytorch device_name: mps
+2026-01-08 13:17:11,612 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:17:13,283 [INFO] action encode_user_text | duration 1.6717s
+2026-01-08 13:17:13,303 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7471s | status 200
+2026-01-08 13:17:19,544 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-08 13:17:25,480 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 13:17:31,101 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0045s | status 200
+2026-01-08 13:17:32,325 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0041s | status 200
+2026-01-08 13:17:35,908 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-08 13:17:38,849 [INFO] Use pytorch device_name: mps
+2026-01-08 13:17:38,849 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:17:40,711 [INFO] action encode_user_text | duration 1.8631s
+2026-01-08 13:17:40,732 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9601s | status 200
+2026-01-08 13:17:41,039 [INFO] action search_movies | duration 0.2093s | exclude_count 24
+2026-01-08 13:17:41,040 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2132s | status 200
+2026-01-08 13:17:45,576 [INFO] Use pytorch device_name: mps
+2026-01-08 13:17:45,576 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:17:47,125 [INFO] action encode_user_text | duration 1.5501s
+2026-01-08 13:17:47,144 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7175s | status 200
+2026-01-08 13:17:49,178 [INFO] Use pytorch device_name: mps
+2026-01-08 13:17:49,179 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:17:51,682 [INFO] action encode_user_text | duration 2.5045s
+2026-01-08 13:17:51,699 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.5850s | status 200
+2026-01-08 13:17:51,786 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0025s | status 200
+2026-01-08 13:17:55,739 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-08 13:17:59,163 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 13:18:02,155 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 13:18:06,400 [INFO] Use pytorch device_name: mps
+2026-01-08 13:18:06,400 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:18:08,021 [INFO] action encode_user_text | duration 1.6216s
+2026-01-08 13:18:08,039 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7225s | status 200
+2026-01-08 13:18:08,259 [INFO] action search_movies | duration 0.2045s | exclude_count 37
+2026-01-08 13:18:08,260 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2076s | status 200
+2026-01-08 13:18:11,036 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 13:18:14,327 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 13:18:31,143 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 13:18:33,123 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0054s | status 200
+2026-01-08 13:18:38,694 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 13:18:49,839 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 13:18:52,299 [INFO] Use pytorch device_name: mps
+2026-01-08 13:18:52,300 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:18:53,841 [INFO] action encode_user_text | duration 1.5422s
+2026-01-08 13:18:53,863 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.6695s | status 200
+2026-01-08 13:18:59,405 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0056s | status 200
+2026-01-08 13:18:59,635 [INFO] action search_movies | duration 0.2118s | exclude_count 52
+2026-01-08 13:18:59,636 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2203s | status 200
+2026-01-08 13:19:01,723 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 13:19:05,667 [INFO] Use pytorch device_name: mps
+2026-01-08 13:19:05,667 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:19:07,257 [INFO] action encode_user_text | duration 1.5912s
+2026-01-08 13:19:07,278 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7722s | status 200
+2026-01-08 13:19:09,198 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 13:19:17,446 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-08 13:19:19,066 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0051s | status 200
+2026-01-08 13:19:20,770 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0042s | status 200
+2026-01-08 13:19:25,978 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 13:19:29,335 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 13:19:33,058 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:19:36,744 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 13:19:36,843 [INFO] action search_movies | duration 0.0877s | exclude_count 72
+2026-01-08 13:19:36,844 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0954s | status 200
+2026-01-08 13:19:39,638 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 13:19:44,415 [INFO] Use pytorch device_name: mps
+2026-01-08 13:19:44,416 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:19:45,973 [INFO] action encode_user_text | duration 1.5582s
+2026-01-08 13:19:45,993 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.6773s | status 200
+2026-01-08 13:19:46,676 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:19:50,297 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-08 13:19:53,519 [INFO] Use pytorch device_name: mps
+2026-01-08 13:19:53,519 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:19:55,141 [INFO] action encode_user_text | duration 1.6219s
+2026-01-08 13:19:55,160 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7312s | status 200
+2026-01-08 13:19:55,416 [INFO] action search_movies | duration 0.2065s | exclude_count 82
+2026-01-08 13:19:55,417 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2108s | status 200
+2026-01-08 13:19:56,918 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0060s | status 200
+2026-01-08 13:19:57,455 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0064s | status 200
+2026-01-08 13:20:01,116 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0051s | status 200
+2026-01-08 13:20:05,396 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 13:20:12,850 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-08 13:20:25,267 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:20:28,864 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0038s | status 200
+2026-01-08 13:20:32,655 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 13:20:38,731 [INFO] Use pytorch device_name: mps
+2026-01-08 13:20:38,732 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:20:40,282 [INFO] action encode_user_text | duration 1.5511s
+2026-01-08 13:20:40,305 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.7109s | status 200
+2026-01-08 13:20:41,018 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0043s | status 200
+2026-01-08 13:20:46,415 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-08 13:20:49,053 [INFO] Use pytorch device_name: mps
+2026-01-08 13:20:49,053 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:20:50,622 [INFO] action encode_user_text | duration 1.5691s
+2026-01-08 13:20:50,640 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.6491s | status 200
+2026-01-08 13:20:50,888 [INFO] action search_movies | duration 0.2071s | exclude_count 105
+2026-01-08 13:20:50,889 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2112s | status 200
+2026-01-08 13:20:53,399 [INFO] Use pytorch device_name: mps
+2026-01-08 13:20:53,399 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:20:55,010 [INFO] action encode_user_text | duration 1.6115s
+2026-01-08 13:20:55,028 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.6926s | status 200
+2026-01-08 13:20:57,085 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-08 13:21:00,613 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-08 13:21:03,487 [INFO] Use pytorch device_name: mps
+2026-01-08 13:21:03,487 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:21:05,150 [INFO] action encode_user_text | duration 1.6635s
+2026-01-08 13:21:05,167 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.8976s | status 200
+2026-01-08 13:21:07,781 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-08 13:21:10,945 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0071s | status 200
+2026-01-08 13:21:15,665 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0039s | status 200
+2026-01-08 13:21:19,067 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-08 13:21:21,921 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0070s | status 200
+2026-01-08 13:21:22,129 [INFO] action search_movies | duration 0.2104s | exclude_count 123
+2026-01-08 13:21:22,130 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2248s | status 200
+2026-01-08 13:21:25,907 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0074s | status 200
+2026-01-08 13:21:29,228 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0070s | status 200
+2026-01-08 13:21:32,701 [INFO] Use pytorch device_name: mps
+2026-01-08 13:21:32,701 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:21:34,381 [INFO] action encode_user_text | duration 1.6801s
+2026-01-08 13:21:34,401 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.8456s | status 200
+2026-01-08 13:21:34,840 [INFO] action search_movies | duration 0.2211s | exclude_count 132
+2026-01-08 13:21:34,841 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2304s | status 200
+2026-01-08 13:21:35,530 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-08 13:21:38,602 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-08 13:21:41,882 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0073s | status 200
+2026-01-08 13:21:44,953 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0047s | status 200
+2026-01-08 13:21:46,796 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0078s | status 200
+2026-01-08 13:21:49,868 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 13:21:52,020 [INFO] Use pytorch device_name: mps
+2026-01-08 13:21:52,021 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:21:53,973 [INFO] action encode_user_text | duration 1.9531s
+2026-01-08 13:21:53,996 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 2.0862s | status 200
+2026-01-08 13:21:57,191 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 13:22:00,932 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-08 13:22:02,769 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-08 13:22:02,996 [INFO] action search_movies | duration 0.2101s | exclude_count 151
+2026-01-08 13:22:02,997 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2205s | status 200
+2026-01-08 13:22:07,502 [INFO] Use pytorch device_name: mps
+2026-01-08 13:22:07,503 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:22:09,049 [INFO] action encode_user_text | duration 1.5478s
+2026-01-08 13:22:09,067 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.6965s | status 200
+2026-01-08 13:22:09,191 [INFO] action search_movies | duration 0.0720s | exclude_count 152
+2026-01-08 13:22:09,192 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0757s | status 200
+2026-01-08 13:22:09,239 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0020s | status 200
+2026-01-08 13:22:12,805 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0071s | status 200
+2026-01-08 13:22:15,176 [INFO] Use pytorch device_name: mps
+2026-01-08 13:22:15,176 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 13:22:16,956 [INFO] action encode_user_text | duration 1.7805s
+2026-01-08 13:22:16,978 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 1.9878s | status 200
+2026-01-08 13:22:18,131 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0071s | status 200
+2026-01-08 13:22:24,691 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-08 13:22:33,396 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-08 13:22:37,380 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-08 13:22:41,474 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0041s | status 200
+2026-01-08 13:22:45,368 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-08 13:22:49,241 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0072s | status 200
+2026-01-08 13:22:49,445 [INFO] action search_movies | duration 0.2115s | exclude_count 175
+2026-01-08 13:22:49,446 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2206s | status 200

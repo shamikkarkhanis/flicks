@@ -208,8 +208,16 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=Non
     elif len(conditions) > 1:
         where_filter = {"$and": conditions}
 
-    # Fetch a large enough pool to guarantee top_k after exclusion
-    fetch_k = max(150, top_k * 2)
+    # Dynamic Fetching: Ensure we have enough candidates after exclusion.
+    # We fetch: (items to exclude) + (items requested) + (safety buffer)
+    exclude_count = len(exclude_ids) if exclude_ids else 0
+    fetch_k = exclude_count + top_k + 50
+    
+    # Cap fetch_k to a reasonable limit (e.g., 2000) to maintain performance, 
+    # but ensure it's at least 150 for variety.
+    fetch_k = min(max(fetch_k, 150), 2000)
+    
+    logger.info("action search_movies | where_filter: %s | fetch_k: %d", json.dumps(where_filter), fetch_k)
     
     results = collection.query(
         query_embeddings=embedding,
