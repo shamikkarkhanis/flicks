@@ -100,12 +100,13 @@ class APIService {
     // Convenience method for domain objects
     func getRecommendations(for userId: String) async throws -> [Movie] {
         let dtos = try await fetchRecommendations(for: userId)
-        return dtos.map { dto in
-            Movie(
+        return dtos.compactMap { dto in
+            guard let backdropPath = dto.backdrop_path, !backdropPath.isEmpty else { return nil }
+            return Movie(
                 tmdbId: Int(dto.movie_id) ?? 0,
                 title: dto.title,
                 subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
-                imageName: dto.backdrop_path.map { "https://image.tmdb.org/t/p/original\($0)" } ?? "",
+                imageName: "https://image.tmdb.org/t/p/original\(backdropPath)",
                 friendInitials: [],
                 dateAdded: Date(),
                 dateWatched: Date()
