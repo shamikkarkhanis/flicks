@@ -175,24 +175,61 @@ def upsert_user_profile(user_id, text, embedding, profile):
     )
 
 
-def search_movies(embedding, top_k, filters=None):
+def search_movies(embedding, top_k, filters=None, exclude_ids=None):
     client = chromadb.PersistentClient(path="chroma")
     collection = client.get_or_create_collection(name="movies")
     
     where_filter = None
     if filters:
+        # ... (keep existing filter logic)
         conditions = [{f"is_{genre}": True} for genre in filters]
         if len(conditions) == 1:
             where_filter = conditions[0]
         else:
             where_filter = {"$or": conditions}
 
-    return collection.query(
+    # Fetch a large enough pool to guarantee top_k after exclusion
+    # 150 is a safe bet for a medium sized database
+    fetch_k = max(150, top_k * 2)
+    
+    results = collection.query(
         query_embeddings=embedding,
-        n_results=top_k,
+        n_results=fetch_k,
         include=["metadatas", "distances", "documents"],
         where=where_filter
     )
+
+    if not exclude_ids:
+        # Still truncate to top_k for consistency
+        return {
+            "ids": [results["ids"][0][:top_k]],
+            "distances": [results["distances"][0][:top_k]],
+            "metadatas": [results["metadatas"][0][:top_k]],
+            "documents": [results["documents"][0][:top_k]]
+        }
+
+    # Python-side filtering for ID exclusion
+    exclude_set = {str(eid) for eid in exclude_ids}
+    
+    new_results = {
+        "ids": [[]],
+        "distances": [[]],
+        "metadatas": [[]],
+        "documents": [[]]
+    }
+    
+    for i in range(len(results["ids"][0])):
+        mid = results["ids"][0][i]
+        if mid not in exclude_set:
+            new_results["ids"][0].append(mid)
+            new_results["distances"][0].append(results["distances"][0][i])
+            new_results["metadatas"][0].append(results["metadatas"][0][i])
+            new_results["documents"][0].append(results["documents"][0][i])
+        
+        if len(new_results["ids"][0]) >= top_k:
+            break
+            
+    return new_results
 
 
 def main():

@@ -6,6 +6,19 @@ struct CreateUserProfileRequest: Codable {
     let movie_ids: [Int]
 }
 
+struct WatchlistRequest: Codable {
+    let movie_id: Int
+}
+
+struct RatingRequest: Codable {
+    let movie_id: Int
+    let rating: String
+}
+
+struct SyncShownRequest: Codable {
+    let shown_ids: [Int]
+}
+
 enum APIError: Error {
     case invalidURL
     case networkError(Error)
@@ -99,7 +112,8 @@ class APIService {
             )
         }
     }
-    func fetchUserProfile(for userId: String) async throws -> [UserProfileDTO] {
+
+    func fetchUserProfile(for userId: String) async throws -> UserProfileDTO {
         guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
               let url = URL(string: "\(baseURL)/users/\(encodedUserId)") else {
             throw APIError.invalidURL
@@ -112,7 +126,83 @@ class APIService {
             throw APIError.serverError(statusCode: httpResponse.statusCode)
         }
         
-        return try JSONDecoder().decode([UserProfileDTO].self, from: data)
+        return try JSONDecoder().decode(UserProfileDTO.self, from: data)
+    }
+    
+    func addToWatchlist(userId: String, movieId: Int) async throws {
+        guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/watchlist") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = WatchlistRequest(movie_id: movieId)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
+
+    func removeFromWatchlist(userId: String, movieId: Int) async throws {
+        guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/watchlist/\(movieId)") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
+
+    func rateMovie(userId: String, movieId: Int, rating: String) async throws {
+        guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/ratings") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = RatingRequest(movie_id: movieId, rating: rating)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
+
+    func syncShownMovies(userId: String, movieIds: [Int]) async throws {
+        guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/sync") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = SyncShownRequest(shown_ids: movieIds)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
     }
 }
 
@@ -126,8 +216,8 @@ struct MovieDTO: Codable {
 
 struct UserProfileDTO: Codable {
     let name: String
-    let genres: [String]
-    let movie_ids: [Int]
+    let genres: [String]?
+    let movie_ids: [Int]?
     let data: UserDataDTO
 }
 

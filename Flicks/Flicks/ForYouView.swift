@@ -116,19 +116,25 @@ struct ForYouView: View {
                         }(),
                         onDislike: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, rating: .dislike)
+                                Task {
+                                    await userState.addToHistory(movie, rating: .dislike)
+                                }
                                 print("Disliked \(movie.title)")
                             }
                         },
                         onNeutral: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, rating: .neutral)
+                                Task {
+                                    await userState.addToHistory(movie, rating: .neutral)
+                                }
                                 print("Neutral \(movie.title)")
                             }
                         },
                         onLike: {
                             if let movie = interactingMovie {
-                                userState.addToHistory(movie, rating: .like)
+                                Task {
+                                    await userState.addToHistory(movie, rating: .like)
+                                }
                                 print("Liked \(movie.title)")
                             }
                         },

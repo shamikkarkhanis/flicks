@@ -198,49 +198,85 @@ def rate_movie(user_id: str, request: RatingRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class SyncRequest(BaseModel):
+    shown_ids: List[int]
+
+@app.post("/users/{user_id}/sync")
+def sync_user_data(user_id: str, request: SyncRequest):
+    """
+    Syncs the list of movies already shown to the user on the frontend.
+    """
+    try:
+        print(f"[Backend] Syncing shown movies for user: {user_id}")
+        file_path = f"users/{user_id}.json"
+        if not os.path.exists(file_path):
+            print(f"[Backend] Profile not found for sync: {file_path}")
+            raise HTTPException(status_code=404, detail="User profile not found")
+
+        profile = user.load_user_profile(file_path)
+        
+        # Update 'shown' list
+        current_shown = set(profile["data"].get("shown", []))
+        incoming_ids = set(request.shown_ids)
+        current_shown.update(incoming_ids)
+        profile["data"]["shown"] = list(current_shown)
+        
+        user.save_user_profile(file_path, profile)
+        print(f"[Backend] Sync successful. Total shown now: {len(profile['data']['shown'])}")
+        return {"message": "Sync successful", "shown_count": len(profile["data"]["shown"])}
+    except Exception as e:
+        print(f"[Backend] Sync error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/users/{user_id}/recommendations", response_model=List[Recommendation])
 def get_recommendations(
     user_id: str, 
-    top_k: int = 30, 
+    top_k: int = 20, 
     genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by")
 ):
     """
     Get movie recommendations for a user based on their stored embedding.
-    If the embedding is not in the DB, it tries to load and encode the profile from disk.
+    Excludes movies the user has already seen or interacted with.
     """
     try:
+        print(f"[Backend] Fetching recommendations for: {user_id}")
         embedding = None
         filter_genres = []
+        exclude_ids = []
 
-        # 1. Try to get embedding from DB
+        # 1. Try to load user profile to get exclusion list and genres
+        file_path = f"users/{user_id}.json"
+        profile = None
+        if os.path.exists(file_path):
+            profile = user.load_user_profile(file_path)
+            # Exclude shown, liked, disliked, and watchlist
+            data = profile.get("data", {})
+            exclude_ids = list(set(
+                data.get("shown", []) + 
+                data.get("liked", []) + 
+                data.get("disliked", []) + 
+                data.get("watchlist", []) +
+                data.get("history", [])
+            ))
+            print(f"[Backend] Loaded profile. Exclusion list size: {len(exclude_ids)}")
+            if not genres:
+                filter_genres = profile.get("genres", [])
+        else:
+            print(f"[Backend] Profile file NOT FOUND: {file_path}")
+
+        # 2. Try to get embedding from DB
         try:
             db_result = user.get_profile_from_db(user_id)
             embedding = [db_result["embeddings"][0]]
-            
-            # Extract genres from DB metadata if not provided in query
-            if not genres and db_result["metadatas"] and db_result["metadatas"][0]:
-                payload_json = db_result["metadatas"][0].get("payload")
-                if payload_json:
-                    profile = json.loads(payload_json)
-                    filter_genres = profile.get("genres", [])
         except ValueError:
-            # 2. If not in DB, try to load from file and encode
-            file_path = f"users/{user_id}.json"
-            if not os.path.exists(file_path):
-                raise HTTPException(
-                    status_code=404, 
-                    detail=f"User embedding not found in DB and profile file {file_path} does not exist."
-                )
-            
-            profile = user.load_user_profile(file_path)
-            query_text = user.build_user_text(profile)
-            embedding = user.encode_user_text(query_text)
-            
-            # Upsert so it's there next time
-            user.upsert_user_profile(user_id, query_text, embedding, profile)
-            
-            if not genres:
-                filter_genres = profile.get("genres", [])
+            # If not in DB, encode from profile
+            if profile:
+                print(f"[Backend] Embedding not in DB. Encoding from profile...")
+                query_text = user.build_user_text(profile)
+                embedding = user.encode_user_text(query_text)
+                user.upsert_user_profile(user_id, query_text, embedding, profile)
+            else:
+                raise HTTPException(status_code=404, detail="User not found")
 
         # Override genres if provided in query
         if genres:
@@ -249,13 +285,16 @@ def get_recommendations(
         if not embedding:
             raise HTTPException(status_code=500, detail="Failed to obtain user embedding.")
 
-        results = user.search_movies(embedding, top_k, filters=filter_genres)
+        # 3. Search with exclusion
+        results = user.search_movies(embedding, top_k, filters=filter_genres, exclude_ids=exclude_ids)
         
         recommendations = []
         if results and results["ids"]:
             ids = results["ids"][0]
             metadatas = results["metadatas"][0]
             distances = results["distances"][0]
+            
+            print(f"[Backend] Engine returned {len(ids)} candidates after exclusion.")
             
             for idx, movie_id in enumerate(ids):
                 meta = metadatas[idx]
