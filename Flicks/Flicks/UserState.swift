@@ -89,38 +89,48 @@ class UserState: ObservableObject {
 
     func syncUserProfile() async {
         let name = "Shamik Karkhanis"
-        let request = CreateUserProfileRequest(
-            name: name, // Ideally this comes from a user input or auth
-            genres: genres,
-            movie_ids: history.map { $0.tmdbId }
-        )
-
+        
         do {
-            try await APIService.shared.createUserProfile(request: request)
-            print("User profile synced successfully.")
+            // 1. Upload Profile
+            try await APIService.shared.createProfile(name: name, genres: genres, movies: history)
+            print("User profile created successfully.")
             
-            // Fetch recommendations
-            let dtos = try await APIService.shared.fetchRecommendations(for: name)
-            let movies = dtos.map { dto in
-                Movie(
-                    tmdbId: Int(dto.movie_id) ?? 0,
-                    title: dto.title,
-                    subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
-                    imageName: dto.backdrop_path.map { "https://image.tmdb.org/t/p/original\($0)" } ?? "",
-                    friendInitials: [],
-                    dateAdded: Date(),
-                    dateWatched: Date()
-                )
-            }
+            // 2. Fetch Fresh Recommendations
+            await fetchRecommendations()
+            
+        } catch {
+            print("Failed to sync user profile: \(error)")
+        }
+    }
+    
+    func updateUserProfile() async {
+        let name = "Shamik Karkhanis"
+        
+        do {
+            // 1. Update Profile (Encode)
+            try await APIService.shared.updateProfile(name: name, genres: genres, movies: history)
+            print("User profile updated successfully.")
+            
+            // 2. Fetch Fresh Recommendations
+            await fetchRecommendations()
+            
+        } catch {
+            print("Failed to update user profile: \(error)")
+        }
+    }
+    
+    func fetchRecommendations() async {
+        let name = "Shamik Karkhanis"
+        do {
+            let movies = try await APIService.shared.getRecommendations(for: name)
             
             self.allFetchedMovies = movies
             
             await MainActor.run {
                 self.recommendations = Array(movies.prefix(10))
             }
-            
         } catch {
-            print("Failed to sync user profile or fetch recommendations: \(error)")
+            print("Failed to fetch recommendations: \(error)")
         }
     }
     

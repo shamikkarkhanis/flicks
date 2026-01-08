@@ -98,8 +98,8 @@ struct MovieDetailView: View {
                                                 .glassEffect(.regular.tint(Color(uiColor: backgroundColors[safe: 0] ?? .gray).opacity(0.6)))
                                             ratingBadge(title: "Audience", value: "89")
                                                 .glassEffect(.regular.tint(Color(uiColor: backgroundColors[safe: 0] ?? .gray).opacity(0.6)))
-                                            ratingBadge(title: "Your Friends", value: "91")
-                                                .glassEffect(.regular.tint(Color(uiColor: backgroundColors[safe: 0] ?? .gray).opacity(0.6)))
+                                            // ratingBadge(title: "Your Friends", value: "91")
+                                            //    .glassEffect(.regular.tint(Color(uiColor: backgroundColors[safe: 0] ?? .gray).opacity(0.6)))
                                         }
                                     }
 
@@ -111,23 +111,23 @@ struct MovieDetailView: View {
                                             .foregroundStyle(.secondary)
                                     }
 
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text("Friends")
-                                            .font(.headline)
-                                        ForEach(friendInitials, id: \.self) { initials in
-                                            HStack(spacing: 12) {
-                                                ZStack {
-                                                    Circle()
-                                                        .frame(width: 32, height: 32)
-                                                        .glassEffect()
-                                                    Text(initials)
-                                                        .font(.caption2).bold()
-                                                }
-                                                Text("\(initials) rated it \(Int.random(in: 7...10))/10")
-                                                    .font(.subheadline)
-                                            }
-                                        }
-                                    }
+                                    // VStack(alignment: .leading, spacing: 8) {
+                                    //    Text("Friends")
+                                    //        .font(.headline)
+                                    //    ForEach(friendInitials, id: \.self) { initials in
+                                    //        HStack(spacing: 12) {
+                                    //            ZStack {
+                                    //                Circle()
+                                    //                    .frame(width: 32, height: 32)
+                                    //                    .glassEffect()
+                                    //                Text(initials)
+                                    //                    .font(.caption2).bold()
+                                    //            }
+                                    //            Text("\(initials) rated it \(Int.random(in: 7...10))/10")
+                                    //                .font(.subheadline)
+                                    //        }
+                                    //    }
+                                    // }
                                 }
                                 .padding(20)
                             }

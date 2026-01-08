@@ -27,7 +27,9 @@ struct OnboardingView: View {
                     
                     Button {
                         Task {
+                            // Sync profile and fetch initial recommendations
                             await userState.syncUserProfile()
+                            
                             withAnimation {
                                 hasCompletedOnboarding = true
                             }

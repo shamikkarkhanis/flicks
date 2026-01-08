@@ -78,12 +78,30 @@ struct WatchlistView: View {
     }
 
     private func updateBackground(for movieID: UUID) {
-        guard let movie = movies.first(where: { $0.id == movieID }),
-              let uiImage = UIImage(named: movie.imageName),
-              let colors = AppStyle.dominantColors(from: uiImage),
-              let newGradient = AppStyle.gradient(from: colors)
-        else { return }
-
+        guard let movie = movies.first(where: { $0.id == movieID }) else { return }
+        
+        if movie.imageName.hasPrefix("http"), let url = URL(string: movie.imageName) {
+            Task {
+                do {
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    if let uiImage = UIImage(data: data) {
+                        await MainActor.run {
+                            applyColors(from: uiImage)
+                        }
+                    }
+                } catch {
+                    print("Failed to load background image: \(error)")
+                }
+            }
+        } else if let uiImage = UIImage(named: movie.imageName) {
+            applyColors(from: uiImage)
+        }
+    }
+    
+    private func applyColors(from image: UIImage) {
+        guard let colors = AppStyle.dominantColors(from: image),
+              let newGradient = AppStyle.gradient(from: colors) else { return }
+        
         withAnimation(.linear(duration: 0.6)) {
             self.backgroundGradient = newGradient
         }

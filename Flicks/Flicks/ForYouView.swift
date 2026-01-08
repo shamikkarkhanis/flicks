@@ -53,6 +53,11 @@ struct ForYouView: View {
                     if scrollPosition == nil, let first = movies.first {
                         scrollPosition = first.id
                     }
+                    if userState.recommendations.isEmpty {
+                        Task {
+                            await userState.fetchRecommendations()
+                        }
+                    }
                 }
                 
                 // Watchlist Add Button & Rate Button

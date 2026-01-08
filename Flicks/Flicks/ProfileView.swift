@@ -76,7 +76,7 @@ struct ProfileView: View {
                     .font(.system(size: 22, weight: .semibold))
                     .foregroundStyle(.primary)
 
-                Text("Movie lover • Curated picks for friends")
+                Text("Movie lover")
                     .font(.system(size: 15))
                     .foregroundStyle(.secondary)
             }
