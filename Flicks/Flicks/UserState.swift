@@ -16,10 +16,78 @@ class UserState: ObservableObject {
     private var shownMovieIds: Set<Int> = []
     
     private var isLoading = false
+    private var isProcessingQueue = false
+    
+    // Retry Queue Definitions
+    enum PendingAction {
+        case rate(movieId: Int, rating: String, movieTitle: String)
+        case watchlistAdd(movieId: Int, movieTitle: String)
+        case watchlistRemove(movieId: Int, movieTitle: String)
+        case syncShown(movieIds: [Int])
+    }
+    
+    private var pendingActions: [PendingAction] = []
 
     init() {
         Task {
             await fetchUserProfile()
+        }
+    }
+    
+    private func processPendingActions() {
+        guard !isProcessingQueue, !pendingActions.isEmpty else { return }
+        isProcessingQueue = true
+        
+        Task {
+            print("[RetryQueue] Processing \(pendingActions.count) pending actions...")
+            
+            // Iterate safely through a copy or by index, 
+            // but since we want to retry in order, we'll try the first one.
+            // If it succeeds, remove and continue.
+            // If it fails, stop processing (wait for next trigger).
+            
+            while !pendingActions.isEmpty {
+                let action = pendingActions[0] // Peek
+                
+                do {
+                    switch action {
+                    case .rate(let movieId, let rating, let title):
+                        print("[RetryQueue] Retrying rating for '\(title)'...")
+                        try await APIService.shared.rateMovie(userId: currentUserId, movieId: movieId, rating: rating)
+                        // Special handling for rating session count
+                        ratingSessionCount += 1
+                        if ratingSessionCount % 3 == 0 {
+                            print("[RetryQueue] Triggering refill fetch from queued rating...")
+                            await fetchRecommendations(isLiveRefill: true)
+                        }
+                        
+                    case .watchlistAdd(let movieId, let title):
+                        print("[RetryQueue] Retrying watchlist add for '\(title)'...")
+                        try await APIService.shared.addToWatchlist(userId: currentUserId, movieId: movieId)
+                        
+                    case .watchlistRemove(let movieId, let title):
+                        print("[RetryQueue] Retrying watchlist remove for '\(title)'...")
+                        try await APIService.shared.removeFromWatchlist(userId: currentUserId, movieId: movieId)
+                        
+                    case .syncShown(let movieIds):
+                        print("[RetryQueue] Retrying sync for \(movieIds.count) shown movies...")
+                        try await APIService.shared.syncShownMovies(userId: currentUserId, movieIds: movieIds)
+                    }
+                    
+                    // Success! Remove from queue.
+                    print("[RetryQueue] Action successful. Removing from queue.")
+                    pendingActions.removeFirst()
+                    
+                } catch {
+                    print("[RetryQueue] Action failed: \(error). Pausing queue.")
+                    // Stop processing. We will try again later when a new action is triggered or network returns.
+                    isProcessingQueue = false
+                    return
+                }
+            }
+            
+            print("[RetryQueue] Queue emptied.")
+            isProcessingQueue = false
         }
     }
     
@@ -62,31 +130,18 @@ class UserState: ObservableObject {
             watchlist.append(newMovie)
         }
         
-        // Background API Call
-        Task {
-            do {
-                try await APIService.shared.addToWatchlist(userId: currentUserId, movieId: movie.tmdbId)
-                print("Added to watchlist on backend: \(movie.title)")
-            } catch {
-                print("Failed to add to watchlist backend: \(error)")
-                // Optionally revert UI here
-            }
-        }
+        // Queue Action
+        pendingActions.append(.watchlistAdd(movieId: movie.tmdbId, movieTitle: movie.title))
+        processPendingActions()
     }
 
     func removeFromWatchlist(_ movie: Movie) {
         // Optimistic UI Update
         watchlist.removeAll { $0.id == movie.id }
         
-        // Background API Call
-        Task {
-            do {
-                try await APIService.shared.removeFromWatchlist(userId: currentUserId, movieId: movie.tmdbId)
-                print("Removed from watchlist on backend: \(movie.title)")
-            } catch {
-                print("Failed to remove from watchlist backend: \(error)")
-            }
-        }
+        // Queue Action
+        pendingActions.append(.watchlistRemove(movieId: movie.tmdbId, movieTitle: movie.title))
+        processPendingActions()
     }
     
     // MARK: - Rating & History
@@ -129,23 +184,10 @@ class UserState: ObservableObject {
             rebuildGenres()
         }
         
-        // 2. Background Sync & "Live" Refill
-        do {
-            print("[LiveRecs] Sending rating for '\(movie.title)' as \(rating.apiString)...")
-            // Send rating to backend
-            try await APIService.shared.rateMovie(userId: currentUserId, movieId: movie.tmdbId, rating: rating.apiString)
-            print("[LiveRecs] Successfully rated '\(movie.title)' on backend.")
-            
-            ratingSessionCount += 1
-            
-            // Fetch fresh recommendations every 3 ratings to keep the feed alive
-            if ratingSessionCount % 3 == 0 {
-                print("[LiveRecs] Triggering refill fetch (Session count: \(ratingSessionCount))...")
-                await fetchRecommendations(isLiveRefill: true)
-            }
-        } catch {
-            print("[LiveRecs] Failed to sync rating or fetch live recs: \(error)")
-        }
+        // 2. Queue Action & Process
+        print("[LiveRecs] Queuing rating for '\(movie.title)' as \(rating.apiString)...")
+        pendingActions.append(.rate(movieId: movie.tmdbId, rating: rating.apiString, movieTitle: movie.title))
+        processPendingActions()
     }
     
     func removeFromHistory(_ movie: Movie) {
@@ -268,16 +310,16 @@ class UserState: ObservableObject {
 
     private func flushShownMovies() {
         let idsToSync = Array(shownMovieIds)
+        guard !idsToSync.isEmpty else { return }
+        
+        // Queue the sync action
+        // We clear the local set immediately because we've safely moved the IDs into the pending queue.
+        // Even if the network fails, they remain in 'pendingActions'.
         shownMovieIds.removeAll()
         
-        Task {
-            do {
-                print("[LiveRecs] Syncing \(idsToSync.count) shown IDs...")
-                try await APIService.shared.syncShownMovies(userId: currentUserId, movieIds: idsToSync)
-            } catch {
-                print("[LiveRecs] Failed to sync shown movies: \(error)")
-            }
-        }
+        print("[LiveRecs] Queuing sync for \(idsToSync.count) shown IDs...")
+        pendingActions.append(.syncShown(movieIds: idsToSync))
+        processPendingActions()
     }
     
     func loadMoreMovies() {
