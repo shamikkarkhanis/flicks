@@ -1,0 +1,18 @@
+2026-01-08 11:38:24,682 [INFO] Starting server run #1. Logging to logs/server_1.log
+2026-01-08 11:38:26,111 [INFO] path / | method GET | duration 0.0015s | status 200
+2026-01-08 11:38:26,116 [INFO] path / | method GET | duration 0.0004s | status 200
+2026-01-08 11:38:26,565 [INFO] Use pytorch device_name: mps
+2026-01-08 11:38:26,565 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 11:38:28,953 [INFO] action encode_user_text | duration 2.4152s
+2026-01-08 11:38:28,969 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-08 11:38:29,076 [INFO] path /encode | method POST | duration 2.9564s | status 200
+2026-01-08 11:38:29,079 [INFO] path /users/test_bot_999 | method GET | duration 0.0007s | status 200
+2026-01-08 11:38:29,082 [INFO] path /users/test_bot_999/watchlist | method POST | duration 0.0009s | status 200
+2026-01-08 11:38:29,085 [INFO] path /users/test_bot_999/watchlist/157336 | method DELETE | duration 0.0009s | status 200
+2026-01-08 11:38:29,254 [INFO] Use pytorch device_name: mps
+2026-01-08 11:38:29,254 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-08 11:38:31,192 [INFO] action encode_user_text | duration 1.9389s
+2026-01-08 11:38:31,204 [INFO] path /users/test_bot_999/ratings | method POST | duration 2.1176s | status 200
+2026-01-08 11:38:31,207 [INFO] path /users/test_bot_999/sync | method POST | duration 0.0010s | status 200
+2026-01-08 11:38:31,453 [INFO] action search_movies | duration 0.2295s | exclude_count 4
+2026-01-08 11:38:31,454 [INFO] path /users/test_bot_999/recommendations | method GET | duration 0.2442s | status 200

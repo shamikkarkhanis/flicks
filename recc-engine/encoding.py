@@ -28,30 +28,53 @@ collection = client.get_or_create_collection(name="movies")
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-ids = []
-documents = []
-metadatas = []
+all_ids = []
+all_documents = []
+all_metadatas = []
+
+print(f"Preparing data for {len(data)} items...")
 for item in data:
-    # 1. Keep your original logic
-    ids.append(str(item.get("id")))
-    documents.append(build_text(item))
+    # Fallback: if no backdrop, use poster_path
+    if not item.get("backdrop_path"):
+        item["backdrop_path"] = item.get("poster_path")
+
+    all_ids.append(str(item.get("id")))
+    all_documents.append(build_text(item))
     
-    # 2. Minimal Metadata Change: Add Boolean Flags
-    metadata = {"payload": json.dumps(item)}
+    # Add 'language' to metadata for filtering
+    metadata = {
+        "payload": json.dumps(item),
+        "language": item.get("original_language", "unknown")
+    }
+    
     for g in item.get("genres", []):
         name = g.get("name")
         if name:
-            # This creates fields like "is_Action": True, "is_Drama": True
             metadata[f"is_{name}"] = True 
             
-    metadatas.append(metadata)
+    all_metadatas.append(metadata)
 
-embeddings = model.encode(documents, show_progress_bar=True).tolist()
-print(f"Generated {len(embeddings)} embeddings.")
+# Define batch size (Chroma limit is approx 5400, so 5000 is safe)
+BATCH_SIZE = 5000
+total_items = len(all_ids)
 
-collection.upsert(
-    ids=ids,
-    embeddings=embeddings,
-    metadatas=metadatas,
-    documents=documents,
-)
+for i in range(0, total_items, BATCH_SIZE):
+    batch_end = min(i + BATCH_SIZE, total_items)
+    print(f"\nProcessing batch: {i} to {batch_end} (Total: {total_items})")
+    
+    batch_ids = all_ids[i:batch_end]
+    batch_docs = all_documents[i:batch_end]
+    batch_meta = all_metadatas[i:batch_end]
+    
+    print(f"Encoding {len(batch_docs)} documents...")
+    batch_embeddings = model.encode(batch_docs, show_progress_bar=True).tolist()
+    
+    print(f"Upserting batch to ChromaDB...")
+    collection.upsert(
+        ids=batch_ids,
+        embeddings=batch_embeddings,
+        metadatas=batch_meta,
+        documents=batch_docs,
+    )
+
+print("\nEncoding and indexing complete.")

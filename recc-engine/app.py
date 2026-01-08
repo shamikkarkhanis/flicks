@@ -1,18 +1,48 @@
 import json
 import os
+import time
+import logging
+import glob
 from typing import Optional, List
 
-from fastapi import FastAPI, HTTPException, Query, Path
+from fastapi import FastAPI, HTTPException, Query, Path, Request
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
 from tmdb_api import TMDBClient
 import user
 
+# Configure logging with rotating run files
+os.makedirs("logs", exist_ok=True)
+existing_logs = glob.glob("logs/server_*.log")
+indices = [int(f.split("_")[-1].split(".")[0]) for f in existing_logs if "_" in f]
+next_index = max(indices) + 1 if indices else 1
+log_filename = f"logs/server_{next_index}.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(log_filename),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("recc-engine")
+logger.info("Starting server run #%d. Logging to %s", next_index, log_filename)
+
 load_dotenv()
 tmdb_client = TMDBClient(os.getenv("TMDB_BEARER"))
 
 app = FastAPI(title="Recc Engine API")
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    duration = time.time() - start_time
+    logger.info("path %s | method %s | duration %.4fs | status %d", 
+                request.url.path, request.method, duration, response.status_code)
+    return response
 
 class Recommendation(BaseModel):
     movie_id: str
@@ -232,7 +262,8 @@ def sync_user_data(user_id: str, request: SyncRequest):
 def get_recommendations(
     user_id: str, 
     top_k: int = 20, 
-    genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by")
+    genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by"),
+    language: Optional[str] = Query(None, description="Language code to filter by (e.g. 'en', 'es')")
 ):
     """
     Get movie recommendations for a user based on their stored embedding.
@@ -285,8 +316,14 @@ def get_recommendations(
         if not embedding:
             raise HTTPException(status_code=500, detail="Failed to obtain user embedding.")
 
-        # 3. Search with exclusion
-        results = user.search_movies(embedding, top_k, filters=filter_genres, exclude_ids=exclude_ids)
+        # 3. Search with exclusion and language filter
+        results = user.search_movies(
+            embedding, 
+            top_k, 
+            filters=filter_genres, 
+            exclude_ids=exclude_ids,
+            language=language
+        )
         
         recommendations = []
         if results and results["ids"]:

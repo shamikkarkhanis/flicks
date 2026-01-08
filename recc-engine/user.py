@@ -1,10 +1,14 @@
 import argparse
 import json
 import os
+import time
+import logging
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
+# Configure logging
+logger = logging.getLogger("recc-engine.user")
 
 def build_user_text(profile):
     genres = profile.get("genres", [])
@@ -160,8 +164,12 @@ def get_profile_from_db(user_id):
 
 
 def encode_user_text(text):
+    start_time = time.time()
     model = SentenceTransformer("all-MiniLM-L6-v2")
-    return model.encode([text]).tolist()
+    encoding = model.encode([text]).tolist()
+    duration = time.time() - start_time
+    logger.info("action encode_user_text | duration %.4fs", duration)
+    return encoding
 
 
 def upsert_user_profile(user_id, text, embedding, profile):
@@ -175,21 +183,32 @@ def upsert_user_profile(user_id, text, embedding, profile):
     )
 
 
-def search_movies(embedding, top_k, filters=None, exclude_ids=None):
+def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=None):
+    start_time = time.time()
     client = chromadb.PersistentClient(path="chroma")
     collection = client.get_or_create_collection(name="movies")
     
-    where_filter = None
+    conditions = []
+    
+    # Genre filters (OR)
     if filters:
-        # ... (keep existing filter logic)
-        conditions = [{f"is_{genre}": True} for genre in filters]
-        if len(conditions) == 1:
-            where_filter = conditions[0]
+        genre_conditions = [{f"is_{genre}": True} for genre in filters]
+        if len(genre_conditions) == 1:
+            conditions.append(genre_conditions[0])
         else:
-            where_filter = {"$or": conditions}
+            conditions.append({"$or": genre_conditions})
+            
+    # Language filter
+    if language:
+        conditions.append({"language": language})
+
+    where_filter = None
+    if len(conditions) == 1:
+        where_filter = conditions[0]
+    elif len(conditions) > 1:
+        where_filter = {"$and": conditions}
 
     # Fetch a large enough pool to guarantee top_k after exclusion
-    # 150 is a safe bet for a medium sized database
     fetch_k = max(150, top_k * 2)
     
     results = collection.query(
@@ -200,13 +219,15 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None):
     )
 
     if not exclude_ids:
-        # Still truncate to top_k for consistency
-        return {
+        res = {
             "ids": [results["ids"][0][:top_k]],
             "distances": [results["distances"][0][:top_k]],
             "metadatas": [results["metadatas"][0][:top_k]],
             "documents": [results["documents"][0][:top_k]]
         }
+        duration = time.time() - start_time
+        logger.info("action search_movies | duration %.4fs | exclude_count 0", duration)
+        return res
 
     # Python-side filtering for ID exclusion
     exclude_set = {str(eid) for eid in exclude_ids}
@@ -229,6 +250,8 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None):
         if len(new_results["ids"][0]) >= top_k:
             break
             
+    duration = time.time() - start_time
+    logger.info("action search_movies | duration %.4fs | exclude_count %d", duration, len(exclude_ids))
     return new_results
 
 
