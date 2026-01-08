@@ -32,12 +32,6 @@ struct ForYouView: View {
                             
                             movieCard(for: movie, prevImage: prevMovie?.imageName, nextImage: nextMovie?.imageName)
                                 .containerRelativeFrame([.horizontal, .vertical])
-                                .onTapGesture(count: 2) {
-                                    interactingMovie = movie
-                                    withAnimation(.spring()) {
-                                        showRateMenu = true
-                                    }
-                                }
                                 .onTapGesture {
                                     selectedMovie = movie
                                 }
@@ -61,11 +55,25 @@ struct ForYouView: View {
                     }
                 }
                 
-                // Watchlist Add Button
+                // Watchlist Add Button & Rate Button
                 if !showRateMenu, let currentId = scrollPosition ?? movies.first?.id, let currentMovie = movies.first(where: { $0.id == currentId }) {
                     VStack {
                         Spacer()
                         HStack {
+                            RateTriggerButton(
+                                rating: {
+                                    if userState.likedMovies.contains(where: { $0.id == currentMovie.id }) { return .like }
+                                    if userState.neutralMovies.contains(where: { $0.id == currentMovie.id }) { return .neutral }
+                                    if userState.dislikedMovies.contains(where: { $0.id == currentMovie.id }) { return .dislike }
+                                    return nil
+                                }(),
+                                action: {
+                                    interactingMovie = currentMovie
+                                    withAnimation(.spring()) {
+                                        showRateMenu = true
+                                    }
+                                }
+                            )
                             Spacer()
                             WatchlistButton(
                                 isAdded: Binding(
@@ -83,9 +91,10 @@ struct ForYouView: View {
                                 }
                             )
                         }
-                        .padding(.trailing, 45)
-                        .padding(.bottom, 17)
+                        .padding(.horizontal, 40)
+                        .padding(.bottom, 14)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                     .transition(.opacity)
                     .zIndex(50)
                 }
@@ -118,6 +127,12 @@ struct ForYouView: View {
                                 print("Liked \(movie.title)")
                             }
                         },
+                        onRemove: {
+                            if let movie = interactingMovie {
+                                userState.removeFromHistory(movie)
+                                print("Removed rating for \(movie.title)")
+                            }
+                        },
                         onDismiss: {
                             withAnimation {
                                 showRateMenu = false
@@ -128,13 +143,16 @@ struct ForYouView: View {
                     .zIndex(100)
                 }
                 
-                // "For You" Menu Button
                 if !showRateMenu {
                     MenuButton(currentTitle: "For You")
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                         .padding(.bottom, 10)
                         .transition(.scale(scale: 0.8).combined(with: .opacity))
                 }
+
+                
+                // "For You" Menu Button
+                
                 
 //                SearchOverlay(
 //                    isSearching: $isSearching,

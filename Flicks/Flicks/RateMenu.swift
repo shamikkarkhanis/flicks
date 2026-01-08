@@ -8,16 +8,18 @@ struct RateMenu: View {
     var onDislike: () -> Void
     var onNeutral: () -> Void
     var onLike: () -> Void
+    var onRemove: () -> Void
     var onDismiss: () -> Void
 
     @State private var selectedOption: Option?
     @State private var isAnimated = false
 
-    init(initialRating: Option? = nil, onDislike: @escaping () -> Void, onNeutral: @escaping () -> Void, onLike: @escaping () -> Void, onDismiss: @escaping () -> Void) {
+    init(initialRating: Option? = nil, onDislike: @escaping () -> Void, onNeutral: @escaping () -> Void, onLike: @escaping () -> Void, onRemove: @escaping () -> Void, onDismiss: @escaping () -> Void) {
         _selectedOption = State(initialValue: initialRating)
         self.onDislike = onDislike
         self.onNeutral = onNeutral
         self.onLike = onLike
+        self.onRemove = onRemove
         self.onDismiss = onDismiss
     }
 
@@ -27,6 +29,9 @@ struct RateMenu: View {
             Color.black.opacity(isAnimated ? 0.4 : 0)
                 .ignoresSafeArea()
                 .onTapGesture {
+                    if selectedOption == nil {
+                        onRemove()
+                    }
                     onDismiss()
                 }
 
@@ -93,6 +98,7 @@ struct RateMenu: View {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                 selectedOption = nil
             }
+            // Do not dismiss automatically on deselect, allow user to pick another or dismiss manually
         } else {
             withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
                 selectedOption = option
@@ -162,6 +168,6 @@ struct RateButton: View {
 #Preview {
     ZStack {
         Color.black
-        RateMenu(onDislike: {}, onNeutral: {}, onLike: {}, onDismiss: {})
+        RateMenu(onDislike: {}, onNeutral: {}, onLike: {}, onRemove: {}, onDismiss: {})
     }
 }
