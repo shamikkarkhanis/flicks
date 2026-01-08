@@ -2,7 +2,7 @@ import json
 import os
 from typing import Optional, List
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Path
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -85,6 +85,114 @@ def encode_user(user_data: UserCreate):
         return {
             "message": f"User {user_data.name} created/updated and encoded successfully.",
             "profile_preview": profile
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/users/{user_id}")
+def get_user_profile(user_id: str):
+    """
+    Returns the full user profile (watchlist, history, ratings, etc.)
+    """
+    file_path = f"users/{user_id}.json"
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="User profile not found")
+    
+    try:
+        profile = user.load_user_profile(file_path)
+        return profile
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class WatchlistRequest(BaseModel):
+    movie_id: int
+
+@app.post("/users/{user_id}/watchlist")
+def add_to_watchlist(user_id: str, request: WatchlistRequest):
+    """
+    Adds a movie to the user's watchlist.
+    """
+    try:
+        file_path = f"users/{user_id}.json"
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="User profile not found")
+
+        updated_profile = user.update_user_data(file_path, request.movie_id, "watchlist")
+        return {"message": "Added to watchlist", "data": updated_profile["data"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/users/{user_id}/watchlist/{movie_id}")
+def remove_from_watchlist(user_id: str, movie_id: int):
+    """
+    Removes a movie from the user's watchlist.
+    """
+    try:
+        file_path = f"users/{user_id}.json"
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="User profile not found")
+
+        updated_profile = user.update_user_data(file_path, movie_id, "remove_watchlist")
+        return {"message": "Removed from watchlist", "data": updated_profile["data"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class RatingRequest(BaseModel):
+    movie_id: int
+    rating: str  # "like", "dislike", "neutral"
+
+@app.post("/users/{user_id}/ratings")
+def rate_movie(user_id: str, request: RatingRequest):
+    """
+    Updates the user's rating for a movie (like/dislike/neutral).
+    If 'like', it fetches keywords, updates the profile, and re-encodes the user
+    to provide live recommendation updates.
+    """
+    if request.rating not in ["like", "dislike", "neutral"]:
+         raise HTTPException(status_code=400, detail="Invalid rating. Must be 'like', 'dislike', or 'neutral'.")
+
+    try:
+        file_path = f"users/{user_id}.json"
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="User profile not found")
+
+        # 1. Update the local JSON data (history, liked/disliked lists)
+        action_map = {
+            "like": "liked",
+            "dislike": "disliked",
+            "neutral": "neutral"
+        }
+        updated_profile = user.update_user_data(file_path, request.movie_id, action_map[request.rating])
+        
+        # 2. If liked, we need to update keywords and re-embed for live recs
+        if request.rating == "like":
+            try:
+                # Fetch new keywords
+                kw_resp = tmdb_client.keywords(request.movie_id)
+                keywords_data = kw_resp.get("keywords", [])
+                new_kws = [k["name"] for k in keywords_data if "name" in k]
+                
+                # Merge with existing keywords
+                current_keywords = set(updated_profile.get("keywords", []))
+                if new_kws:
+                    current_keywords.update(new_kws)
+                    updated_profile["keywords"] = list(current_keywords)
+                    
+                    # Save the keyword update to disk
+                    user.save_user_profile(file_path, updated_profile)
+                    
+                    # Re-encode and Upsert
+                    query_text = user.build_user_text(updated_profile)
+                    embedding = user.encode_user_text(query_text)
+                    user.upsert_user_profile(user_id, query_text, embedding, updated_profile)
+            except Exception as tmdb_error:
+                print(f"Warning: Failed to fetch keywords or re-embed for movie {request.movie_id}: {tmdb_error}")
+                # We don't fail the request, just the optimization
+        
+        return {
+            "message": f"Movie rated {request.rating}", 
+            "data": updated_profile["data"]
         }
 
     except Exception as e:

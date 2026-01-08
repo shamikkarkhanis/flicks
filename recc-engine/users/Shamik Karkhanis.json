@@ -2,81 +2,50 @@
     {
         "name": "Shamik Karkhanis",
         "genres": [
-            "Action",
-            "Adventure",
-            "Animation",
-            "Classic",
-            "Crime",
             "Drama",
-            "Sci\u2011Fi"
+            "Music",
+            "Romance"
         ],
         "data": {
             "liked": [
-                324857,
-                155,
-                827,
-                1726
+                313369
             ],
             "disliked": [],
             "neutral": [],
             "watchlist": [],
             "history": [
-                324857,
-                155,
-                827,
-                1726
+                313369
             ],
             "shown": [
-                324857,
-                155,
-                827,
-                1726
+                313369
             ]
         },
         "keywords": [
-            "organized crime",
-            "counterterrorism",
-            "arms dealer",
-            "crime fighter",
-            "scarecrow",
+            "white savior",
+            "exuberant",
+            "ambition",
+            "pool party",
+            "audition",
             "bold",
-            "mischievous children",
-            "boys' boarding school",
-            "french noir",
-            "swimming pool",
-            "sadism",
-            "secret identity",
-            "anti hero",
-            "based on comic",
-            "aftercreditsstinger",
-            "malibu",
-            "super power",
-            "district attorney",
-            "chaos",
-            "plan gone wrong",
-            "headmaster",
-            "black and white",
-            "marvel cinematic universe (mcu)",
-            "super villain",
-            "abused wife",
-            "alternate universe",
-            "tragic hero",
-            "philanderer",
-            "female lover",
-            "missing body",
-            "wicker trunk",
-            "morgue",
-            "teacher",
-            "abusive husband",
-            "frightened woman",
-            "neo-noir",
-            "anti villain",
-            "mistress",
-            "middle east",
-            "criminal mastermind",
-            "wife",
-            "superhero",
-            "vigilante"
+            "jazz",
+            "coffee shop",
+            "planetarium",
+            "valentine's day",
+            "aspiring actor",
+            "hollywood",
+            "pianist",
+            "pier",
+            "griffith observatory",
+            "movie set",
+            "sunset",
+            "one-woman show",
+            "los angeles, california",
+            "traffic jam",
+            "dancing",
+            "dance",
+            "musical",
+            "jazz club",
+            "casting"
         ]
     }
 ]
