@@ -37,15 +37,18 @@ def encode_user(user_data: UserCreate):
     Fetches keywords for movie_ids, saves the profile to disk, and encodes/upserts to DB.
     """
     try:
-        # Construct initial profile with new history structure
+        # Construct initial profile with new data structure
+        # movie_ids generally implies 'liked' in this initial creation context
         profile = {
             "name": user_data.name,
             "genres": user_data.genres,
-            "history": {
+            "data": {
                 "liked": user_data.movie_ids,
                 "disliked": [],
+                "neutral": [],
                 "watchlist": [],
-                "seen": user_data.movie_ids[:] # Copy liked to seen
+                "history": user_data.movie_ids[:], # Implies watched
+                "shown": user_data.movie_ids[:]    # Implies seen
             },
             "keywords": []
         }
@@ -69,13 +72,8 @@ def encode_user(user_data: UserCreate):
             profile["keywords"] = list(current_keywords)
 
         # Save to disk using user.py's helper to ensure consistency
-        # We can't use user.save_user_profile directly because we need to handle the path logic here 
-        # or update the helper. But let's just use the logic we know.
         file_path = f"users/{user_data.name}.json"
         
-        # Use the helper from user.py if possible, or replicate safe save
-        # Importing save_user_profile would be better if I exposed it.
-        # I did expose it in the previous step.
         user.save_user_profile(file_path, profile)
 
         # Encode and Upsert

@@ -28,13 +28,17 @@
             "subconscious",
             "airplane"
         ],
-        "history": {
+        "data": {
             "liked": [
                 27205
             ],
             "disliked": [],
+            "neutral": [],
             "watchlist": [],
-            "seen": [
+            "history": [
+                27205
+            ],
+            "shown": [
                 27205
             ]
         }

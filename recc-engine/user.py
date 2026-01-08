@@ -30,19 +30,22 @@ def load_user_profile(path):
     else:
         raise ValueError(f"{path} must be a JSON object or a list of objects.")
     
-    # Ensure history structure exists
-    if "history" not in profile:
-        profile["history"] = {
+    # Ensure data structure exists
+    if "data" not in profile:
+        profile["data"] = {
             "liked": [],
             "disliked": [],
+            "neutral": [],
             "watchlist": [],
-            "seen": []
+            "history": [],
+            "shown": []
         }
     else:
         # Ensure all keys exist
-        for key in ["liked", "disliked", "watchlist", "seen"]:
-            if key not in profile["history"]:
-                profile["history"][key] = []
+        required_keys = ["liked", "disliked", "neutral", "watchlist", "history", "shown"]
+        for key in required_keys:
+            if key not in profile["data"]:
+                profile["data"][key] = []
                 
     return profile
 
@@ -68,48 +71,77 @@ def save_user_profile(path, profile):
     with open(path, "w") as f:
         json.dump(output_data, f, indent=4)
 
-def update_user_history(user_path, movie_id, action):
+def update_user_data(user_path, movie_id, action):
     profile = load_user_profile(user_path)
-    history = profile["history"]
+    data = profile["data"]
     
-    # Ensure ID is int if stored as such, or string. Consistency matters.
-    # Assuming int based on previous file inspection.
     try:
         movie_id = int(movie_id)
     except ValueError:
-        pass # Keep as string if not castable
+        pass 
 
     if action == "liked":
-        if movie_id not in history["liked"]:
-            history["liked"].append(movie_id)
-        # Liked implies seen
-        if movie_id not in history["seen"]:
-            history["seen"].append(movie_id)
-        # Remove from disliked if present
-        if movie_id in history["disliked"]:
-            history["disliked"].remove(movie_id)
+        if movie_id not in data["liked"]:
+            data["liked"].append(movie_id)
+        # Liked implies history (watched/interacted) and shown
+        if movie_id not in data["history"]:
+            data["history"].append(movie_id)
+        if movie_id not in data["shown"]:
+            data["shown"].append(movie_id)
+        
+        # Remove from conflicting states
+        if movie_id in data["disliked"]:
+            data["disliked"].remove(movie_id)
+        if movie_id in data["neutral"]:
+            data["neutral"].remove(movie_id)
             
     elif action == "disliked":
-        if movie_id not in history["disliked"]:
-            history["disliked"].append(movie_id)
-        # Disliked implies seen
-        if movie_id not in history["seen"]:
-            history["seen"].append(movie_id)
-        # Remove from liked if present
-        if movie_id in history["liked"]:
-            history["liked"].remove(movie_id)
+        if movie_id not in data["disliked"]:
+            data["disliked"].append(movie_id)
+        # Disliked implies history and shown
+        if movie_id not in data["history"]:
+            data["history"].append(movie_id)
+        if movie_id not in data["shown"]:
+            data["shown"].append(movie_id)
+            
+        # Remove from conflicting states
+        if movie_id in data["liked"]:
+            data["liked"].remove(movie_id)
+        if movie_id in data["neutral"]:
+            data["neutral"].remove(movie_id)
+
+    elif action == "neutral":
+        if movie_id not in data["neutral"]:
+            data["neutral"].append(movie_id)
+        # Neutral implies history (user rated it neutral) and shown
+        if movie_id not in data["history"]:
+            data["history"].append(movie_id)
+        if movie_id not in data["shown"]:
+            data["shown"].append(movie_id)
+            
+        # Remove from conflicting states
+        if movie_id in data["liked"]:
+            data["liked"].remove(movie_id)
+        if movie_id in data["disliked"]:
+            data["disliked"].remove(movie_id)
             
     elif action == "watchlist":
-        if movie_id not in history["watchlist"]:
-            history["watchlist"].append(movie_id)
+        if movie_id not in data["watchlist"]:
+            data["watchlist"].append(movie_id)
             
-    elif action == "seen":
-        if movie_id not in history["seen"]:
-            history["seen"].append(movie_id)
+    elif action == "history":
+        if movie_id not in data["history"]:
+            data["history"].append(movie_id)
+        if movie_id not in data["shown"]:
+            data["shown"].append(movie_id)
+            
+    elif action == "shown":
+        if movie_id not in data["shown"]:
+            data["shown"].append(movie_id)
             
     elif action == "remove_watchlist":
-         if movie_id in history["watchlist"]:
-            history["watchlist"].remove(movie_id)
+         if movie_id in data["watchlist"]:
+            data["watchlist"].remove(movie_id)
             
     save_user_profile(user_path, profile)
     return profile

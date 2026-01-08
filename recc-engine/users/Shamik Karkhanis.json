@@ -2,53 +2,81 @@
     {
         "name": "Shamik Karkhanis",
         "genres": [
-            "Animation",
             "Action",
             "Adventure",
+            "Animation",
+            "Classic",
             "Crime",
             "Drama",
             "Sci\u2011Fi"
         ],
-        "keywords": [
-            "malibu",
-            "scarecrow",
-            "chaos",
-            "crime fighter",
-            "arms dealer",
-            "aftercreditsstinger",
-            "tragic hero",
-            "organized crime",
-            "superhero",
-            "bold",
-            "neo-noir",
-            "middle east",
-            "criminal mastermind",
-            "secret identity",
-            "super villain",
-            "vigilante",
-            "counterterrorism",
-            "anti hero",
-            "marvel cinematic universe (mcu)",
-            "district attorney",
-            "alternate universe",
-            "super power",
-            "sadism",
-            "anti villain",
-            "based on comic"
-        ],
-        "history": {
+        "data": {
             "liked": [
                 324857,
                 155,
+                827,
                 1726
             ],
             "disliked": [],
+            "neutral": [],
             "watchlist": [],
-            "seen": [
+            "history": [
                 324857,
                 155,
+                827,
+                1726
+            ],
+            "shown": [
+                324857,
+                155,
+                827,
                 1726
             ]
-        }
+        },
+        "keywords": [
+            "organized crime",
+            "counterterrorism",
+            "arms dealer",
+            "crime fighter",
+            "scarecrow",
+            "bold",
+            "mischievous children",
+            "boys' boarding school",
+            "french noir",
+            "swimming pool",
+            "sadism",
+            "secret identity",
+            "anti hero",
+            "based on comic",
+            "aftercreditsstinger",
+            "malibu",
+            "super power",
+            "district attorney",
+            "chaos",
+            "plan gone wrong",
+            "headmaster",
+            "black and white",
+            "marvel cinematic universe (mcu)",
+            "super villain",
+            "abused wife",
+            "alternate universe",
+            "tragic hero",
+            "philanderer",
+            "female lover",
+            "missing body",
+            "wicker trunk",
+            "morgue",
+            "teacher",
+            "abusive husband",
+            "frightened woman",
+            "neo-noir",
+            "anti villain",
+            "mistress",
+            "middle east",
+            "criminal mastermind",
+            "wife",
+            "superhero",
+            "vigilante"
+        ]
     }
 ]

@@ -5,11 +5,13 @@
             "Action"
         ],
         "keywords": [],
-        "history": {
+        "data": {
             "liked": [],
             "disliked": [],
+            "neutral": [],
             "watchlist": [],
-            "seen": []
+            "history": [],
+            "shown": []
         }
     }
 ]
