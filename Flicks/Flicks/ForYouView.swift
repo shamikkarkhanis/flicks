@@ -36,6 +36,7 @@ struct ForYouView: View {
                                     selectedMovie = movie
                                 }
                                 .onAppear {
+                                    userState.markAsShown(movie)
                                     if movie.id == movies.last?.id {
                                         userState.loadMoreMovies()
                                     }

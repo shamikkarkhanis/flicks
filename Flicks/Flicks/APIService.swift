@@ -77,7 +77,7 @@ class APIService {
 
     func fetchRecommendations(for userId: String) async throws -> [MovieDTO] {
         guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
-              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/recommendations") else {
+              let url = URL(string: "\(baseURL)/users/\(encodedUserId)/recommendations?language=en") else {
             throw APIError.invalidURL
         }
 

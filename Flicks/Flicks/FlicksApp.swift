@@ -26,6 +26,7 @@ struct FlicksApp: App {
             } else {
                 OnboardingView()
                     .environmentObject(userState)
+                
                     .statusBarHidden(true)
             }
         }

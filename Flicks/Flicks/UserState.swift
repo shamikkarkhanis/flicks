@@ -14,9 +14,42 @@ class UserState: ObservableObject {
     private let currentUserId = "Shamik Karkhanis"
     private var ratingSessionCount = 0
     private var shownMovieIds: Set<Int> = []
+    
+    private var isLoading = false
 
     init() {
-        // Hydration logic would go here in a real app
+        Task {
+            await fetchUserProfile()
+        }
+    }
+    
+    func fetchUserProfile() async {
+        do {
+            let profile = try await APIService.shared.fetchUserProfile(for: currentUserId)
+            
+            await MainActor.run {
+                // Populate local state from profile
+                // This is simplified; in a real app we'd map these IDs to actual Movie objects
+                // potentially by fetching movie details if not available
+                print("Profile fetched: \(profile.name)")
+                
+                // For now, we assume we want to fetch recommendations immediately after profile load
+                // if the list is empty
+                if recommendations.isEmpty {
+                    Task {
+                        await fetchRecommendations()
+                    }
+                }
+            }
+        } catch {
+            print("Failed to fetch user profile: \(error)")
+            // Fallback: fetch recommendations anyway
+            if recommendations.isEmpty {
+                 Task {
+                     await fetchRecommendations()
+                 }
+            }
+        }
     }
     
     // MARK: - Watchlist Management
@@ -170,6 +203,10 @@ class UserState: ObservableObject {
     }
     
     func fetchRecommendations(isLiveRefill: Bool = false) async {
+        guard !isLoading else { return }
+        isLoading = true
+        defer { isLoading = false }
+        
         print("[LiveRecs] Fetching recommendations (Live Refill: \(isLiveRefill))...")
         do {
             let fetchedMovies = try await APIService.shared.getRecommendations(for: currentUserId)
@@ -183,7 +220,8 @@ class UserState: ObservableObject {
                     let existingIds = Set(
                         history.map { $0.tmdbId } +
                         watchlist.map { $0.tmdbId } +
-                        recommendations.map { $0.tmdbId }
+                        recommendations.map { $0.tmdbId } +
+                        Array(shownMovieIds)
                     )
                     
                     let newUniqueMovies = fetchedMovies.filter { !existingIds.contains($0.tmdbId) }
@@ -201,12 +239,13 @@ class UserState: ObservableObject {
                     
                 } else {
                     // Fresh Load (Replace)
+                    // Ensure we don't accidentally replace with empty if there's an error, 
+                    // but here we are in success path.
                     print("[LiveRecs] Fresh load complete. Replaced list with \(fetchedMovies.count) movies.")
                     self.allFetchedMovies = fetchedMovies
-                    self.recommendations = Array(fetchedMovies.prefix(10))
                     
-                    // Track initial movies as shown
-                    self.shownMovieIds.formUnion(self.recommendations.map { $0.tmdbId })
+                    // Initial page size
+                    self.recommendations = Array(fetchedMovies.prefix(10))
                 }
             }
         } catch {
@@ -214,7 +253,37 @@ class UserState: ObservableObject {
         }
     }
     
+    func markAsShown(_ movie: Movie) {
+        // Only track if not already tracked
+        if !shownMovieIds.contains(movie.tmdbId) {
+            shownMovieIds.insert(movie.tmdbId)
+            print("[LiveRecs] Marked '\(movie.title)' as shown.")
+            
+            // Sync if we have accumulated enough shown movies (e.g., 3)
+            if shownMovieIds.count >= 3 {
+                flushShownMovies()
+            }
+        }
+    }
+
+    private func flushShownMovies() {
+        let idsToSync = Array(shownMovieIds)
+        shownMovieIds.removeAll()
+        
+        Task {
+            do {
+                print("[LiveRecs] Syncing \(idsToSync.count) shown IDs...")
+                try await APIService.shared.syncShownMovies(userId: currentUserId, movieIds: idsToSync)
+            } catch {
+                print("[LiveRecs] Failed to sync shown movies: \(error)")
+            }
+        }
+    }
+    
     func loadMoreMovies() {
+        // Prevent re-entry if we are already dealing with a fetch that might update the list
+        // However, loadMoreMovies primarily pages from memory.
+        
         let currentCount = recommendations.count
         
         // If we are running low on buffered movies (less than 5 unseen left), sync and fetch more
@@ -222,18 +291,13 @@ class UserState: ObservableObject {
              print("[LiveRecs] Buffer low (\(allFetchedMovies.count - currentCount) left). Syncing and fetching more...")
              Task {
                  do {
-                     // 1. Sync shown movies AND current buffer to backend
-                     // We include current recommendations to prevent the backend from suggesting what we already have
-                     let bufferIds = Set(recommendations.map { $0.tmdbId })
-                     let allIdsToExclude = shownMovieIds.union(bufferIds)
-                     
-                     if !allIdsToExclude.isEmpty {
-                         print("[LiveRecs] Syncing \(allIdsToExclude.count) IDs (shown + buffered) to exclude...")
-                         try await APIService.shared.syncShownMovies(userId: currentUserId, movieIds: Array(allIdsToExclude))
-                         shownMovieIds.removeAll()
+                     // 1. Sync shown movies to backend
+                     if !shownMovieIds.isEmpty {
+                         flushShownMovies()
                      }
                      
-                     // 2. Then fetch fresh ones (backend will now exclude everything we have)
+                     // 2. Then fetch fresh ones
+                     // We await this so it can update the buffer
                      await fetchRecommendations(isLiveRefill: true)
                  } catch {
                      print("[LiveRecs] Sync/Fetch failed: \(error)")
@@ -241,12 +305,14 @@ class UserState: ObservableObject {
              }
         }
         
+        // Only page from memory if we have more in the buffer than currently shown
         guard currentCount < allFetchedMovies.count else { return }
         
-        let nextBatch = allFetchedMovies.dropFirst(currentCount).prefix(10)
-        recommendations.append(contentsOf: nextBatch)
+        // Ensure we don't grab an invalid range
+        let remaining = allFetchedMovies.count - currentCount
+        let batchSize = min(10, remaining)
+        let nextBatch = allFetchedMovies[currentCount..<(currentCount + batchSize)]
         
-        // Track these newly added movies as shown
-        shownMovieIds.formUnion(nextBatch.map { $0.tmdbId })
+        recommendations.append(contentsOf: nextBatch)
     }
 }
