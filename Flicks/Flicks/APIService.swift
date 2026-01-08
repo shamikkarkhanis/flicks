@@ -15,7 +15,7 @@ enum APIError: Error {
 
 class APIService {
     static let shared = APIService()
-    private let baseURL = "http://192.168.0.37:8000"
+    private let baseURL = "http://192.168.4.97:8000"
 
     private init() {}
 
@@ -46,6 +46,21 @@ class APIService {
             throw APIError.networkError(error)
         }
     }
+    
+    // Convenience method for domain objects
+    func createProfile(name: String, genres: [String], movies: [Movie]) async throws {
+        let request = CreateUserProfileRequest(
+            name: name,
+            genres: genres,
+            movie_ids: movies.map { $0.tmdbId }
+        )
+        try await createUserProfile(request: request)
+    }
+
+    // Alias for updating profile (same endpoint)
+    func updateProfile(name: String, genres: [String], movies: [Movie]) async throws {
+        try await createProfile(name: name, genres: genres, movies: movies)
+    }
 
     func fetchRecommendations(for userId: String) async throws -> [MovieDTO] {
         guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
@@ -66,6 +81,22 @@ class APIService {
         } catch {
             print("Decoding error or network error: \(error)")
             throw error
+        }
+    }
+    
+    // Convenience method for domain objects
+    func getRecommendations(for userId: String) async throws -> [Movie] {
+        let dtos = try await fetchRecommendations(for: userId)
+        return dtos.map { dto in
+            Movie(
+                tmdbId: Int(dto.movie_id) ?? 0,
+                title: dto.title,
+                subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
+                imageName: dto.backdrop_path.map { "https://image.tmdb.org/t/p/original\($0)" } ?? "",
+                friendInitials: [],
+                dateAdded: Date(),
+                dateWatched: Date()
+            )
         }
     }
     func fetchUserProfile(for userId: String) async throws -> [UserProfileDTO] {
