@@ -12,7 +12,7 @@ struct OnboardingView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     // Use your sample data to populate the stack
-    @State private var mediaDeck: [Movie] = sampleMovies
+    @State private var mediaDeck: [Movie] = []
 
     var body: some View {
         ZStack {
@@ -71,6 +71,16 @@ struct OnboardingView: View {
                         .zIndex(Double(index))
                     }
                 }
+            }
+        }
+        .task {
+            if mediaDeck.isEmpty {
+                await userState.fetchOnboardingMovies()
+            }
+        }
+        .onChange(of: userState.onboardingMovies) { newMovies in
+            if mediaDeck.isEmpty {
+                mediaDeck = newMovies
             }
         }
     }

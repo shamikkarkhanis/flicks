@@ -16,8 +16,8 @@ class TMDBClient:
         self._base_url = "https://api.themoviedb.org/3/"
         self.header = {'Authorization': f'Bearer {self._api_key}'}
 
-    def _get(self, endpoint: str) -> Dict[str, Any]:
-        response = requests.get(url=self._base_url + endpoint, headers=self.header)
+    def _get(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        response = requests.get(url=self._base_url + endpoint, headers=self.header, params=params)
         response.raise_for_status()
         return response.json()
 
@@ -35,6 +35,13 @@ class TMDBClient:
     
     def keywords(self, movie_id: int) -> Dict[str, Any]:
         return self._get(f"/movie/{movie_id}/keywords")
+
+    def discover_movies(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Wrapper for /discover/movie. 
+        params example: {"primary_release_year": 1999, "with_genres": 27}
+        """
+        return self._get("discover/movie", params=params)
 
     # def top_rated_movies(self, *, page: int = 1) -> Dict[str, Any]:
     #     return self._get("/movie/top_rated", params={"page": page})

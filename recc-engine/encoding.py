@@ -20,7 +20,7 @@ def build_text(item):
     return " | ".join(parts)
 
 
-with open("data/tmdb_dataset.json", "r") as f:
+with open("data/movies.json", "r") as f:
     data = json.load(f)
 
 client = chromadb.PersistentClient(path="chroma")

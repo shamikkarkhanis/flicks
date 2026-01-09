@@ -120,6 +120,54 @@ def encode_user(user_data: UserCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/onboarding", response_model=List[Recommendation])
+def get_onboarding_movies():
+    """
+    Returns a static list of popular movies for onboarding from Chroma DB.
+    """
+    onboarding_ids = [
+        603, 238, 862, 27205, 597, 
+        129, 155, 680, 496243, 419430
+    ]
+    
+    try:
+        movies_data = user.get_movies_by_ids(onboarding_ids)
+        
+        recommendations = []
+        
+        # Create a map for quick lookup to maintain order
+        movie_map = {m["id"]: m for m in movies_data}
+        
+        for mid in onboarding_ids:
+            mid_str = str(mid)
+            if mid_str in movie_map:
+                m_data = movie_map[mid_str]
+                meta = m_data["metadata"]
+                payload = json.loads(meta.get("payload", "{}"))
+                
+                # Extract genre names
+                raw_genres = payload.get("genres", [])
+                processed_genres = []
+                for g in raw_genres:
+                    if isinstance(g, dict) and "name" in g:
+                        processed_genres.append(g["name"])
+                    elif isinstance(g, str):
+                        processed_genres.append(g)
+
+                rec = Recommendation(
+                    movie_id=mid_str,
+                    title=payload.get("title", "Unknown"),
+                    score=1.0, # Static score for onboarding
+                    genres=processed_genres,
+                    backdrop_path=payload.get("backdrop_path")
+                )
+                recommendations.append(rec)
+                
+        return recommendations
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/users/{user_id}")
 def get_user_profile(user_id: str):
     """
@@ -278,6 +326,7 @@ def get_recommendations(
         # 1. Try to load user profile to get exclusion list and genres
         file_path = f"users/{user_id}.json"
         profile = None
+        user_keywords = []
         if os.path.exists(file_path):
             profile = user.load_user_profile(file_path)
             # Exclude shown, liked, disliked, and watchlist
@@ -292,6 +341,7 @@ def get_recommendations(
             print(f"[Backend] Loaded profile. Exclusion list size: {len(exclude_ids)}")
             if not genres:
                 filter_genres = profile.get("genres", [])
+            user_keywords = profile.get("keywords", [])
         else:
             print(f"[Backend] Profile file NOT FOUND: {file_path}")
 
@@ -322,7 +372,8 @@ def get_recommendations(
             top_k, 
             filters=filter_genres, 
             exclude_ids=exclude_ids,
-            language=language
+            language=language,
+            user_keywords=user_keywords
         )
         
         recommendations = []

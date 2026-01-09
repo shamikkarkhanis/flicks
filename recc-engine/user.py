@@ -10,14 +10,24 @@ from sentence_transformers import SentenceTransformer
 # Configure logging
 logger = logging.getLogger("recc-engine.user")
 
+# Global model instance
+_embedding_model = None
+
+def get_embedding_model():
+    global _embedding_model
+    if _embedding_model is None:
+        logger.info("Initializing SentenceTransformer model...")
+        _embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _embedding_model
+
 def build_user_text(profile):
     genres = profile.get("genres", [])
-    keywords = profile.get("keywords", [])
+    # keys = profile.get("keywords", []) # Keywords used for reranking, not embedding
     parts = []
     if genres:
         parts.append("Genres: " + ", ".join(genres))
-    if keywords:
-        parts.append("Keywords: " + ", ".join(keywords))
+    # if keywords:
+    #     parts.append("Keywords: " + ", ".join(keywords))
     return " | ".join(parts)
 
 
@@ -165,7 +175,7 @@ def get_profile_from_db(user_id):
 
 def encode_user_text(text):
     start_time = time.time()
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+    model = get_embedding_model()
     encoding = model.encode([text]).tolist()
     duration = time.time() - start_time
     logger.info("action encode_user_text | duration %.4fs", duration)
@@ -183,7 +193,7 @@ def upsert_user_profile(user_id, text, embedding, profile):
     )
 
 
-def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=None):
+def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=None, user_keywords=None):
     start_time = time.time()
     client = chromadb.PersistentClient(path="chroma")
     collection = client.get_or_create_collection(name="movies")
@@ -211,11 +221,11 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=Non
     # Dynamic Fetching: Ensure we have enough candidates after exclusion.
     # We fetch: (items to exclude) + (items requested) + (safety buffer)
     exclude_count = len(exclude_ids) if exclude_ids else 0
-    fetch_k = exclude_count + top_k + 50
     
-    # Cap fetch_k to a reasonable limit (e.g., 2000) to maintain performance, 
-    # but ensure it's at least 150 for variety.
-    fetch_k = min(max(fetch_k, 150), 2000)
+    # INCREASED FETCH SIZE FOR RERANKING
+    # We want a broad pool of "genre-relevant" movies to then filter by keyword overlap
+    fetch_k = exclude_count + top_k + 200 
+    fetch_k = min(max(fetch_k, 250), 3000)
     
     logger.info("action search_movies | where_filter: %s | fetch_k: %d", json.dumps(where_filter), fetch_k)
     
@@ -226,41 +236,90 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=Non
         where=where_filter
     )
 
-    if not exclude_ids:
-        res = {
-            "ids": [results["ids"][0][:top_k]],
-            "distances": [results["distances"][0][:top_k]],
-            "metadatas": [results["metadatas"][0][:top_k]],
-            "documents": [results["documents"][0][:top_k]]
-        }
-        duration = time.time() - start_time
-        logger.info("action search_movies | duration %.4fs | exclude_count 0", duration)
-        return res
-
-    # Python-side filtering for ID exclusion
-    exclude_set = {str(eid) for eid in exclude_ids}
+    # Candidates list
+    candidates = []
+    exclude_set = {str(eid) for eid in exclude_ids} if exclude_ids else set()
+    user_kw_set = set(user_keywords) if user_keywords else set()
     
-    new_results = {
-        "ids": [[]],
-        "distances": [[]],
-        "metadatas": [[]],
-        "documents": [[]]
-    }
+    ids = results["ids"][0]
+    dists = results["distances"][0]
+    metas = results["metadatas"][0]
+    docs = results["documents"][0]
     
-    for i in range(len(results["ids"][0])):
-        mid = results["ids"][0][i]
-        if mid not in exclude_set:
-            new_results["ids"][0].append(mid)
-            new_results["distances"][0].append(results["distances"][0][i])
-            new_results["metadatas"][0].append(results["metadatas"][0][i])
-            new_results["documents"][0].append(results["documents"][0][i])
+    for i in range(len(ids)):
+        mid = ids[i]
+        if mid in exclude_set:
+            continue
+            
+        meta = metas[i]
+        payload = json.loads(meta.get("payload", "{}"))
         
-        if len(new_results["ids"][0]) >= top_k:
-            break
+        # Calculate Keyword Overlap
+        overlap_count = 0
+        if user_kw_set:
+            # Movie keywords are a list of dicts: [{'id':..., 'name': '...'}, ...]
+            movie_kws_raw = payload.get("keywords", [])
+            movie_kw_names = set()
+            for mk in movie_kws_raw:
+                if isinstance(mk, dict) and "name" in mk:
+                    movie_kw_names.add(mk["name"])
+                elif isinstance(mk, str):
+                    movie_kw_names.add(mk)
+            
+            overlap_count = len(user_kw_set.intersection(movie_kw_names))
+            
+        candidates.append({
+            "id": mid,
+            "distance": dists[i],
+            "metadata": meta,
+            "document": docs[i],
+            "overlap": overlap_count
+        })
+
+    # RERANKING LOGIC
+    # Primary Sort: Overlap Count (Descending) -> Higher is better
+    # Secondary Sort: Vector Distance (Ascending) -> Lower is better
+    # To combine, we sort by tuple: (-overlap, distance)
+    candidates.sort(key=lambda x: (-x["overlap"], x["distance"]))
+    
+    # Slice top_k
+    final_candidates = candidates[:top_k]
+    
+    # Reconstruct result format
+    new_results = {
+        "ids": [[c["id"] for c in final_candidates]],
+        "distances": [[c["distance"] for c in final_candidates]],
+        "metadatas": [[c["metadata"] for c in final_candidates]],
+        "documents": [[c["document"] for c in final_candidates]]
+    }
             
     duration = time.time() - start_time
-    logger.info("action search_movies | duration %.4fs | exclude_count %d", duration, len(exclude_ids))
+    logger.info("action search_movies | duration %.4fs | exclude_count %d | candidates_reranked %d", 
+                duration, len(exclude_ids) if exclude_ids else 0, len(candidates))
     return new_results
+
+def get_movies_by_ids(movie_ids):
+    """
+    Retrieves movies by their IDs from the Chroma DB.
+    """
+    client = chromadb.PersistentClient(path="chroma")
+    collection = client.get_or_create_collection(name="movies")
+    
+    str_ids = [str(mid) for mid in movie_ids]
+    results = collection.get(ids=str_ids)
+    
+    movies = []
+    if results and results["ids"]:
+        ids = results["ids"]
+        metas = results["metadatas"]
+        
+        for i, mid in enumerate(ids):
+            movies.append({
+                "id": mid,
+                "metadata": metas[i]
+            })
+            
+    return movies
 
 
 def main():
@@ -289,14 +348,18 @@ def main():
         filters = load_user_profile(args.user_profile).get("genres", [])
 
     # pull user embedding from chroma
+    user_keywords = load_user_profile(args.user_profile).get("keywords", [])
 
-    results = search_movies(embedding, args.top_k, filters=filters)
+    results = search_movies(embedding, args.top_k, filters=filters, user_keywords=user_keywords)
     for idx, movie_id in enumerate(results["ids"][0]):
         metadata = results["metadatas"][0][idx]
         payload = json.loads(metadata.get("payload", "{}"))
         title = payload.get("title", "Unknown")
         backdrop = payload.get("backdrop_path", "No Backdrop")
         score = results["distances"][0][idx]
+        # Calculate overlap for display (re-calculate or trust the sort order)
+        # Since search_movies doesn't return the overlap count explicitly in the standard dict, 
+        # we can just print the order which should be correct.
         print(f"{idx + 1}. {title} (id={movie_id}, distance={score:.4f}, backdrop={backdrop})")
 
 

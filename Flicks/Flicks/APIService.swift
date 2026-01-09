@@ -114,6 +114,44 @@ class APIService {
         }
     }
 
+    func fetchOnboardingMovies() async throws -> [MovieDTO] {
+        guard let url = URL(string: "\(baseURL)/onboarding") else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                throw APIError.serverError(statusCode: httpResponse.statusCode)
+            }
+            
+            let movies = try JSONDecoder().decode([MovieDTO].self, from: data)
+            return movies
+        } catch {
+            print("Decoding error or network error: \(error)")
+            throw error
+        }
+    }
+    
+    // Convenience method for domain objects
+    func getOnboardingMovies() async throws -> [Movie] {
+        let dtos = try await fetchOnboardingMovies()
+        return dtos.compactMap { dto in
+            guard let backdropPath = dto.backdrop_path, !backdropPath.isEmpty else { return nil }
+            return Movie(
+                tmdbId: Int(dto.movie_id) ?? 0,
+                title: dto.title,
+                subtitle: dto.genres?.joined(separator: " · ") ?? "Featured",
+                imageName: "https://image.tmdb.org/t/p/original\(backdropPath)",
+                friendInitials: [],
+                dateAdded: Date(),
+                dateWatched: Date()
+            )
+        }
+    }
+
     func fetchUserProfile(for userId: String) async throws -> UserProfileDTO {
         guard let encodedUserId = userId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
               let url = URL(string: "\(baseURL)/users/\(encodedUserId)") else {

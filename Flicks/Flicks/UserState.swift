@@ -5,6 +5,7 @@ class UserState: ObservableObject {
     @Published var watchlist: [Movie] = []
     @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
+    @Published var onboardingMovies: [Movie] = []
     
     @Published var likedMovies: [Movie] = []
     @Published var neutralMovies: [Movie] = []
@@ -117,6 +118,18 @@ class UserState: ObservableObject {
                      await fetchRecommendations()
                  }
             }
+        }
+    }
+    
+    func fetchOnboardingMovies() async {
+        do {
+            let movies = try await APIService.shared.getOnboardingMovies()
+            await MainActor.run {
+                self.onboardingMovies = movies
+            }
+        } catch {
+            print("Failed to fetch onboarding movies: \(error)")
+            // Fallback to sampleMovies if fetch fails (assuming sampleMovies is available globally or we handle empty)
         }
     }
     
