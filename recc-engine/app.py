@@ -60,6 +60,23 @@ class UserCreate(BaseModel):
     genres: List[str]
     movie_ids: List[int]
 
+def update_keyword_counts(profile_keywords, new_keywords):
+    """
+    Updates the keyword counts in the profile.
+    Handles migration if profile_keywords is a list (legacy).
+    """
+    # Migration: Convert list to dict if necessary
+    if isinstance(profile_keywords, list):
+        # Assume count 1 for existing keywords in legacy list
+        counts = {k: 1 for k in profile_keywords}
+    else:
+        counts = profile_keywords
+
+    for kw in new_keywords:
+        counts[kw] = counts.get(kw, 0) + 1
+    
+    return counts
+
 @app.post("/encode")
 def encode_user(user_data: UserCreate):
     """
@@ -80,12 +97,13 @@ def encode_user(user_data: UserCreate):
                 "history": user_data.movie_ids[:], # Implies watched
                 "shown": user_data.movie_ids[:]    # Implies seen
             },
-            "keywords": []
+            "keywords": {} # Changed to dict for frequency tracking
         }
         
         # Fetch keywords from movie_ids
         if user_data.movie_ids:
-            current_keywords = set()
+            # We will accumulate all keywords then update counts
+            all_new_kws = []
             for mid in user_data.movie_ids:
                 try:
                     # Fetch keywords from TMDB
@@ -93,13 +111,11 @@ def encode_user(user_data: UserCreate):
                     keywords_data = kw_resp.get("keywords", [])
                     # Extract keyword names
                     new_kws = [k["name"] for k in keywords_data if "name" in k]
-                    
-                    if new_kws:
-                        current_keywords.update(new_kws)
+                    all_new_kws.extend(new_kws)
                 except Exception as e:
                     print(f"Error fetching keywords for movie {mid}: {e}")
             
-            profile["keywords"] = list(current_keywords)
+            profile["keywords"] = update_keyword_counts({}, all_new_kws)
 
         # Save to disk using user.py's helper to ensure consistency
         file_path = f"users/{user_data.name}.json"
@@ -251,19 +267,18 @@ def rate_movie(user_id: str, request: RatingRequest):
                 keywords_data = kw_resp.get("keywords", [])
                 new_kws = [k["name"] for k in keywords_data if "name" in k]
                 
-                # Merge with existing keywords
-                current_keywords = set(updated_profile.get("keywords", []))
-                if new_kws:
-                    current_keywords.update(new_kws)
-                    updated_profile["keywords"] = list(current_keywords)
-                    
-                    # Save the keyword update to disk
-                    user.save_user_profile(file_path, updated_profile)
-                    
-                    # Re-encode and Upsert
-                    query_text = user.build_user_text(updated_profile)
-                    embedding = user.encode_user_text(query_text)
-                    user.upsert_user_profile(user_id, query_text, embedding, updated_profile)
+                # Merge with existing keywords using helper to update counts
+                current_keywords_data = updated_profile.get("keywords", {})
+                updated_keywords_dict = update_keyword_counts(current_keywords_data, new_kws)
+                updated_profile["keywords"] = updated_keywords_dict
+                
+                # Save the keyword update to disk
+                user.save_user_profile(file_path, updated_profile)
+                
+                # Re-encode and Upsert
+                query_text = user.build_user_text(updated_profile)
+                embedding = user.encode_user_text(query_text)
+                user.upsert_user_profile(user_id, query_text, embedding, updated_profile)
             except Exception as tmdb_error:
                 print(f"Warning: Failed to fetch keywords or re-embed for movie {request.movie_id}: {tmdb_error}")
                 # We don't fail the request, just the optimization
@@ -326,7 +341,7 @@ def get_recommendations(
         # 1. Try to load user profile to get exclusion list and genres
         file_path = f"users/{user_id}.json"
         profile = None
-        user_keywords = []
+        user_keywords_list = []
         if os.path.exists(file_path):
             profile = user.load_user_profile(file_path)
             # Exclude shown, liked, disliked, and watchlist
@@ -341,7 +356,19 @@ def get_recommendations(
             print(f"[Backend] Loaded profile. Exclusion list size: {len(exclude_ids)}")
             if not genres:
                 filter_genres = profile.get("genres", [])
-            user_keywords = profile.get("keywords", [])
+            
+            # Process Keywords: Filter Top 100
+            raw_keywords = profile.get("keywords", {})
+            if isinstance(raw_keywords, list):
+                # Legacy: It's a list, use all of them (or truncate if we wanted, but logic implies frequency)
+                # Since we don't have frequency, we just take them all (or top 100 arbitrary)
+                user_keywords_list = raw_keywords[:100]
+            elif isinstance(raw_keywords, dict):
+                # Sort by count (descending)
+                sorted_kws = sorted(raw_keywords.items(), key=lambda item: item[1], reverse=True)
+                # Take top 100 keys
+                user_keywords_list = [k for k, v in sorted_kws[:100]]
+            
         else:
             print(f"[Backend] Profile file NOT FOUND: {file_path}")
 
@@ -373,7 +400,7 @@ def get_recommendations(
             filters=filter_genres, 
             exclude_ids=exclude_ids,
             language=language,
-            user_keywords=user_keywords
+            user_keywords=user_keywords_list
         )
         
         recommendations = []

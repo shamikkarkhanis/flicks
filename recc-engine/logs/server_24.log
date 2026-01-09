@@ -1,0 +1,407 @@
+2026-01-09 13:51:10,306 [INFO] Starting server run #24. Logging to logs/server_24.log
+2026-01-09 13:51:16,575 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0019s | status 404
+2026-01-09 13:51:16,798 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-09 13:51:16,798 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-09 13:51:16,838 [INFO] path /onboarding | method GET | duration 0.0957s | status 200
+2026-01-09 13:51:16,841 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-09 13:51:16,909 [INFO] action search_movies | duration 0.0694s | exclude_count 0 | candidates_reranked 250
+2026-01-09 13:51:16,910 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1801s | status 200
+2026-01-09 13:51:29,296 [INFO] Initializing SentenceTransformer model...
+2026-01-09 13:51:29,323 [INFO] Use pytorch device_name: mps
+2026-01-09 13:51:29,324 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-09 13:51:31,244 [INFO] action encode_user_text | duration 1.9482s
+2026-01-09 13:51:31,272 [INFO] path /encode | method POST | duration 2.3127s | status 200
+2026-01-09 13:51:31,325 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 250
+2026-01-09 13:51:31,514 [INFO] action search_movies | duration 0.1910s | exclude_count 3 | candidates_reranked 249
+2026-01-09 13:51:31,515 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2108s | status 200
+2026-01-09 13:51:52,423 [INFO] action encode_user_text | duration 0.0346s
+2026-01-09 13:51:52,463 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.2612s | status 200
+2026-01-09 13:54:42,084 [INFO] action encode_user_text | duration 0.0972s
+2026-01-09 13:54:42,108 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.2335s | status 200
+2026-01-09 13:54:47,010 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 13:54:48,985 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0012s | status 200
+2026-01-09 13:54:56,509 [INFO] action encode_user_text | duration 0.0457s
+2026-01-09 13:54:56,531 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.2170s | status 200
+2026-01-09 13:54:56,623 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 250
+2026-01-09 13:54:56,803 [INFO] action search_movies | duration 0.1814s | exclude_count 7 | candidates_reranked 245
+2026-01-09 13:54:56,803 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1854s | status 200
+2026-01-09 13:54:57,366 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0024s | status 200
+2026-01-09 13:54:59,789 [INFO] action encode_user_text | duration 0.0315s
+2026-01-09 13:54:59,812 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.2360s | status 200
+2026-01-09 13:55:08,114 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 13:55:09,952 [INFO] action encode_user_text | duration 0.0557s
+2026-01-09 13:55:09,973 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.1484s | status 200
+2026-01-09 13:55:14,229 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0013s | status 200
+2026-01-09 13:55:16,282 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0048s | status 200
+2026-01-09 13:55:25,504 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-09 13:55:25,518 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0032s | status 200
+2026-01-09 13:55:26,621 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0013s | status 200
+2026-01-09 13:55:47,726 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0045s | status 200
+2026-01-09 13:55:47,749 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 250
+2026-01-09 13:55:47,945 [INFO] action search_movies | duration 0.2009s | exclude_count 21 | candidates_reranked 232
+2026-01-09 13:55:47,946 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2099s | status 200
+2026-01-09 13:55:53,672 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 13:55:57,548 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0051s | status 200
+2026-01-09 13:56:01,521 [INFO] action encode_user_text | duration 0.0393s
+2026-01-09 13:56:01,543 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.1699s | status 200
+2026-01-09 13:56:03,290 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 13:56:05,223 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0043s | status 200
+2026-01-09 13:56:05,245 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 250
+2026-01-09 13:56:05,324 [INFO] action search_movies | duration 0.0826s | exclude_count 26 | candidates_reranked 227
+2026-01-09 13:56:05,325 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0908s | status 200
+2026-01-09 13:56:17,059 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 13:56:22,124 [INFO] action encode_user_text | duration 0.0256s
+2026-01-09 13:56:22,145 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.1283s | status 200
+2026-01-09 13:56:23,659 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 13:56:27,960 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 13:56:31,647 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 13:56:38,631 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 13:56:44,557 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 13:56:46,678 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0050s | status 200
+2026-01-09 13:56:49,158 [INFO] path /users/Shamik Karkhanis/watchlist/273481 | method DELETE | duration 0.0053s | status 200
+2026-01-09 13:56:50,795 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0040s | status 200
+2026-01-09 13:56:54,074 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 13:56:57,033 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 267
+2026-01-09 13:56:57,035 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 13:56:57,113 [INFO] action search_movies | duration 0.0838s | exclude_count 47 | candidates_reranked 224
+2026-01-09 13:56:57,114 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0958s | status 200
+2026-01-09 13:59:49,364 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0052s | status 200
+2026-01-09 13:59:49,566 [INFO] path /onboarding | method GET | duration 0.0240s | status 200
+2026-01-09 13:59:49,569 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 269
+2026-01-09 13:59:49,820 [INFO] action search_movies | duration 0.2526s | exclude_count 49 | candidates_reranked 224
+2026-01-09 13:59:49,821 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2660s | status 200
+2026-01-09 14:00:15,089 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0029s | status 200
+2026-01-09 14:00:15,605 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 269
+2026-01-09 14:00:15,805 [INFO] action search_movies | duration 0.2022s | exclude_count 49 | candidates_reranked 224
+2026-01-09 14:00:15,806 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2126s | status 200
+2026-01-09 14:00:15,828 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0015s | status 200
+2026-01-09 14:00:29,225 [INFO] action encode_user_text | duration 0.3566s
+2026-01-09 14:00:29,249 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.4634s | status 200
+2026-01-09 14:00:30,546 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0025s | status 200
+2026-01-09 14:00:35,183 [INFO] action encode_user_text | duration 0.0272s
+2026-01-09 14:00:35,207 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.1187s | status 200
+2026-01-09 14:00:36,190 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:00:39,967 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0014s | status 200
+2026-01-09 14:00:43,554 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0040s | status 200
+2026-01-09 14:00:45,243 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:00:48,470 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0042s | status 200
+2026-01-09 14:00:51,525 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:01:28,824 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0046s | status 200
+2026-01-09 14:01:28,848 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 288
+2026-01-09 14:01:28,923 [INFO] action search_movies | duration 0.0774s | exclude_count 68 | candidates_reranked 226
+2026-01-09 14:01:28,923 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0860s | status 200
+2026-01-09 14:12:57,434 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0068s | status 200
+2026-01-09 14:13:06,622 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0047s | status 200
+2026-01-09 14:13:09,866 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0044s | status 200
+2026-01-09 14:13:13,571 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0019s | status 200
+2026-01-09 14:13:17,240 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:13:23,956 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-09 14:13:28,981 [INFO] action encode_user_text | duration 0.1006s
+2026-01-09 14:13:29,016 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.3124s | status 200
+2026-01-09 14:13:32,421 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:13:35,589 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-09 14:13:35,589 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 306
+2026-01-09 14:13:35,788 [INFO] action search_movies | duration 0.2025s | exclude_count 86 | candidates_reranked 224
+2026-01-09 14:13:35,789 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2144s | status 200
+2026-01-09 14:13:42,113 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:15:46,136 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0057s | status 200
+2026-01-09 14:15:46,659 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 311
+2026-01-09 14:15:46,902 [INFO] action search_movies | duration 0.2466s | exclude_count 91 | candidates_reranked 224
+2026-01-09 14:15:46,903 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2650s | status 200
+2026-01-09 14:15:46,926 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-09 14:16:05,324 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0019s | status 200
+2026-01-09 14:16:05,695 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 312
+2026-01-09 14:16:05,888 [INFO] action search_movies | duration 0.1953s | exclude_count 92 | candidates_reranked 224
+2026-01-09 14:16:05,889 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2035s | status 200
+2026-01-09 14:16:05,909 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0019s | status 200
+2026-01-09 14:16:14,104 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:16:18,797 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:16:42,824 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:16:47,922 [INFO] action encode_user_text | duration 0.4446s
+2026-01-09 14:16:47,972 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.6076s | status 200
+2026-01-09 14:16:49,613 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0042s | status 200
+2026-01-09 14:17:25,062 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0042s | status 200
+2026-01-09 14:17:25,371 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 325
+2026-01-09 14:17:25,631 [INFO] action search_movies | duration 0.2634s | exclude_count 105 | candidates_reranked 224
+2026-01-09 14:17:25,632 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2851s | status 200
+2026-01-09 14:17:25,652 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0024s | status 200
+2026-01-09 14:17:33,246 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:17:50,952 [INFO] path /users/Shamik Karkhanis/ratings | method POST | duration 0.0033s | status 200
+2026-01-09 14:17:53,814 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-09 14:18:02,744 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:18:09,197 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 14:18:13,894 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0026s | status 200
+2026-01-09 14:18:17,261 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:18:18,251 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0044s | status 200
+2026-01-09 14:18:18,274 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 345
+2026-01-09 14:18:18,472 [INFO] action search_movies | duration 0.2016s | exclude_count 125 | candidates_reranked 222
+2026-01-09 14:18:18,473 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2140s | status 200
+2026-01-09 14:18:36,484 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0042s | status 200
+2026-01-09 14:18:38,576 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:18:40,699 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:20:03,168 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:20:06,232 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:20:08,964 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:20:10,747 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 363
+2026-01-09 14:20:10,748 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-09 14:20:10,946 [INFO] action search_movies | duration 0.2031s | exclude_count 143 | candidates_reranked 222
+2026-01-09 14:20:10,947 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2156s | status 200
+2026-01-09 14:20:21,189 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:20:24,152 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:20:27,121 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:20:32,967 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:20:37,056 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:20:39,145 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 380
+2026-01-09 14:20:39,146 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0066s | status 200
+2026-01-09 14:20:39,270 [INFO] action search_movies | duration 0.1300s | exclude_count 160 | candidates_reranked 222
+2026-01-09 14:20:39,272 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1426s | status 200
+2026-01-09 14:20:43,752 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0067s | status 200
+2026-01-09 14:20:44,736 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:20:45,454 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:20:46,272 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:20:47,192 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:20:47,713 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 398
+2026-01-09 14:20:47,715 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-09 14:20:47,799 [INFO] action search_movies | duration 0.0894s | exclude_count 178 | candidates_reranked 222
+2026-01-09 14:20:47,800 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1007s | status 200
+2026-01-09 14:20:48,569 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:20:49,481 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:20:50,369 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:20:51,289 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-09 14:20:52,102 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0069s | status 200
+2026-01-09 14:20:53,142 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 415
+2026-01-09 14:20:53,143 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-09 14:20:53,228 [INFO] action search_movies | duration 0.0900s | exclude_count 195 | candidates_reranked 222
+2026-01-09 14:20:53,229 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1010s | status 200
+2026-01-09 14:20:53,949 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0037s | status 200
+2026-01-09 14:20:54,770 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:20:55,692 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:20:58,546 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:20:59,379 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 14:20:59,724 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 433
+2026-01-09 14:20:59,726 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:20:59,812 [INFO] action search_movies | duration 0.0927s | exclude_count 213 | candidates_reranked 222
+2026-01-09 14:20:59,813 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1029s | status 200
+2026-01-09 14:21:00,401 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:01,120 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:01,656 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:02,293 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0014s | status 200
+2026-01-09 14:21:02,962 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:03,577 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0126s | status 200
+2026-01-09 14:21:03,581 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 450
+2026-01-09 14:21:03,667 [INFO] action search_movies | duration 0.0903s | exclude_count 230 | candidates_reranked 222
+2026-01-09 14:21:03,668 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1033s | status 200
+2026-01-09 14:21:04,245 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0042s | status 200
+2026-01-09 14:21:04,909 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 14:21:06,955 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0045s | status 200
+2026-01-09 14:21:08,194 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:21:09,307 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:21:10,081 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 468
+2026-01-09 14:21:10,082 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0064s | status 200
+2026-01-09 14:21:10,191 [INFO] action search_movies | duration 0.1155s | exclude_count 248 | candidates_reranked 222
+2026-01-09 14:21:10,192 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1260s | status 200
+2026-01-09 14:21:11,150 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:21:12,379 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0019s | status 200
+2026-01-09 14:21:13,508 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:21:14,736 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0041s | status 200
+2026-01-09 14:21:15,866 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:21:16,922 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0016s | status 200
+2026-01-09 14:21:16,935 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 488
+2026-01-09 14:21:17,005 [INFO] action search_movies | duration 0.0717s | exclude_count 268 | candidates_reranked 222
+2026-01-09 14:21:17,006 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0769s | status 200
+2026-01-09 14:21:18,124 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:21:19,316 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-09 14:21:20,538 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:21:21,681 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 14:21:22,865 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0043s | status 200
+2026-01-09 14:21:23,933 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0027s | status 200
+2026-01-09 14:21:24,890 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 506
+2026-01-09 14:21:24,969 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0017s | status 200
+2026-01-09 14:21:25,097 [INFO] action search_movies | duration 0.2103s | exclude_count 286 | candidates_reranked 222
+2026-01-09 14:21:25,098 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2241s | status 200
+2026-01-09 14:21:26,005 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0070s | status 200
+2026-01-09 14:21:28,145 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:21:28,869 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:21:29,588 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:21:30,208 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:21:31,071 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0071s | status 200
+2026-01-09 14:21:31,084 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 526
+2026-01-09 14:21:31,172 [INFO] action search_movies | duration 0.0902s | exclude_count 306 | candidates_reranked 222
+2026-01-09 14:21:31,173 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0990s | status 200
+2026-01-09 14:21:32,248 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0040s | status 200
+2026-01-09 14:21:33,068 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-09 14:21:33,989 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0046s | status 200
+2026-01-09 14:21:34,733 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:21:35,567 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:36,550 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:21:36,864 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 544
+2026-01-09 14:21:36,865 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-09 14:21:37,025 [INFO] action search_movies | duration 0.1643s | exclude_count 324 | candidates_reranked 222
+2026-01-09 14:21:37,026 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1759s | status 200
+2026-01-09 14:21:38,081 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0014s | status 200
+2026-01-09 14:21:38,701 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:21:39,118 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:21:39,645 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:21:40,237 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:21:40,756 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0102s | status 200
+2026-01-09 14:21:40,760 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 561
+2026-01-09 14:21:40,888 [INFO] action search_movies | duration 0.1313s | exclude_count 341 | candidates_reranked 222
+2026-01-09 14:21:40,889 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1440s | status 200
+2026-01-09 14:21:41,549 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:21:42,183 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:21:42,899 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0060s | status 200
+2026-01-09 14:21:43,411 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:21:43,998 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0027s | status 200
+2026-01-09 14:21:44,545 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0103s | status 200
+2026-01-09 14:21:44,549 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 579
+2026-01-09 14:21:44,712 [INFO] action search_movies | duration 0.1655s | exclude_count 359 | candidates_reranked 222
+2026-01-09 14:21:44,713 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1793s | status 200
+2026-01-09 14:21:45,459 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0030s | status 200
+2026-01-09 14:21:46,083 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-09 14:21:46,688 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:21:47,401 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0021s | status 200
+2026-01-09 14:21:47,841 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0065s | status 200
+2026-01-09 14:21:48,373 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0121s | status 200
+2026-01-09 14:21:48,377 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 596
+2026-01-09 14:21:48,509 [INFO] action search_movies | duration 0.1349s | exclude_count 376 | candidates_reranked 222
+2026-01-09 14:21:48,510 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1474s | status 200
+2026-01-09 14:21:49,090 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:21:49,623 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-09 14:21:50,275 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0063s | status 200
+2026-01-09 14:21:50,834 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0072s | status 200
+2026-01-09 14:21:51,346 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0094s | status 200
+2026-01-09 14:21:51,351 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 611
+2026-01-09 14:21:51,445 [INFO] action search_movies | duration 0.0980s | exclude_count 391 | candidates_reranked 222
+2026-01-09 14:21:51,446 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1101s | status 200
+2026-01-09 14:21:52,023 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0052s | status 200
+2026-01-09 14:21:52,828 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0026s | status 200
+2026-01-09 14:21:53,287 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:21:53,893 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0012s | status 200
+2026-01-09 14:21:54,456 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0099s | status 200
+2026-01-09 14:21:54,461 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 626
+2026-01-09 14:21:54,668 [INFO] action search_movies | duration 0.2098s | exclude_count 406 | candidates_reranked 222
+2026-01-09 14:21:54,669 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2234s | status 200
+2026-01-09 14:21:55,179 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:21:55,714 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:21:56,243 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:21:56,466 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0094s | status 200
+2026-01-09 14:21:56,470 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 638
+2026-01-09 14:21:56,557 [INFO] action search_movies | duration 0.0910s | exclude_count 418 | candidates_reranked 222
+2026-01-09 14:21:56,558 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1011s | status 200
+2026-01-09 14:21:56,964 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:21:57,542 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0044s | status 200
+2026-01-09 14:21:58,039 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0119s | status 200
+2026-01-09 14:21:58,670 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:21:59,186 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0110s | status 200
+2026-01-09 14:21:59,190 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 651
+2026-01-09 14:21:59,279 [INFO] action search_movies | duration 0.0925s | exclude_count 431 | candidates_reranked 222
+2026-01-09 14:21:59,280 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1042s | status 200
+2026-01-09 14:21:59,699 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0070s | status 200
+2026-01-09 14:22:00,372 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:01,024 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:03,687 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:22:06,541 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0038s | status 200
+2026-01-09 14:22:06,544 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 664
+2026-01-09 14:22:06,749 [INFO] action search_movies | duration 0.2076s | exclude_count 444 | candidates_reranked 222
+2026-01-09 14:22:06,750 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2218s | status 200
+2026-01-09 14:22:07,369 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0019s | status 200
+2026-01-09 14:22:07,889 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:08,436 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:22:08,868 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:22:09,049 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:22:09,052 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 677
+2026-01-09 14:22:09,138 [INFO] action search_movies | duration 0.0884s | exclude_count 457 | candidates_reranked 222
+2026-01-09 14:22:09,139 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0952s | status 200
+2026-01-09 14:22:09,611 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-09 14:22:10,233 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:10,858 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:22:11,301 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:22:11,496 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0086s | status 200
+2026-01-09 14:22:11,500 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 690
+2026-01-09 14:22:11,586 [INFO] action search_movies | duration 0.0889s | exclude_count 470 | candidates_reranked 222
+2026-01-09 14:22:11,586 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0980s | status 200
+2026-01-09 14:22:12,083 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:22:12,605 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:13,211 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0049s | status 200
+2026-01-09 14:22:13,660 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:22:14,033 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0094s | status 200
+2026-01-09 14:22:14,038 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 703
+2026-01-09 14:22:14,131 [INFO] action search_movies | duration 0.0957s | exclude_count 483 | candidates_reranked 222
+2026-01-09 14:22:14,132 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1073s | status 200
+2026-01-09 14:22:14,453 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-09 14:22:14,972 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0054s | status 200
+2026-01-09 14:22:15,566 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0066s | status 200
+2026-01-09 14:22:16,488 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:22:16,616 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0064s | status 200
+2026-01-09 14:22:16,619 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 716
+2026-01-09 14:22:16,701 [INFO] action search_movies | duration 0.0847s | exclude_count 496 | candidates_reranked 222
+2026-01-09 14:22:16,702 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0924s | status 200
+2026-01-09 14:22:17,204 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:17,787 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0065s | status 200
+2026-01-09 14:22:18,432 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0051s | status 200
+2026-01-09 14:22:18,877 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:22:19,256 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0104s | status 200
+2026-01-09 14:22:19,260 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 729
+2026-01-09 14:22:19,356 [INFO] action search_movies | duration 0.0996s | exclude_count 509 | candidates_reranked 222
+2026-01-09 14:22:19,357 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1099s | status 200
+2026-01-09 14:22:19,690 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-09 14:22:20,275 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:20,788 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:21,325 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0068s | status 200
+2026-01-09 14:22:21,521 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0108s | status 200
+2026-01-09 14:22:21,522 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 742
+2026-01-09 14:22:21,604 [INFO] action search_movies | duration 0.0848s | exclude_count 522 | candidates_reranked 222
+2026-01-09 14:22:21,605 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0940s | status 200
+2026-01-09 14:22:22,224 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:22:22,835 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:22:23,252 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0050s | status 200
+2026-01-09 14:22:23,884 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:22:24,082 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0087s | status 200
+2026-01-09 14:22:24,085 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 755
+2026-01-09 14:22:24,174 [INFO] action search_movies | duration 0.0918s | exclude_count 535 | candidates_reranked 222
+2026-01-09 14:22:24,175 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1012s | status 200
+2026-01-09 14:22:24,884 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:25,396 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:25,909 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0047s | status 200
+2026-01-09 14:22:26,511 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0111s | status 200
+2026-01-09 14:22:26,516 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 765
+2026-01-09 14:22:26,527 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0028s | status 200
+2026-01-09 14:22:26,721 [INFO] action search_movies | duration 0.2079s | exclude_count 545 | candidates_reranked 222
+2026-01-09 14:22:26,722 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2205s | status 200
+2026-01-09 14:22:27,086 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0064s | status 200
+2026-01-09 14:22:27,854 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-09 14:22:28,319 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:22:29,082 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0048s | status 200
+2026-01-09 14:22:29,189 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 781
+2026-01-09 14:22:29,190 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0039s | status 200
+2026-01-09 14:22:29,266 [INFO] action search_movies | duration 0.0792s | exclude_count 561 | candidates_reranked 222
+2026-01-09 14:22:29,267 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0850s | status 200
+2026-01-09 14:22:30,006 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:22:30,534 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:22:31,512 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:22:31,771 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0058s | status 200
+2026-01-09 14:22:32,564 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:22:32,801 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0096s | status 200
+2026-01-09 14:22:32,805 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 797
+2026-01-09 14:22:32,893 [INFO] action search_movies | duration 0.0918s | exclude_count 577 | candidates_reranked 222
+2026-01-09 14:22:32,894 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1022s | status 200
+2026-01-09 14:22:33,693 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0061s | status 200
+2026-01-09 14:22:34,698 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0062s | status 200
+2026-01-09 14:22:35,328 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0056s | status 200
+2026-01-09 14:22:35,842 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:22:36,558 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200
+2026-01-09 14:22:36,666 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 813
+2026-01-09 14:22:36,666 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0133s | status 200
+2026-01-09 14:22:36,748 [INFO] action search_movies | duration 0.0853s | exclude_count 593 | candidates_reranked 222
+2026-01-09 14:22:36,748 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0955s | status 200
+2026-01-09 14:22:37,476 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0030s | status 200
+2026-01-09 14:22:38,095 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0055s | status 200
+2026-01-09 14:22:38,506 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0053s | status 200
+2026-01-09 14:22:39,158 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0074s | status 200
+2026-01-09 14:22:39,632 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0127s | status 200
+2026-01-09 14:22:39,634 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 826
+2026-01-09 14:22:39,726 [INFO] action search_movies | duration 0.0965s | exclude_count 606 | candidates_reranked 221
+2026-01-09 14:22:39,727 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1096s | status 200
+2026-01-09 14:22:40,329 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0057s | status 200
+2026-01-09 14:22:40,959 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0038s | status 200
+2026-01-09 14:22:41,711 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0059s | status 200

@@ -11,6 +11,17 @@ class UserState: ObservableObject {
     @Published var neutralMovies: [Movie] = []
     @Published var dislikedMovies: [Movie] = []
     
+    // Computed properties for queue visualization
+    var queueCount: Int {
+        recommendations.count
+    }
+    
+    var bufferCount: Int {
+        max(0, allFetchedMovies.count - recommendations.count)
+    }
+    
+    var shownCount: Int = 0 // Tracks how many movies the user has scrolled past in this session
+    
     private var allFetchedMovies: [Movie] = []
     private let currentUserId = "Shamik Karkhanis"
     private var ratingSessionCount = 0
@@ -284,10 +295,14 @@ class UserState: ObservableObject {
                     print("[LiveRecs] Deduped \(duplicateCount) movies (already seen/listed).")
                     
                     if !newUniqueMovies.isEmpty {
-                        print("[LiveRecs] Added \(newUniqueMovies.count) new unique movies.")
-                        // Append to the end of the active list
-                        self.recommendations.append(contentsOf: newUniqueMovies)
+                        print("[LiveRecs] Added \(newUniqueMovies.count) new unique movies to buffer.")
+                        // Append to the buffer (allFetchedMovies), NOT directly to recommendations.
+                        // loadMoreMovies() will handle moving them to the active view if needed.
                         self.allFetchedMovies.append(contentsOf: newUniqueMovies)
+                        
+                        // Trigger loadMoreMovies to update the UI if the user was waiting at the bottom
+                        // or to just log the new status.
+                        self.loadMoreMovies()
                     } else {
                         print("[LiveRecs] No new unique movies found to add.")
                     }
@@ -301,6 +316,7 @@ class UserState: ObservableObject {
                     
                     // Initial page size
                     self.recommendations = Array(fetchedMovies.prefix(10))
+                    self.printQueueStatus()
                 }
             }
         } catch {
@@ -312,7 +328,8 @@ class UserState: ObservableObject {
         // Only track if not already tracked
         if !shownMovieIds.contains(movie.tmdbId) {
             shownMovieIds.insert(movie.tmdbId)
-            print("[LiveRecs] Marked '\(movie.title)' as shown.")
+            shownCount += 1 // Increment session counter
+            // print("[LiveRecs] Marked '\(movie.title)' as shown. Total shown: \(shownCount)")
             
             // Sync if we have accumulated enough shown movies (e.g., 3)
             if shownMovieIds.count >= 3 {
@@ -335,14 +352,30 @@ class UserState: ObservableObject {
         processPendingActions()
     }
     
+    private func printQueueStatus() {
+        let unseenInList = max(0, queueCount - shownCount)
+        let totalMoviesLeft = unseenInList + bufferCount
+        
+        print("====== QUEUE STATUS ======")
+        print("Total List Size (UI):   \(queueCount)")
+        print("Movies Seen (Session):  \(shownCount)")
+        print("--------------------------")
+        print("Unseen in UI (approx):  \(unseenInList)")
+        print("Buffer (Memory Only):   \(bufferCount)")
+        print("--------------------------")
+        print("TOTAL MOVIES LEFT:      \(totalMoviesLeft)")
+        print("==========================")
+    }
+    
     func loadMoreMovies() {
         // Prevent re-entry if we are already dealing with a fetch that might update the list
         // However, loadMoreMovies primarily pages from memory.
         
         let currentCount = recommendations.count
         
-        // If we are running low on buffered movies (less than 5 unseen left), sync and fetch more
-        if allFetchedMovies.count - currentCount < 5 {
+        // If we are running low on buffered movies (less than 15 unseen left), sync and fetch more
+        // Increased threshold to 15 to ensure we fetch BEFORE the user hits the wall.
+        if allFetchedMovies.count - currentCount < 15 {
              print("[LiveRecs] Buffer low (\(allFetchedMovies.count - currentCount) left). Syncing and fetching more...")
              Task {
                  do {
@@ -361,7 +394,10 @@ class UserState: ObservableObject {
         }
         
         // Only page from memory if we have more in the buffer than currently shown
-        guard currentCount < allFetchedMovies.count else { return }
+        guard currentCount < allFetchedMovies.count else {
+            printQueueStatus()
+            return
+        }
         
         // Ensure we don't grab an invalid range
         let remaining = allFetchedMovies.count - currentCount
@@ -369,5 +405,7 @@ class UserState: ObservableObject {
         let nextBatch = allFetchedMovies[currentCount..<(currentCount + batchSize)]
         
         recommendations.append(contentsOf: nextBatch)
+        print("[LiveRecs] Paged \(batchSize) movies from buffer.")
+        printQueueStatus()
     }
 }

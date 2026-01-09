@@ -1,0 +1,8 @@
+2026-01-09 14:37:28,874 [INFO] Starting server run #25. Logging to logs/server_25.log
+2026-01-09 14:37:39,391 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0023s | status 200
+2026-01-09 14:37:39,709 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-09 14:37:39,709 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-09 14:37:39,759 [INFO] path /onboarding | method GET | duration 0.1288s | status 200
+2026-01-09 14:37:39,762 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Animation": true}, {"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Family": true}, {"is_Fantasy": true}, {"is_Horror": true}, {"is_Mystery": true}, {"is_Science Fiction": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 363
+2026-01-09 14:37:39,986 [INFO] action search_movies | duration 0.2267s | exclude_count 143 | candidates_reranked 270
+2026-01-09 14:37:39,987 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.3470s | status 200
