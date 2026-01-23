@@ -142,8 +142,8 @@ def get_onboarding_movies():
     Returns a static list of popular movies for onboarding from Chroma DB.
     """
     onboarding_ids = [
-        603, 238, 862, 27205, 597, 
-        129, 155, 680, 496243, 419430
+        238, 324857, 85, 115, 496243,
+        694, 11036, 27205, 76341, 407806
     ]
     
     try:
