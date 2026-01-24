@@ -1,0 +1,12 @@
+2026-01-24 13:06:10,328 [INFO] Starting server run #48. Logging to logs/server_48.log
+2026-01-24 13:07:24,910 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0042s | status 200
+2026-01-24 13:07:24,941 [INFO] path /onboarding/personas | method GET | duration 0.0016s | status 200
+2026-01-24 13:07:25,051 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-24 13:07:25,174 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 262
+2026-01-24 13:07:25,304 [INFO] action search_movies | duration 0.1315s | exclude_count 42 | candidates_reranked 260
+2026-01-24 13:07:25,305 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2790s | status 200
+2026-01-24 13:07:29,873 [INFO] path /encode | method POST | duration 0.1128s | status 200
+2026-01-24 13:07:29,987 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 13:07:30,044 [INFO] action search_movies | duration 0.0585s | exclude_count 0 | candidates_reranked 250
+2026-01-24 13:07:30,045 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0618s | status 200
+2026-01-24 13:07:38,099 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0064s | status 200

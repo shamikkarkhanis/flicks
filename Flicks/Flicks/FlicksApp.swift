@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct FlicksApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
     @StateObject private var userState = UserState()
 
     init() {
@@ -19,14 +20,16 @@ struct FlicksApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if hasCompletedOnboarding {
+            if !isLoggedIn {
+                LoginView()
+                    .statusBarHidden(true)
+            } else if hasCompletedOnboarding {
                 ContentView()
                     .environmentObject(userState)
                     .statusBarHidden(true)
             } else {
                 OnboardingView()
                     .environmentObject(userState)
-                
                     .statusBarHidden(true)
             }
         }
