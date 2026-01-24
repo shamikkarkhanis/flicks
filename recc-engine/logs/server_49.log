@@ -1,0 +1,45 @@
+2026-01-24 13:41:35,253 [INFO] Starting server run #49. Logging to logs/server_49.log
+2026-01-24 13:41:50,405 [INFO] path /users/Shamik | method GET | duration 0.0037s | status 200
+2026-01-24 13:41:50,489 [INFO] path /onboarding/personas | method GET | duration 0.0038s | status 200
+2026-01-24 13:41:50,660 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-24 13:41:50,776 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 268
+2026-01-24 13:41:50,912 [INFO] action search_movies | duration 0.1380s | exclude_count 48 | candidates_reranked 247
+2026-01-24 13:41:50,913 [INFO] path /users/Shamik/recommendations | method GET | duration 0.2901s | status 200
+2026-01-24 13:41:52,311 [INFO] path /movies/batch | method POST | duration 1.6817s | status 200
+2026-01-24 13:41:52,927 [INFO] path /users/Shamik | method GET | duration 0.0035s | status 200
+2026-01-24 13:41:54,633 [INFO] path /movies/batch | method POST | duration 1.6809s | status 200
+2026-01-24 13:42:33,399 [INFO] path /users/Shamik/watchlist | method POST | duration 0.0061s | status 200
+2026-01-24 13:42:44,650 [INFO] path /users/Shamik/watchlist | method POST | duration 0.0046s | status 200
+2026-01-24 13:42:45,260 [INFO] path /users/Shamik/sync | method POST | duration 0.0071s | status 200
+2026-01-24 13:42:48,123 [INFO] path /users/Shamik/watchlist | method POST | duration 0.0284s | status 200
+2026-01-24 13:42:49,661 [INFO] path /users/Shamik/watchlist | method POST | duration 0.0056s | status 200
+2026-01-24 13:42:50,883 [INFO] path /users/Shamik/watchlist | method POST | duration 0.1253s | status 200
+2026-01-24 13:43:06,662 [INFO] path /users/Shamik | method GET | duration 0.0037s | status 200
+2026-01-24 13:43:06,688 [INFO] path /onboarding/personas | method GET | duration 0.0008s | status 200
+2026-01-24 13:43:06,744 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 273
+2026-01-24 13:43:06,858 [INFO] action search_movies | duration 0.1165s | exclude_count 53 | candidates_reranked 247
+2026-01-24 13:43:06,859 [INFO] path /users/Shamik/recommendations | method GET | duration 0.1261s | status 200
+2026-01-24 13:43:07,649 [INFO] path /users/Shamik | method GET | duration 0.0069s | status 200
+2026-01-24 13:43:08,888 [INFO] path /movies/batch | method POST | duration 2.1540s | status 200
+2026-01-24 13:43:09,963 [INFO] path /movies/batch | method POST | duration 2.2595s | status 200
+2026-01-24 13:43:29,937 [INFO] path /users/Shamik/sync | method POST | duration 0.0052s | status 200
+2026-01-24 13:43:32,676 [INFO] path /users/Shamik/ratings | method POST | duration 0.0204s | status 200
+2026-01-24 13:43:35,432 [INFO] path /users/Shamik/sync | method POST | duration 0.0045s | status 200
+2026-01-24 13:43:38,463 [INFO] path /users/Shamik/sync | method POST | duration 0.0041s | status 200
+2026-01-24 13:43:39,639 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 282
+2026-01-24 13:43:39,673 [INFO] action search_movies | duration 0.0380s | exclude_count 62 | candidates_reranked 247
+2026-01-24 13:43:39,674 [INFO] path /users/Shamik/recommendations | method GET | duration 0.0488s | status 200
+2026-01-24 13:43:39,713 [INFO] path /users/Shamik/sync | method POST | duration 0.0016s | status 200
+2026-01-24 13:43:50,996 [INFO] path /users/Shamik/sync | method POST | duration 0.0054s | status 200
+2026-01-24 13:44:06,453 [INFO] path /users/Shamik/sync | method POST | duration 0.0042s | status 200
+2026-01-24 13:44:13,977 [INFO] path /users/Shamik/sync | method POST | duration 0.0053s | status 200
+2026-01-24 13:44:18,237 [INFO] path /users/Shamik/sync | method POST | duration 0.0050s | status 200
+2026-01-24 13:44:20,532 [INFO] path /users/Shamik/ratings | method POST | duration 0.0014s | status 200
+2026-01-24 13:44:23,108 [INFO] path /users/Shamik/ratings | method POST | duration 0.0235s | status 200
+2026-01-24 13:44:23,226 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 294
+2026-01-24 13:44:23,263 [INFO] action search_movies | duration 0.0417s | exclude_count 74 | candidates_reranked 247
+2026-01-24 13:44:23,264 [INFO] path /users/Shamik/recommendations | method GET | duration 0.0476s | status 200
+2026-01-24 13:44:23,344 [INFO] path /users/Shamik/sync | method POST | duration 0.0236s | status 200
+2026-01-24 13:44:32,246 [INFO] path /users/Shamik/sync | method POST | duration 0.0049s | status 200
+2026-01-24 13:44:32,274 [INFO] path /users/Shamik/sync | method POST | duration 0.0020s | status 200
+2026-01-24 13:44:36,566 [INFO] path /users/Shamik/sync | method POST | duration 0.0057s | status 200

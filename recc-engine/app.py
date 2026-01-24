@@ -59,6 +59,40 @@ class Persona(BaseModel):
     icon: str
     image: str
 
+class BatchMovieRequest(BaseModel):
+    movie_ids: List[int]
+
+@app.post("/movies/batch", response_model=List[Recommendation])
+def get_movies_batch(request: BatchMovieRequest):
+    """
+    Fetches full movie details for a list of IDs.
+    Used for hydrating user profiles on the client.
+    """
+    try:
+        # Deduplicate IDs
+        unique_ids = list(set(request.movie_ids))
+        
+        # Fetch from TMDB (via wrapper)
+        tmdb_results = tmdb_client.movie_details_batch(unique_ids)
+        
+        movies = []
+        for data in tmdb_results:
+            # Map TMDB format to Recommendation/MovieDTO format
+            genres = [g["name"] for g in data.get("genres", [])]
+            
+            rec = Recommendation(
+                movie_id=str(data.get("id")),
+                title=data.get("title", "Unknown"),
+                score=0.0, # Not applicable for direct fetch
+                genres=genres,
+                backdrop_path=data.get("backdrop_path")
+            )
+            movies.append(rec)
+            
+        return movies
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Recc Engine API"}

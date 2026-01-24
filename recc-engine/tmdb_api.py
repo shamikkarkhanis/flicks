@@ -1,12 +1,5 @@
-"""Thin wrapper around TMDB API using curl requests."""
-
-from __future__ import annotations
-
-
-from typing import Any, Dict, List, Optional
-
 import requests
-
+from typing import Optional, List, Dict, Any
 
 class TMDBClient:
     """Small convenience wrapper to keep TMDB calls in one place."""
@@ -23,33 +16,20 @@ class TMDBClient:
 
     def movie_details(self, movie_id: int) -> Dict[str, Any]:
         return self._get(f"movie/{movie_id}?language=en-US")
+    
+    def movie_details_batch(self, movie_ids: List[int]) -> List[Dict[str, Any]]:
+        """
+        Fetches details for multiple movies. 
+        Note: TMDB does not have a batch endpoint, so this loops. 
+        For production, this should be cached or rate-limited.
+        """
+        results = []
+        for mid in movie_ids:
+            try:
+                data = self.movie_details(mid)
+                results.append(data)
+            except Exception as e:
+                print(f"Failed to fetch details for {mid}: {e}")
+        return results
 
     # def movie_credits(self, movie_id: int) -> Dict[str, Any]
-    #     return self._get(f"/movie/{movie_id}/credits")
-
-    # def search_movie(self, query: str, *, page: int = 1) -> Dict[str, Any]:
-    #     return self._get("/search/movie", params={"query": query, "page": page})
-
-    def popular_movies(self, page: int = 1, language: str = "en-US") -> Dict[str, Any]:
-        return self._get(f"movie/popular?language={language}&page={page}")
-    
-    def keywords(self, movie_id: int) -> Dict[str, Any]:
-        return self._get(f"/movie/{movie_id}/keywords")
-
-    def discover_movies(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Wrapper for /discover/movie. 
-        params example: {"primary_release_year": 1999, "with_genres": 27}
-        """
-        return self._get("discover/movie", params=params)
-
-    # def top_rated_movies(self, *, page: int = 1) -> Dict[str, Any]:
-    #     return self._get("/movie/top_rated", params={"page": page})
-
-    # def similar_movies(self, movie_id: int, *, page: int = 1) -> Dict[str, Any]:
-    #     return self._get(f"/movie/{movie_id}/similar", params={"page": page})
-
-    # def genre_list(self) -> List[Dict[str, Any]]:
-    #     data = self._get("/genre/movie/list")
-    #     return data.get("genres", [])
-

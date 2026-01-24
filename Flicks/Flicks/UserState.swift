@@ -109,10 +109,55 @@ class UserState: ObservableObject {
             let profile = try await APIService.shared.fetchUserProfile(for: currentUserId)
             
             await MainActor.run {
-                // Populate local state from profile
-                // This is simplified; in a real app we'd map these IDs to actual Movie objects
-                // potentially by fetching movie details if not available
                 print("Profile fetched: \(profile.name)")
+                
+                // 1. Collect all IDs that need hydration
+                let allIds = Set(
+                    (profile.data.watchlist) +
+                    (profile.data.history) +
+                    (profile.data.liked) +
+                    (profile.data.disliked) +
+                    (profile.data.neutral)
+                )
+                
+                // 2. Fetch full movie details if we have any IDs
+                if !allIds.isEmpty {
+                    Task {
+                        do {
+                            let movieDTOs = try await APIService.shared.fetchMovies(ids: Array(allIds))
+                            
+                            // Map DTOs to Domain Objects
+                            let movieMap = Dictionary(uniqueKeysWithValues: movieDTOs.compactMap { dto -> (Int, Movie)? in
+                                guard let backdrop = dto.backdrop_path, !backdrop.isEmpty else { return nil }
+                                let id = Int(dto.movie_id) ?? 0
+                                let movie = Movie(
+                                    tmdbId: id,
+                                    title: dto.title,
+                                    subtitle: dto.genres?.joined(separator: " · ") ?? "Movie",
+                                    imageName: "https://image.tmdb.org/t/p/original\(backdrop)",
+                                    friendInitials: [],
+                                    dateAdded: Date(),
+                                    dateWatched: Date()
+                                )
+                                return (id, movie)
+                            })
+                            
+                            await MainActor.run {
+                                // 3. Hydrate Lists
+                                self.watchlist = profile.data.watchlist.compactMap { movieMap[$0] }
+                                self.history = profile.data.history.compactMap { movieMap[$0] }
+                                self.likedMovies = profile.data.liked.compactMap { movieMap[$0] }
+                                self.dislikedMovies = profile.data.disliked.compactMap { movieMap[$0] }
+                                self.neutralMovies = profile.data.neutral.compactMap { movieMap[$0] }
+                                
+                                self.rebuildGenres()
+                                print("Profile hydrated: \(self.watchlist.count) watchlist, \(self.history.count) history")
+                            }
+                        } catch {
+                            print("Failed to hydrate movie details: \(error)")
+                        }
+                    }
+                }
                 
                 // For now, we assume we want to fetch recommendations immediately after profile load
                 // if the list is empty

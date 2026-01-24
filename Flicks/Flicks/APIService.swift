@@ -20,6 +20,10 @@ struct SyncShownRequest: Codable {
     let shown_ids: [Int]
 }
 
+struct BatchMoviesRequest: Codable {
+    let movie_ids: [Int]
+}
+
 enum APIError: Error {
     case invalidURL
     case networkError(Error)
@@ -32,6 +36,30 @@ class APIService {
     private let baseURL = "http://192.168.1.18:8000"
 
     private init() {}
+    
+    func fetchMovies(ids: [Int]) async throws -> [MovieDTO] {
+        guard !ids.isEmpty else { return [] }
+        
+        guard let url = URL(string: "\(baseURL)/movies/batch") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = BatchMoviesRequest(movie_ids: ids)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode([MovieDTO].self, from: data)
+    }
 
     func createUserProfile(request: CreateUserProfileRequest) async throws {
         guard let url = URL(string: "\(baseURL)/encode") else {
