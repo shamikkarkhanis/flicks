@@ -1,0 +1,59 @@
+2026-01-24 13:54:06,783 [INFO] Starting server run #54. Logging to logs/server_54.log
+2026-01-24 13:54:27,219 [INFO] path /users/Shamik | method GET | duration 0.0053s | status 200
+2026-01-24 13:54:27,375 [INFO] path /onboarding/personas | method GET | duration 0.0031s | status 200
+2026-01-24 13:54:27,428 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-24 13:54:27,596 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 303
+2026-01-24 13:54:27,770 [INFO] action search_movies | duration 0.1764s | exclude_count 83 | candidates_reranked 253
+2026-01-24 13:54:27,771 [INFO] path /users/Shamik/recommendations | method GET | duration 0.3709s | status 200
+2026-01-24 13:54:30,161 [INFO] path /users/Shamik | method GET | duration 0.0051s | status 200
+2026-01-24 13:54:30,273 [INFO] path /movies/batch | method POST | duration 2.8700s | status 200
+2026-01-24 13:54:32,854 [INFO] path /movies/batch | method POST | duration 2.6798s | status 200
+2026-01-24 13:54:35,886 [INFO] path /users/Shamik/sync | method POST | duration 0.0149s | status 200
+2026-01-24 13:54:38,116 [INFO] path /users/Shamik/ratings | method POST | duration 0.0071s | status 200
+2026-01-24 13:54:38,353 [INFO] path /users/Shamik/ratings | method POST | duration 0.0158s | status 200
+2026-01-24 13:54:40,887 [INFO] path /users/Shamik/ratings | method POST | duration 0.0166s | status 200
+2026-01-24 13:54:40,913 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 306
+2026-01-24 13:54:41,032 [INFO] action search_movies | duration 0.1226s | exclude_count 86 | candidates_reranked 253
+2026-01-24 13:54:41,033 [INFO] path /users/Shamik/recommendations | method GET | duration 0.1302s | status 200
+2026-01-24 13:54:44,417 [INFO] path /users/Shamik/sync | method POST | duration 0.0050s | status 200
+2026-01-24 13:54:54,103 [INFO] path /users/Shamik/ratings | method POST | duration 0.0056s | status 200
+2026-01-24 13:54:55,784 [INFO] path /users/Shamik/sync | method POST | duration 0.0079s | status 200
+2026-01-24 13:54:58,211 [INFO] path /users/Shamik/ratings | method POST | duration 0.0159s | status 200
+2026-01-24 13:55:01,448 [INFO] path /users/Shamik/ratings | method POST | duration 0.0114s | status 200
+2026-01-24 13:55:01,505 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 312
+2026-01-24 13:55:01,618 [INFO] action search_movies | duration 0.1155s | exclude_count 92 | candidates_reranked 253
+2026-01-24 13:55:01,619 [INFO] path /users/Shamik/recommendations | method GET | duration 0.1241s | status 200
+2026-01-24 13:55:03,773 [INFO] path /users/Shamik/sync | method POST | duration 0.0053s | status 200
+2026-01-24 13:55:10,887 [INFO] path /users/Shamik/sync | method POST | duration 0.0020s | status 200
+2026-01-24 13:55:26,117 [INFO] path /users/Shamik/sync | method POST | duration 0.0057s | status 200
+2026-01-24 13:55:34,361 [INFO] path /users/Shamik/sync | method POST | duration 0.0044s | status 200
+2026-01-24 13:55:38,071 [INFO] path /users/Shamik/sync | method POST | duration 0.0041s | status 200
+2026-01-24 13:55:47,310 [INFO] path /users/Shamik/sync | method POST | duration 0.0049s | status 200
+2026-01-24 13:55:54,564 [INFO] path /users/Shamik/sync | method POST | duration 0.0045s | status 200
+2026-01-24 13:55:57,745 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 323
+2026-01-24 13:55:57,794 [INFO] path /users/Shamik/sync | method POST | duration 0.0015s | status 200
+2026-01-24 13:55:57,866 [INFO] action search_movies | duration 0.1252s | exclude_count 103 | candidates_reranked 253
+2026-01-24 13:55:57,867 [INFO] path /users/Shamik/recommendations | method GET | duration 0.1369s | status 200
+2026-01-24 13:56:02,772 [INFO] path /users/Shamik/sync | method POST | duration 0.0109s | status 200
+2026-01-24 13:56:15,404 [INFO] path /users/Shamik/sync | method POST | duration 0.0054s | status 200
+2026-01-24 13:56:18,519 [INFO] path /users/Shamik/sync | method POST | duration 0.0037s | status 200
+2026-01-24 13:56:21,522 [INFO] path /users/Shamik/ratings | method POST | duration 0.0016s | status 200
+2026-01-24 13:56:25,927 [INFO] path /users/Shamik/sync | method POST | duration 0.0386s | status 200
+2026-01-24 13:56:31,644 [INFO] path /users/Shamik/ratings | method POST | duration 0.0050s | status 200
+2026-01-24 13:56:32,781 [INFO] path /users/Shamik/sync | method POST | duration 0.0059s | status 200
+2026-01-24 13:56:36,032 [INFO] path /users/Shamik/sync | method POST | duration 0.0058s | status 200
+2026-01-24 13:56:38,599 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 336
+2026-01-24 13:56:38,636 [INFO] action search_movies | duration 0.0415s | exclude_count 116 | candidates_reranked 253
+2026-01-24 13:56:38,637 [INFO] path /users/Shamik/recommendations | method GET | duration 0.0505s | status 200
+2026-01-24 13:56:38,644 [INFO] path /users/Shamik/sync | method POST | duration 0.0016s | status 200
+2026-01-24 13:56:41,273 [INFO] path /users/Shamik/ratings | method POST | duration 0.0051s | status 200
+2026-01-24 13:56:41,344 [INFO] action search_movies | where_filter: {"$and": [{"language": "en"}, {"year": {"$gte": 1995}}]} | fetch_k: 338
+2026-01-24 13:56:41,372 [INFO] action search_movies | duration 0.0311s | exclude_count 118 | candidates_reranked 253
+2026-01-24 13:56:41,373 [INFO] path /users/Shamik/recommendations | method GET | duration 0.0392s | status 200
+2026-01-24 13:56:45,107 [INFO] path /users/Shamik/sync | method POST | duration 0.0050s | status 200
+2026-01-24 13:56:49,445 [INFO] path /users/Shamik/sync | method POST | duration 0.0041s | status 200
+2026-01-24 13:56:53,543 [INFO] path /users/Shamik/sync | method POST | duration 0.0053s | status 200
+2026-01-24 13:56:57,144 [INFO] path /users/Shamik/sync | method POST | duration 0.0059s | status 200
+2026-01-24 13:57:00,915 [INFO] path /users/Shamik/sync | method POST | duration 0.0051s | status 200
+2026-01-24 13:57:03,477 [INFO] path /users/Shamik/sync | method POST | duration 0.0047s | status 200
+2026-01-24 13:57:06,137 [INFO] path /users/Shamik/sync | method POST | duration 0.0052s | status 200

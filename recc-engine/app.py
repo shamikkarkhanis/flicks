@@ -343,7 +343,8 @@ def get_recommendations(
     user_id: str, 
     top_k: int = 20, 
     genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by"),
-    language: Optional[str] = Query(None, description="Language code to filter by (e.g. 'en', 'es')")
+    language: Optional[str] = Query(None, description="Language code to filter by (e.g. 'en', 'es')"),
+    min_year: Optional[int] = Query(1995, description="Minimum release year to filter by")
 ):
     """
     Get movie recommendations for a user based on their stored embedding.
@@ -417,7 +418,8 @@ def get_recommendations(
             filters=filter_genres, 
             exclude_ids=exclude_ids,
             language=language,
-            user_keywords=user_keywords_list
+            user_keywords=user_keywords_list,
+            min_year=min_year
         )
         
         recommendations = []

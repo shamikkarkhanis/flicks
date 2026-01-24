@@ -32,4 +32,12 @@ class TMDBClient:
                 print(f"Failed to fetch details for {mid}: {e}")
         return results
 
-    # def movie_credits(self, movie_id: int) -> Dict[str, Any]
+    def keywords(self, movie_id: int) -> Dict[str, Any]:
+        return self._get(f"movie/{movie_id}/keywords")
+
+    def discover_movies(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Wrapper for /discover/movie. 
+        params example: {"primary_release_year": 1999, "with_genres": 27}
+        """
+        return self._get("discover/movie", params=params)

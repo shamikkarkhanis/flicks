@@ -193,7 +193,7 @@ def upsert_user_profile(user_id, text, embedding, profile):
     )
 
 
-def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=None, user_keywords=None):
+def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=None, user_keywords=None, min_year=None):
     start_time = time.time()
     client = chromadb.PersistentClient(path="chroma")
     collection = client.get_or_create_collection(name="movies")
@@ -211,6 +211,10 @@ def search_movies(embedding, top_k, filters=None, exclude_ids=None, language=Non
     # Language filter
     if language:
         conditions.append({"language": language})
+        
+    # Year Filter (Native)
+    if min_year:
+        conditions.append({"year": {"$gte": min_year}})
 
     where_filter = None
     if len(conditions) == 1:

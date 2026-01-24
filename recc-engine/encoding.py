@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -46,6 +47,18 @@ for item in data:
         "payload": json.dumps(item),
         "language": item.get("original_language", "unknown")
     }
+    
+    # Add 'year' for filtering
+    release_date = item.get("release_date")
+    if release_date:
+        try:
+            # Try YYYY-MM-DD
+            dt = datetime.strptime(release_date, "%Y-%m-%d")
+            metadata["year"] = dt.year
+        except ValueError:
+            # Fallback: Try just extracting first 4 digits
+            if len(release_date) >= 4 and release_date[:4].isdigit():
+                metadata["year"] = int(release_date[:4])
     
     for g in item.get("genres", []):
         name = g.get("name")

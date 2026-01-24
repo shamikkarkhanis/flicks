@@ -56,27 +56,20 @@ def main():
     candidates_to_fetch = []
 
     # 2. Strategy A: Time Machine (1980 - 2023)
-    # Fetch top 2 pages (~40 movies) for each year
+    # Fetch top 10 pages (~200 movies) for each year
     print("\n--- Strategy: Time Machine ---")
-    current_year = 2024
-    for year in range(1980, current_year):
+    current_year = 2027
+    for year in range(1995, current_year):
         print(f"Scanning year {year}...", end="\r")
         try:
-            # Page 1
-            res = client.discover_movies({
-                "primary_release_year": year,
-                "sort_by": "popularity.desc",
-                "page": 1
-            })
-            candidates_to_fetch.extend(res.get("results", []))
+            for page in range(1, 11): # Pages 1 to 10
+                res = client.discover_movies({
+                    "primary_release_year": year,
+                    "sort_by": "popularity.desc",
+                    "page": page
+                })
+                candidates_to_fetch.extend(res.get("results", []))
             
-            # Page 2
-            res = client.discover_movies({
-                "primary_release_year": year,
-                "sort_by": "popularity.desc",
-                "page": 2
-            })
-            candidates_to_fetch.extend(res.get("results", []))
         except Exception as e:
             print(f"Error fetching year {year}: {e}")
             time.sleep(1)
@@ -84,35 +77,35 @@ def main():
     # 3. Strategy B: Genre Equalizer
     # Fetch top ~60 movies for specific genres to ensure coverage
     # 27: Horror, 878: Sci-Fi, 99: Documentary, 16: Animation, 10752: War, 37: Western
-    print("\n\n--- Strategy: Genre Equalizer ---")
-    target_genres = [27, 878, 99, 16, 10752, 37, 9648] 
-    for genre_id in target_genres:
-        print(f"Scanning genre {genre_id}...", end="\r")
-        try:
-            for page in range(1, 4): # ~60 movies per genre
-                res = client.discover_movies({
-                    "with_genres": genre_id,
-                    "sort_by": "vote_count.desc", # Get classics
-                    "page": page
-                })
-                candidates_to_fetch.extend(res.get("results", []))
-        except Exception as e:
-            print(f"Error fetching genre {genre_id}: {e}")
+    # print("\n\n--- Strategy: Genre Equalizer ---")
+    # target_genres = [27, 878, 99, 16, 10752, 37, 9648] 
+    # for genre_id in target_genres:
+    #     print(f"Scanning genre {genre_id}...", end="\r")
+    #     try:
+    #         for page in range(4, 10): # ~60 movies per genre
+    #             res = client.discover_movies({
+    #                 "with_genres": genre_id,
+    #                 "sort_by": "vote_count.desc", # Get classics
+    #                 "page": page
+    #             })
+    #             candidates_to_fetch.extend(res.get("results", []))
+    #     except Exception as e:
+    #         print(f"Error fetching genre {genre_id}: {e}")
 
-    # 4. Strategy C: Hidden Gems
-    # High rated (>7.5), decent vote count (>300), sorted by rating
-    print("\n\n--- Strategy: Hidden Gems ---")
-    try:
-        for page in range(1, 6): # ~100 movies
-            res = client.discover_movies({
-                "vote_average.gte": 7.5,
-                "vote_count.gte": 300,
-                "sort_by": "vote_average.desc",
-                "page": page
-            })
-            candidates_to_fetch.extend(res.get("results", []))
-    except Exception as e:
-        print(f"Error fetching hidden gems: {e}")
+    # # 4. Strategy C: Hidden Gems
+    # # High rated (>7.5), decent vote count (>300), sorted by rating
+    # print("\n\n--- Strategy: Hidden Gems ---")
+    # try:
+    #     for page in range(6, 10): # ~100 movies
+    #         res = client.discover_movies({
+    #             "vote_average.gte": 7.5,
+    #             "vote_count.gte": 300,
+    #             "sort_by": "vote_average.desc",
+    #             "page": page
+    #         })
+    #         candidates_to_fetch.extend(res.get("results", []))
+    # except Exception as e:
+    #     print(f"Error fetching hidden gems: {e}")
 
     # 5. Deduplicate Candidates (vs Existing and Self)
     unique_candidates = []

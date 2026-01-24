@@ -16,6 +16,7 @@ def inspect_movies():
 
     print("\nSample Movie Metadata:")
     for idx, meta in enumerate(results["metadatas"]):
+        print(f"[{idx}] RAW METADATA: {meta}")
         payload_str = meta.get("payload", "{{}}")
         try:
             payload = json.loads(payload_str)
