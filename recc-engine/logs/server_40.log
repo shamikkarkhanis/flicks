@@ -1,0 +1,37 @@
+2026-01-24 11:37:37,320 [INFO] Starting server run #40. Logging to logs/server_40.log
+2026-01-24 11:39:04,459 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0081s | status 200
+2026-01-24 11:39:04,984 [INFO] path /onboarding/personas | method GET | duration 0.0072s | status 200
+2026-01-24 11:39:05,122 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-24 11:39:05,713 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 11:39:06,021 [INFO] action search_movies | duration 0.3102s | exclude_count 6 | candidates_reranked 244
+2026-01-24 11:39:06,022 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 1.0141s | status 200
+2026-01-24 11:39:14,034 [INFO] Initializing SentenceTransformer model...
+2026-01-24 11:39:14,142 [INFO] Use pytorch device_name: mps
+2026-01-24 11:39:14,142 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-24 11:39:16,993 [INFO] action encode_user_text | duration 2.9590s
+2026-01-24 11:39:17,073 [INFO] path /encode | method POST | duration 3.0470s | status 200
+2026-01-24 11:39:17,086 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 11:39:17,244 [INFO] action search_movies | duration 0.1602s | exclude_count 0 | candidates_reranked 250
+2026-01-24 11:39:17,245 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1650s | status 200
+2026-01-24 11:42:16,106 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0180s | status 200
+2026-01-24 11:42:17,190 [INFO] path /users/Shamik Karkhanis/watchlist/16814 | method DELETE | duration 0.0025s | status 200
+2026-01-24 11:43:23,880 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0072s | status 200
+2026-01-24 11:43:24,114 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0039s | status 200
+2026-01-24 11:43:24,158 [INFO] path /onboarding/personas | method GET | duration 0.0029s | status 200
+2026-01-24 11:43:24,238 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 11:43:24,379 [INFO] action search_movies | duration 0.1462s | exclude_count 3 | candidates_reranked 250
+2026-01-24 11:43:24,380 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.2214s | status 200
+2026-01-24 11:44:07,595 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0094s | status 200
+2026-01-24 11:44:07,890 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0030s | status 200
+2026-01-24 11:44:07,952 [INFO] path /onboarding/personas | method GET | duration 0.0028s | status 200
+2026-01-24 11:44:08,036 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 11:44:08,309 [INFO] action search_movies | duration 0.2764s | exclude_count 3 | candidates_reranked 250
+2026-01-24 11:44:08,310 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.3577s | status 200
+2026-01-24 11:44:10,547 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0034s | status 200
+2026-01-24 11:44:13,554 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0047s | status 200
+2026-01-24 11:44:14,931 [INFO] path /users/Shamik Karkhanis/watchlist/262825 | method DELETE | duration 0.0038s | status 200
+2026-01-24 11:44:20,069 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0042s | status 200
+2026-01-24 11:44:22,279 [INFO] path /users/Shamik Karkhanis/watchlist/16814 | method DELETE | duration 0.0030s | status 200
+2026-01-24 11:44:23,314 [INFO] path /users/Shamik Karkhanis/watchlist | method POST | duration 0.0040s | status 200
+2026-01-24 11:44:25,145 [INFO] path /users/Shamik Karkhanis/watchlist/16814 | method DELETE | duration 0.0029s | status 200
+2026-01-24 11:44:34,052 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0029s | status 200

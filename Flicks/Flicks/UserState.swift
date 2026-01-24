@@ -5,7 +5,6 @@ class UserState: ObservableObject {
     @Published var watchlist: [Movie] = []
     @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
-    @Published var onboardingMovies: [Movie] = []
     @Published var personas: [OnboardingView.Persona] = []
     
     @Published var likedMovies: [Movie] = []
@@ -134,18 +133,6 @@ class UserState: ObservableObject {
         }
     }
     
-    func fetchOnboardingMovies() async {
-        do {
-            let movies = try await APIService.shared.getOnboardingMovies()
-            await MainActor.run {
-                self.onboardingMovies = movies
-            }
-        } catch {
-            print("Failed to fetch onboarding movies: \(error)")
-            // Fallback to sampleMovies if fetch fails (assuming sampleMovies is available globally or we handle empty)
-        }
-    }
-    
     func fetchPersonas() async {
         do {
             let dtos = try await APIService.shared.fetchPersonas()
@@ -257,21 +244,6 @@ class UserState: ObservableObject {
         rebuildGenres()
     }
 
-    /// Used during onboarding to accumulate picks locally without triggering API calls or live refills.
-    func addPickDuringOnboarding(_ movie: Movie) {
-        if !history.contains(where: { $0.id == movie.id }) {
-            var newMovie = movie
-            newMovie.dateWatched = Date()
-            history.append(newMovie)
-        }
-        
-        if !likedMovies.contains(where: { $0.id == movie.id }) {
-            likedMovies.append(movie)
-        }
-        
-        rebuildGenres()
-    }
-
     private func rebuildGenres() {
         var newGenres: Set<String> = []
         for movie in likedMovies {
@@ -288,11 +260,11 @@ class UserState: ObservableObject {
 
     // MARK: - Profile Sync & Recommendations
 
-    func syncUserProfile() async {
+    func syncUserProfile(personas: [String] = []) async {
         do {
             print("[LiveRecs] Performing bulk profile sync...")
             // 1. Upload the entire local state to create/reset the profile on the backend
-            try await APIService.shared.createProfile(name: currentUserId, genres: genres, movies: history)
+            try await APIService.shared.createProfile(name: currentUserId, genres: genres, movies: history, personas: personas)
             print("[LiveRecs] Profile bulk sync successful.")
             
             // 2. Fetch fresh recommendations based on the new profile

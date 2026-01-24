@@ -4,6 +4,7 @@ struct CreateUserProfileRequest: Codable {
     let name: String
     let genres: [String]
     let movie_ids: [Int]
+    let personas: [String]?
 }
 
 struct WatchlistRequest: Codable {
@@ -61,11 +62,12 @@ class APIService {
     }
     
     // Convenience method for domain objects
-    func createProfile(name: String, genres: [String], movies: [Movie]) async throws {
+    func createProfile(name: String, genres: [String], movies: [Movie], personas: [String] = []) async throws {
         let request = CreateUserProfileRequest(
             name: name,
             genres: genres,
-            movie_ids: movies.map { $0.tmdbId }
+            movie_ids: movies.map { $0.tmdbId },
+            personas: personas
         )
         try await createUserProfile(request: request)
     }
@@ -106,44 +108,6 @@ class APIService {
                 tmdbId: Int(dto.movie_id) ?? 0,
                 title: dto.title,
                 subtitle: dto.genres?.joined(separator: " · ") ?? "Recommended",
-                imageName: "https://image.tmdb.org/t/p/original\(backdropPath)",
-                friendInitials: [],
-                dateAdded: Date(),
-                dateWatched: Date()
-            )
-        }
-    }
-
-    func fetchOnboardingMovies() async throws -> [MovieDTO] {
-        guard let url = URL(string: "\(baseURL)/onboarding") else {
-            throw APIError.invalidURL
-        }
-
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            if let httpResponse = response as? HTTPURLResponse,
-               !(200...299).contains(httpResponse.statusCode) {
-                throw APIError.serverError(statusCode: httpResponse.statusCode)
-            }
-            
-            let movies = try JSONDecoder().decode([MovieDTO].self, from: data)
-            return movies
-        } catch {
-            print("Decoding error or network error: \(error)")
-            throw error
-        }
-    }
-    
-    // Convenience method for domain objects
-    func getOnboardingMovies() async throws -> [Movie] {
-        let dtos = try await fetchOnboardingMovies()
-        return dtos.compactMap { dto in
-            guard let backdropPath = dto.backdrop_path, !backdropPath.isEmpty else { return nil }
-            return Movie(
-                tmdbId: Int(dto.movie_id) ?? 0,
-                title: dto.title,
-                subtitle: dto.genres?.joined(separator: " · ") ?? "Featured",
                 imageName: "https://image.tmdb.org/t/p/original\(backdropPath)",
                 friendInitials: [],
                 dateAdded: Date(),

@@ -72,7 +72,8 @@ def main():
     user_data = {
         "name": TEST_USER,
         "genres": ["Action", "Sci-Fi"],
-        "movie_ids": [TEST_MOVIE_ID]
+        "movie_ids": [TEST_MOVIE_ID],
+        "personas": ["persona_The_Thrill_Seeker"]
     }
     run_test("Create/Encode User", "POST", "/encode", user_data)
 

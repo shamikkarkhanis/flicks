@@ -123,7 +123,10 @@ struct OnboardingView: View {
     
     private func completeOnboarding() {
         Task {
-            await userState.syncUserProfile()
+            let selectedTitles = selectedPersonas.compactMap { id in
+                userState.personas.first(where: { $0.id == id })?.title
+            }
+            await userState.syncUserProfile(personas: selectedTitles)
             
             withAnimation {
                 hasCompletedOnboarding = true

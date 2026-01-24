@@ -4,6 +4,7 @@ import time
 import logging
 import glob
 from typing import Optional, List
+import numpy as np
 
 from fastapi import FastAPI, HTTPException, Query, Path, Request
 from pydantic import BaseModel
@@ -79,6 +80,7 @@ class UserCreate(BaseModel):
     name: str
     genres: List[str]
     movie_ids: List[int]
+    personas: Optional[List[str]] = []
 
 def update_keyword_counts(profile_keywords, new_keywords):
     """
@@ -100,107 +102,68 @@ def update_keyword_counts(profile_keywords, new_keywords):
 @app.post("/encode")
 def encode_user(user_data: UserCreate):
     """
-    Creates or updates a user profile based on the provided data.
-    Fetches keywords for movie_ids, saves the profile to disk, and encodes/upserts to DB.
+    Creates or updates a user profile based on the provided personas.
+    Retrieves embeddings for the personas, averages them, assigns to user.
+    Creates an empty profile for tracking.
     """
     try:
-        # Construct initial profile with new data structure
-        # movie_ids generally implies 'liked' in this initial creation context
+        if not user_data.personas:
+             raise HTTPException(status_code=400, detail="Personas are required for encoding.")
+
+        # 1. Calculate Persona Embedding
+        persona_embeddings_list = []
+        for p_title in user_data.personas:
+            # Sanitize title to match ID format: "persona_The_Thrill_Seeker"
+            p_id = f"persona_{p_title.replace(' ', '_')}"
+            try:
+                res = user.get_profile_from_db(p_id)
+                emb = res["embeddings"][0]
+                if emb is not None and len(emb) > 0:
+                    persona_embeddings_list.append(emb)
+                print(f"Loaded persona embedding for {p_id}")
+            except Exception as e:
+                print(f"Warning: Persona {p_id} not found: {e}")
+        
+        if not persona_embeddings_list:
+             raise HTTPException(status_code=400, detail="No valid personas found.")
+
+        # Average them
+        final_embedding = np.mean(persona_embeddings_list, axis=0).tolist()
+
+        # 2. Create Empty Profile
         profile = {
             "name": user_data.name,
-            "genres": user_data.genres,
+            "genres": user_data.genres, # Keep genres as preference metadata
             "data": {
-                "liked": user_data.movie_ids,
+                "liked": [],
                 "disliked": [],
                 "neutral": [],
                 "watchlist": [],
-                "history": user_data.movie_ids[:], # Implies watched
-                "shown": user_data.movie_ids[:]    # Implies seen
+                "history": [],
+                "shown": []
             },
-            "keywords": {} # Changed to dict for frequency tracking
+            "keywords": {},
+            "personas": user_data.personas
         }
         
-        # Fetch keywords from movie_ids
-        if user_data.movie_ids:
-            # We will accumulate all keywords then update counts
-            all_new_kws = []
-            for mid in user_data.movie_ids:
-                try:
-                    # Fetch keywords from TMDB
-                    kw_resp = tmdb_client.keywords(mid)
-                    keywords_data = kw_resp.get("keywords", [])
-                    # Extract keyword names
-                    new_kws = [k["name"] for k in keywords_data if "name" in k]
-                    all_new_kws.extend(new_kws)
-                except Exception as e:
-                    print(f"Error fetching keywords for movie {mid}: {e}")
-            
-            profile["keywords"] = update_keyword_counts({}, all_new_kws)
-
-        # Save to disk using user.py's helper to ensure consistency
+        # Save to disk
         file_path = f"users/{user_data.name}.json"
-        
         user.save_user_profile(file_path, profile)
 
-        # Encode and Upsert
-        query_text = user.build_user_text(profile)
-        embedding = user.encode_user_text(query_text)
+        # 3. Upsert to DB
+        # We need 'query_text' for the DB document, though embedding is pre-calculated.
+        # We can use genres + personas names.
+        query_text = user.build_user_text(profile) # Uses genres
         
-        user.upsert_user_profile(user_data.name, query_text, embedding, profile)
+        user.upsert_user_profile(user_data.name, query_text, final_embedding, profile)
         
         return {
-            "message": f"User {user_data.name} created/updated and encoded successfully.",
+            "message": f"User {user_data.name} initialized with personas: {user_data.personas}",
             "profile_preview": profile
         }
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/onboarding", response_model=List[Recommendation])
-def get_onboarding_movies():
-    """
-    Returns a static list of popular movies for onboarding from Chroma DB.
-    """
-    onboarding_ids = [
-        238, 324857, 85, 115, 496243,
-        694, 11036, 27205, 76341, 407806
-    ]
-    
-    try:
-        movies_data = user.get_movies_by_ids(onboarding_ids)
-        
-        recommendations = []
-        
-        # Create a map for quick lookup to maintain order
-        movie_map = {m["id"]: m for m in movies_data}
-        
-        for mid in onboarding_ids:
-            mid_str = str(mid)
-            if mid_str in movie_map:
-                m_data = movie_map[mid_str]
-                meta = m_data["metadata"]
-                payload = json.loads(meta.get("payload", "{}"))
-                
-                # Extract genre names
-                raw_genres = payload.get("genres", [])
-                processed_genres = []
-                for g in raw_genres:
-                    if isinstance(g, dict) and "name" in g:
-                        processed_genres.append(g["name"])
-                    elif isinstance(g, str):
-                        processed_genres.append(g)
-
-                rec = Recommendation(
-                    movie_id=mid_str,
-                    title=payload.get("title", "Unknown"),
-                    score=1.0, # Static score for onboarding
-                    genres=processed_genres,
-                    backdrop_path=payload.get("backdrop_path")
-                )
-                recommendations.append(rec)
-                
-        return recommendations
-
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

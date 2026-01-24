@@ -7,7 +7,7 @@ struct WatchlistButton: View {
     var body: some View {
         Button(action: toggle) {
             ZStack {
-                Image(systemName: isAdded ? "star.fill" : "star")
+                Image(systemName: isAdded ? "checkmark" : "plus")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(.white)
                     .contentTransition(.symbolEffect(.replace))
