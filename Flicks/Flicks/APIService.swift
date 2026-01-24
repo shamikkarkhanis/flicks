@@ -28,7 +28,7 @@ enum APIError: Error {
 
 class APIService {
     static let shared = APIService()
-    private let baseURL = "http://192.168.4.97:8000"
+    private let baseURL = "http://192.168.1.18:8000"
 
     private init() {}
 
@@ -243,6 +243,21 @@ class APIService {
             throw APIError.serverError(statusCode: httpResponse.statusCode)
         }
     }
+
+    func fetchPersonas() async throws -> [PersonaDTO] {
+        guard let url = URL(string: "\(baseURL)/onboarding/personas") else {
+            throw APIError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw APIError.serverError(statusCode: httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode([PersonaDTO].self, from: data)
+    }
 }
 
 struct MovieDTO: Codable {
@@ -251,6 +266,14 @@ struct MovieDTO: Codable {
     let genres: [String]?
     let score: Double?
     let backdrop_path: String?
+}
+
+struct PersonaDTO: Codable {
+    let title: String
+    let description: String
+    let color: String
+    let icon: String
+    let image: String
 }
 
 struct UserProfileDTO: Codable {

@@ -26,21 +26,12 @@ struct OnboardingView: View {
         let image: String
     }
     
-    // Five personas with associated images from Assets
-    let personas = [
-        Persona(title: "The Thrill Seeker", description: "High stakes, explosions, and edge-of-your-seat action.", color: .red, icon: "flame.fill", image: "matrix.jpg"),
-        Persona(title: "The Dreamer", description: "Sci-fi worlds, fantasy epics, and magical realism.", color: .purple, icon: "sparkles", image: "interstellar.jpg"),
-        Persona(title: "The Detective", description: "Mind-bending mysteries, true crime, and thrillers.", color: .blue, icon: "magnifyingglass", image: "darkknight.jpg"),
-        Persona(title: "The Romantic", description: "Love stories, rom-coms, and heartwarming drama.", color: .pink, icon: "heart.fill", image: "lalaland.jpg"),
-        Persona(title: "The Indie Spirit", description: "Art house, documentaries, and hidden gems.", color: .orange, icon: "camera.aperture", image: "everything.jpg")
-    ]
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // Background Image Layer with Crossfade
                 ZStack {
-                    ForEach(Array(personas.enumerated()), id: \.offset) { index, persona in
+                    ForEach(Array(userState.personas.enumerated()), id: \.offset) { index, persona in
                         Image(persona.image)
                             .resizable()
                             .scaledToFill()
@@ -62,7 +53,7 @@ struct OnboardingView: View {
                     
                     // Carousel
                     TabView(selection: $currentIndex) {
-                        ForEach(Array(personas.enumerated()), id: \.element.id) { index, persona in
+                        ForEach(Array(userState.personas.enumerated()), id: \.element.id) { index, persona in
                             PersonaCard(
                                 persona: persona,
                                 isSelected: selectedPersonas.contains(persona.id),
@@ -82,7 +73,7 @@ struct OnboardingView: View {
                     HStack {
                         // Custom Pagination Dots (Bottom Left) in a bubble panel
                         HStack(spacing: 8) {
-                            ForEach(0..<personas.count, id: \.self) { index in
+                            ForEach(0..<userState.personas.count, id: \.self) { index in
                                 Circle()
                                     .fill(Color.white.opacity(currentIndex == index ? 1.0 : 0.4))
                                     .frame(width: 8, height: 8)

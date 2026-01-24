@@ -6,6 +6,7 @@ class UserState: ObservableObject {
     @Published var genres: [String] = []
     @Published var recommendations: [Movie] = []
     @Published var onboardingMovies: [Movie] = []
+    @Published var personas: [OnboardingView.Persona] = []
     
     @Published var likedMovies: [Movie] = []
     @Published var neutralMovies: [Movie] = []
@@ -43,6 +44,7 @@ class UserState: ObservableObject {
     init() {
         Task {
             await fetchUserProfile()
+            await fetchPersonas()
         }
     }
     
@@ -141,6 +143,38 @@ class UserState: ObservableObject {
         } catch {
             print("Failed to fetch onboarding movies: \(error)")
             // Fallback to sampleMovies if fetch fails (assuming sampleMovies is available globally or we handle empty)
+        }
+    }
+    
+    func fetchPersonas() async {
+        do {
+            let dtos = try await APIService.shared.fetchPersonas()
+            await MainActor.run {
+                self.personas = dtos.map { dto in
+                    OnboardingView.Persona(
+                        title: dto.title,
+                        description: dto.description,
+                        color: self.mapColor(dto.color),
+                        icon: dto.icon,
+                        image: dto.image
+                    )
+                }
+            }
+        } catch {
+            print("Failed to fetch personas: \(error)")
+        }
+    }
+
+    private func mapColor(_ name: String) -> Color {
+        switch name {
+        case "red": return .red
+        case "purple": return .purple
+        case "blue": return .blue
+        case "pink": return .pink
+        case "orange": return .orange
+        case "green": return .green
+        case "yellow": return .yellow
+        default: return .gray
         }
     }
     

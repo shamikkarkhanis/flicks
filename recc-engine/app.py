@@ -51,9 +51,29 @@ class Recommendation(BaseModel):
     genres: List[str]
     backdrop_path: Optional[str] = None
 
+class Persona(BaseModel):
+    title: str
+    description: str
+    color: str
+    icon: str
+    image: str
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Recc Engine API"}
+
+@app.get("/onboarding/personas", response_model=List[Persona])
+def get_onboarding_personas():
+    """
+    Returns a static list of onboarding personas.
+    """
+    return [
+        Persona(title="The Thrill Seeker", description="High stakes, explosions, and edge-of-your-seat action.", color="red", icon="flame.fill", image="matrix.jpg"),
+        Persona(title="The Dreamer", description="Sci-fi worlds, fantasy epics, and magical realism.", color="purple", icon="sparkles", image="interstellar.jpg"),
+        Persona(title="The Detective", description="Mind-bending mysteries, true crime, and thrillers.", color="blue", icon="magnifyingglass", image="darkknight.jpg"),
+        Persona(title="The Romantic", description="Love stories, rom-coms, and heartwarming drama.", color="pink", icon="heart.fill", image="lalaland.jpg"),
+        Persona(title="The Indie Spirit", description="Art house, documentaries, and hidden gems.", color="orange", icon="camera.aperture", image="everything.jpg")
+    ]
 
 class UserCreate(BaseModel):
     name: str

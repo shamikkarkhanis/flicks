@@ -1,0 +1,17 @@
+2026-01-24 11:13:15,830 [INFO] Starting server run #37. Logging to logs/server_37.log
+2026-01-24 11:15:48,693 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0061s | status 200
+2026-01-24 11:15:48,840 [INFO] path /onboarding/personas | method GET | duration 0.0031s | status 200
+2026-01-24 11:15:48,906 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-01-24 11:15:49,046 [INFO] action search_movies | where_filter: {"$and": [{"$or": [{"is_Action": true}, {"is_Adventure": true}, {"is_Animation": true}, {"is_Comedy": true}, {"is_Crime": true}, {"is_Drama": true}, {"is_Science Fiction": true}, {"is_Thriller": true}]}, {"language": "en"}]} | fetch_k: 263
+2026-01-24 11:15:49,348 [INFO] action search_movies | duration 0.3039s | exclude_count 43 | candidates_reranked 263
+2026-01-24 11:15:49,349 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.4830s | status 200
+2026-01-24 11:16:00,745 [INFO] Initializing SentenceTransformer model...
+2026-01-24 11:16:00,802 [INFO] Use pytorch device_name: mps
+2026-01-24 11:16:00,802 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-01-24 11:16:03,417 [INFO] action encode_user_text | duration 2.6720s
+2026-01-24 11:16:03,460 [INFO] path /encode | method POST | duration 2.7211s | status 200
+2026-01-24 11:16:03,541 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
+2026-01-24 11:16:03,618 [INFO] action search_movies | duration 0.0792s | exclude_count 0 | candidates_reranked 250
+2026-01-24 11:16:03,619 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.0831s | status 200
+2026-01-24 11:16:07,760 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0191s | status 200
+2026-01-24 11:16:15,205 [INFO] path /users/Shamik Karkhanis/sync | method POST | duration 0.0036s | status 200
