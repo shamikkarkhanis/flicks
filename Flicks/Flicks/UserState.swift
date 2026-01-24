@@ -23,7 +23,7 @@ class UserState: ObservableObject {
     var shownCount: Int = 0 // Tracks how many movies the user has scrolled past in this session
     
     private var allFetchedMovies: [Movie] = []
-    private let currentUserId = "Shamik Karkhanis"
+    private let currentUserId = "Shamik"
     private var ratingSessionCount = 0
     private var shownMovieIds: Set<Int> = []
     
@@ -104,7 +104,7 @@ class UserState: ObservableObject {
         }
     }
     
-    func fetchUserProfile() async {
+    func fetchUserProfile() async -> Bool {
         do {
             let profile = try await APIService.shared.fetchUserProfile(for: currentUserId)
             
@@ -122,6 +122,7 @@ class UserState: ObservableObject {
                     }
                 }
             }
+            return true
         } catch {
             print("Failed to fetch user profile: \(error)")
             // Fallback: fetch recommendations anyway
@@ -130,6 +131,7 @@ class UserState: ObservableObject {
                      await fetchRecommendations()
                  }
             }
+            return false
         }
     }
     

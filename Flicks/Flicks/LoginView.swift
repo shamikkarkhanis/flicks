@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @EnvironmentObject var userState: UserState
     
     var body: some View {
         ZStack {
@@ -36,10 +38,10 @@ struct LoginView: View {
                 // App Title & Tagline
                 VStack(spacing: 8) {
                     Text("Whatflix")
-                        .font(.system(size: 40, weight: .black))
+                        .font(.system(size: 48, weight: .black, design: .rounded))
                         .foregroundColor(.white)
                     
-                    Text("good picks, great times.")
+                    Text("Your AI Movie Companion")
                         .font(.title3)
                         .fontWeight(.medium)
                         .foregroundColor(.white.opacity(0.8))
@@ -49,8 +51,18 @@ struct LoginView: View {
                 // Sign in with Apple Button
                 // Per guidelines: White button on dark backgrounds
                 Button(action: {
-                    withAnimation {
-                        isLoggedIn = true
+                    Task {
+                        // Check if user has a profile
+                        let profileExists = await userState.fetchUserProfile()
+                        
+                        await MainActor.run {
+                            if profileExists {
+                                hasCompletedOnboarding = true
+                            }
+                            withAnimation {
+                                isLoggedIn = true
+                            }
+                        }
                     }
                 }) {
                     HStack(spacing: 6) {

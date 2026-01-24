@@ -14,14 +14,16 @@ struct FlicksApp: App {
     @StateObject private var userState = UserState()
 
     init() {
-        // FOR TESTING ONLY: Reset onboarding state on every launch
+        // FOR TESTING ONLY: Reset state on every launch
         UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
     }
 
     var body: some Scene {
         WindowGroup {
             if !isLoggedIn {
                 LoginView()
+                    .environmentObject(userState)
                     .statusBarHidden(true)
             } else if hasCompletedOnboarding {
                 ContentView()
