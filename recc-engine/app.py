@@ -328,6 +328,7 @@ def rate_movie(user_id: str, request: RatingRequest):
         )
 
     try:
+        validate_user_id(user_id)
         file_path = f"users/{user_id}.json"
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="User profile not found")
@@ -388,6 +389,7 @@ def sync_user_data(user_id: str, request: SyncRequest):
     """
     try:
         print(f"[Backend] Syncing shown movies for user: {user_id}")
+        validate_user_id(user_id)
         file_path = f"users/{user_id}.json"
         if not os.path.exists(file_path):
             print(f"[Backend] Profile not found for sync: {file_path}")
@@ -434,6 +436,7 @@ def get_recommendations(
     """
     try:
         print(f"[Backend] Fetching recommendations for: {user_id}")
+        validate_user_id(user_id)
         embedding = None
         filter_genres = []
         exclude_ids = []
