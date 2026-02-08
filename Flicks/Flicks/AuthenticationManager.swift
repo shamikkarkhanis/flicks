@@ -2,12 +2,15 @@ import Foundation
 import AuthenticationServices
 import Security
 import UIKit
+import SwiftUI
 
 @MainActor
 class AuthenticationManager: NSObject, ObservableObject {
     @Published var isAuthenticated: Bool = false
     @Published var isLoading: Bool = false
     @Published var error: Error?
+    
+    @AppStorage("authenticatedUserId") private var authenticatedUserId: String?
     
     private let tokenKey = "com.flicks.sessionToken"
     
@@ -34,11 +37,13 @@ class AuthenticationManager: NSObject, ObservableObject {
     func loginAsDev() {
         guard Configuration.isDevelopmentMode else { return }
         saveToken("dev-session-token")
+        authenticatedUserId = "Shamik"
         isAuthenticated = true
     }
     
     func signOut() {
         deleteToken()
+        authenticatedUserId = nil
         isAuthenticated = false
     }
     
@@ -137,6 +142,9 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
            let sessionToken = json["session_token"] as? String {
             saveToken(sessionToken)
+            if let userId = json["user_id"] as? String {
+                authenticatedUserId = userId
+            }
             isAuthenticated = true
         }
     }

@@ -24,7 +24,7 @@ class UserState: ObservableObject {
     var shownCount: Int = 0 // Tracks how many movies the user has scrolled past in this session
     
     private var allFetchedMovies: [Movie] = []
-    @AppStorage("userId") private var currentUserId: String = "Shamik"
+    @AppStorage("authenticatedUserId") private var currentUserId: String = "Shamik"
     private var ratingSessionCount = 0
     private var shownMovieIds: Set<Int> = []
     

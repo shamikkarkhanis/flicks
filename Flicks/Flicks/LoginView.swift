@@ -9,7 +9,6 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var authManager: AuthenticationManager
@@ -96,9 +95,6 @@ struct LoginView: View {
                     await MainActor.run {
                         if profileExists {
                             hasCompletedOnboarding = true
-                        }
-                        withAnimation {
-                            isLoggedIn = true
                         }
                     }
                 }
