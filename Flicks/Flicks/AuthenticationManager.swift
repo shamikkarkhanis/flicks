@@ -50,16 +50,14 @@ class AuthenticationManager: NSObject, ObservableObject {
     private func processAuthorization(_ authorization: ASAuthorization) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
               let identityToken = appleIDCredential.identityToken,
-              let idTokenString = String(data: identityToken, encoding: .utf8),
-              let authorizationCode = appleIDCredential.authorizationCode,
-              let authCodeString = String(data: authorizationCode, encoding: .utf8) else {
+              let idTokenString = String(data: identityToken, encoding: .utf8) else {
             return
         }
         
         Task {
             do {
                 isLoading = true
-                try await sendToBackend(idToken: idTokenString, authCode: authCodeString)
+                try await sendToBackend(idToken: idTokenString, credential: appleIDCredential)
                 isLoading = false
             } catch {
                 self.error = error
@@ -120,17 +118,37 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         self.error = error
     }
     
-    private func sendToBackend(idToken: String, authCode: String) async throws {
+    private func sendToBackend(idToken: String, credential: ASAuthorizationAppleIDCredential) async throws {
         guard let url = URL(string: "\(Configuration.backendURL)/auth/apple") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body: [String: String] = [
-            "id_token": idToken,
-            "auth_code": authCode
-        ]
+        var fullNameDict: [String: String]?
+        if let fullName = credential.fullName {
+            var nameComponents: [String: String] = [:]
+            if let givenName = fullName.givenName {
+                nameComponents["givenName"] = givenName
+            }
+            if let familyName = fullName.familyName {
+                nameComponents["familyName"] = familyName
+            }
+            if !nameComponents.isEmpty {
+                fullNameDict = nameComponents
+            }
+        }
+        
+        var body: [String: Any] = ["identityToken": idToken]
+        
+        if let email = credential.email {
+            body["email"] = email
+        }
+        
+        if let fullName = fullNameDict {
+            body["fullName"] = fullName
+        }
+        
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -140,9 +158,10 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         }
         
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-           let sessionToken = json["session_token"] as? String {
+           let sessionToken = json["token"] as? String {
             saveToken(sessionToken)
-            if let userId = json["user_id"] as? String {
+            if let userObj = json["user"] as? [String: Any],
+               let userId = userObj["id"] as? String {
                 authenticatedUserId = userId
             }
             isAuthenticated = true
