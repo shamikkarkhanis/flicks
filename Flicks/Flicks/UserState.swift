@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 class UserState: ObservableObject {
     @Published var history: [Movie] = []
     @Published var watchlist: [Movie] = []
@@ -23,7 +24,7 @@ class UserState: ObservableObject {
     var shownCount: Int = 0 // Tracks how many movies the user has scrolled past in this session
     
     private var allFetchedMovies: [Movie] = []
-    private let currentUserId = "Shamik"
+    @AppStorage("userId") private var currentUserId: String = "Shamik"
     private var ratingSessionCount = 0
     private var shownMovieIds: Set<Int> = []
     
@@ -38,7 +39,7 @@ class UserState: ObservableObject {
         case syncShown(movieIds: [Int])
     }
     
-    private var pendingActions: [PendingAction] = []
+    private let pendingActions = PendingActionsQueue()
 
     init() {
         Task {
@@ -48,26 +49,22 @@ class UserState: ObservableObject {
     }
     
     private func processPendingActions() {
-        guard !isProcessingQueue, !pendingActions.isEmpty else { return }
-        isProcessingQueue = true
+        guard !isProcessingQueue else { return }
         
         Task {
-            print("[RetryQueue] Processing \(pendingActions.count) pending actions...")
+            guard await !pendingActions.isEmpty else { return }
+            isProcessingQueue = true
             
-            // Iterate safely through a copy or by index, 
-            // but since we want to retry in order, we'll try the first one.
-            // If it succeeds, remove and continue.
-            // If it fails, stop processing (wait for next trigger).
+            print("[RetryQueue] Processing pending actions...")
             
-            while !pendingActions.isEmpty {
-                let action = pendingActions[0] // Peek
+            while await !pendingActions.isEmpty {
+                guard let action = await pendingActions.peek() else { break }
                 
                 do {
                     switch action {
                     case .rate(let movieId, let rating, let title):
                         print("[RetryQueue] Retrying rating for '\(title)'...")
                         try await APIService.shared.rateMovie(userId: currentUserId, movieId: movieId, rating: rating)
-                        // Special handling for rating session count
                         ratingSessionCount += 1
                         if ratingSessionCount % 3 == 0 {
                             print("[RetryQueue] Triggering refill fetch from queued rating...")
@@ -87,13 +84,11 @@ class UserState: ObservableObject {
                         try await APIService.shared.syncShownMovies(userId: currentUserId, movieIds: movieIds)
                     }
                     
-                    // Success! Remove from queue.
                     print("[RetryQueue] Action successful. Removing from queue.")
-                    pendingActions.removeFirst()
+                    await pendingActions.removeFirst()
                     
                 } catch {
                     print("[RetryQueue] Action failed: \(error). Pausing queue.")
-                    // Stop processing. We will try again later when a new action is triggered or network returns.
                     isProcessingQueue = false
                     return
                 }
@@ -108,73 +103,62 @@ class UserState: ObservableObject {
         do {
             let profile = try await APIService.shared.fetchUserProfile(for: currentUserId)
             
-            await MainActor.run {
-                print("Profile fetched: \(profile.name)")
-                
-                // 1. Collect all IDs that need hydration
-                let allIds = Set(
-                    (profile.data.watchlist) +
-                    (profile.data.history) +
-                    (profile.data.liked) +
-                    (profile.data.disliked) +
-                    (profile.data.neutral)
-                )
-                
-                // 2. Fetch full movie details if we have any IDs
-                if !allIds.isEmpty {
-                    Task {
-                        do {
-                            let movieDTOs = try await APIService.shared.fetchMovies(ids: Array(allIds))
-                            
-                            // Map DTOs to Domain Objects
-                            let movieMap = Dictionary(uniqueKeysWithValues: movieDTOs.compactMap { dto -> (Int, Movie)? in
-                                guard let backdrop = dto.backdrop_path, !backdrop.isEmpty else { return nil }
-                                let id = Int(dto.movie_id) ?? 0
-                                let movie = Movie(
-                                    tmdbId: id,
-                                    title: dto.title,
-                                    subtitle: dto.genres?.joined(separator: " · ") ?? "Movie",
-                                    imageName: "https://image.tmdb.org/t/p/original\(backdrop)",
-                                    friendInitials: [],
-                                    dateAdded: Date(),
-                                    dateWatched: Date()
-                                )
-                                return (id, movie)
-                            })
-                            
-                            await MainActor.run {
-                                // 3. Hydrate Lists
-                                self.watchlist = profile.data.watchlist.compactMap { movieMap[$0] }
-                                self.history = profile.data.history.compactMap { movieMap[$0] }
-                                self.likedMovies = profile.data.liked.compactMap { movieMap[$0] }
-                                self.dislikedMovies = profile.data.disliked.compactMap { movieMap[$0] }
-                                self.neutralMovies = profile.data.neutral.compactMap { movieMap[$0] }
-                                
-                                self.rebuildGenres()
-                                print("Profile hydrated: \(self.watchlist.count) watchlist, \(self.history.count) history")
-                            }
-                        } catch {
-                            print("Failed to hydrate movie details: \(error)")
-                        }
-                    }
+            print("Profile fetched: \(profile.name)")
+            
+            // 1. Collect all IDs that need hydration
+            var allIds: Set<Int> = []
+            allIds.formUnion(profile.data.watchlist)
+            allIds.formUnion(profile.data.history)
+            allIds.formUnion(profile.data.liked)
+            allIds.formUnion(profile.data.disliked)
+            allIds.formUnion(profile.data.neutral)
+            
+            // 2. Fetch full movie details if we have any IDs
+            if !allIds.isEmpty {
+                do {
+                    let movieDTOs = try await APIService.shared.fetchMovies(ids: Array(allIds))
+                    
+                    // Map DTOs to Domain Objects
+                    let movieMap = Dictionary(uniqueKeysWithValues: movieDTOs.compactMap { dto -> (Int, Movie)? in
+                        guard let backdrop = dto.backdrop_path, !backdrop.isEmpty else { return nil }
+                        let id = Int(dto.movie_id) ?? 0
+                        let movie = Movie(
+                            tmdbId: id,
+                            title: dto.title,
+                            subtitle: dto.genres?.joined(separator: " · ") ?? "Movie",
+                            imageName: "https://image.tmdb.org/t/p/original\(backdrop)",
+                            friendInitials: [],
+                            dateAdded: Date(),
+                            dateWatched: Date()
+                        )
+                        return (id, movie)
+                    })
+                    
+                    // 3. Hydrate Lists
+                    self.watchlist = profile.data.watchlist.compactMap { movieMap[$0] }
+                    self.history = profile.data.history.compactMap { movieMap[$0] }
+                    self.likedMovies = profile.data.liked.compactMap { movieMap[$0] }
+                    self.dislikedMovies = profile.data.disliked.compactMap { movieMap[$0] }
+                    self.neutralMovies = profile.data.neutral.compactMap { movieMap[$0] }
+                    
+                    self.rebuildGenres()
+                    print("Profile hydrated: \(self.watchlist.count) watchlist, \(self.history.count) history")
+                } catch {
+                    print("Failed to hydrate movie details: \(error)")
                 }
-                
-                // For now, we assume we want to fetch recommendations immediately after profile load
-                // if the list is empty
-                if recommendations.isEmpty {
-                    Task {
-                        await fetchRecommendations()
-                    }
-                }
+            }
+            
+            // For now, we assume we want to fetch recommendations immediately after profile load
+            // if the list is empty
+            if recommendations.isEmpty {
+                await fetchRecommendations()
             }
             return true
         } catch {
             print("Failed to fetch user profile: \(error)")
             // Fallback: fetch recommendations anyway
             if recommendations.isEmpty {
-                 Task {
-                     await fetchRecommendations()
-                 }
+                 await fetchRecommendations()
             }
             return false
         }
@@ -183,16 +167,14 @@ class UserState: ObservableObject {
     func fetchPersonas() async {
         do {
             let dtos = try await APIService.shared.fetchPersonas()
-            await MainActor.run {
-                self.personas = dtos.map { dto in
-                    OnboardingView.Persona(
-                        title: dto.title,
-                        description: dto.description,
-                        color: self.mapColor(dto.color),
-                        icon: dto.icon,
-                        image: dto.image
-                    )
-                }
+            self.personas = dtos.map { dto in
+                OnboardingView.Persona(
+                    title: dto.title,
+                    description: dto.description,
+                    color: self.mapColor(dto.color),
+                    icon: dto.icon,
+                    image: dto.image
+                )
             }
         } catch {
             print("Failed to fetch personas: \(error)")
@@ -223,8 +205,10 @@ class UserState: ObservableObject {
         }
         
         // Queue Action
-        pendingActions.append(.watchlistAdd(movieId: movie.tmdbId, movieTitle: movie.title))
-        processPendingActions()
+        Task {
+            await pendingActions.enqueue(.watchlistAdd(movieId: movie.tmdbId, movieTitle: movie.title))
+            processPendingActions()
+        }
     }
 
     func removeFromWatchlist(_ movie: Movie) {
@@ -232,8 +216,10 @@ class UserState: ObservableObject {
         watchlist.removeAll { $0.id == movie.id }
         
         // Queue Action
-        pendingActions.append(.watchlistRemove(movieId: movie.tmdbId, movieTitle: movie.title))
-        processPendingActions()
+        Task {
+            await pendingActions.enqueue(.watchlistRemove(movieId: movie.tmdbId, movieTitle: movie.title))
+            processPendingActions()
+        }
     }
     
     // MARK: - Rating & History
@@ -252,33 +238,30 @@ class UserState: ObservableObject {
 
     func addToHistory(_ movie: Movie, rating: UserRating) async {
         // 1. Optimistic UI Updates
-        // Execute on MainActor to ensure UI updates are safe since this is now async
-        await MainActor.run {
-            if !history.contains(where: { $0.id == movie.id }) {
-                var newMovie = movie
-                newMovie.dateWatched = Date()
-                history.append(newMovie)
-            }
-            
-            likedMovies.removeAll { $0.id == movie.id }
-            neutralMovies.removeAll { $0.id == movie.id }
-            dislikedMovies.removeAll { $0.id == movie.id }
-            
-            switch rating {
-            case .like:
-                likedMovies.append(movie)
-            case .neutral:
-                neutralMovies.append(movie)
-            case .dislike:
-                dislikedMovies.append(movie)
-            }
-            
-            rebuildGenres()
+        if !history.contains(where: { $0.id == movie.id }) {
+            var newMovie = movie
+            newMovie.dateWatched = Date()
+            history.append(newMovie)
         }
+        
+        likedMovies.removeAll { $0.id == movie.id }
+        neutralMovies.removeAll { $0.id == movie.id }
+        dislikedMovies.removeAll { $0.id == movie.id }
+        
+        switch rating {
+        case .like:
+            likedMovies.append(movie)
+        case .neutral:
+            neutralMovies.append(movie)
+        case .dislike:
+            dislikedMovies.append(movie)
+        }
+        
+        rebuildGenres()
         
         // 2. Queue Action & Process
         print("[LiveRecs] Queuing rating for '\(movie.title)' as \(rating.apiString)...")
-        pendingActions.append(.rate(movieId: movie.tmdbId, rating: rating.apiString, movieTitle: movie.title))
+        await pendingActions.enqueue(.rate(movieId: movie.tmdbId, rating: rating.apiString, movieTitle: movie.title))
         processPendingActions()
     }
     
@@ -330,47 +313,44 @@ class UserState: ObservableObject {
         do {
             let fetchedMovies = try await APIService.shared.getRecommendations(for: currentUserId)
             
-            await MainActor.run {
-                if isLiveRefill {
-                    print("[LiveRecs] Received \(fetchedMovies.count) candidates.")
-                    // Smart Deduplication:
-                    // 1. Filter out movies the user has already seen/rated/watchlisted locally
-                    // 2. Filter out movies already in the current recommendations list
-                    let existingIds = Set(
-                        history.map { $0.tmdbId } +
-                        watchlist.map { $0.tmdbId } +
-                        recommendations.map { $0.tmdbId } +
-                        Array(shownMovieIds)
-                    )
+            if isLiveRefill {
+                print("[LiveRecs] Received \(fetchedMovies.count) candidates.")
+                // Smart Deduplication:
+                // 1. Filter out movies the user has already seen/rated/watchlisted locally
+                // 2. Filter out movies already in the current recommendations list
+                var existingIds: Set<Int> = []
+                existingIds.formUnion(history.map { $0.tmdbId })
+                existingIds.formUnion(watchlist.map { $0.tmdbId })
+                existingIds.formUnion(recommendations.map { $0.tmdbId })
+                existingIds.formUnion(shownMovieIds)
+                
+                let newUniqueMovies = fetchedMovies.filter { !existingIds.contains($0.tmdbId) }
+                let duplicateCount = fetchedMovies.count - newUniqueMovies.count
+                print("[LiveRecs] Deduped \(duplicateCount) movies (already seen/listed).")
+                
+                if !newUniqueMovies.isEmpty {
+                    print("[LiveRecs] Added \(newUniqueMovies.count) new unique movies to buffer.")
+                    // Append to the buffer (allFetchedMovies), NOT directly to recommendations.
+                    // loadMoreMovies() will handle moving them to the active view if needed.
+                    self.allFetchedMovies.append(contentsOf: newUniqueMovies)
                     
-                    let newUniqueMovies = fetchedMovies.filter { !existingIds.contains($0.tmdbId) }
-                    let duplicateCount = fetchedMovies.count - newUniqueMovies.count
-                    print("[LiveRecs] Deduped \(duplicateCount) movies (already seen/listed).")
-                    
-                    if !newUniqueMovies.isEmpty {
-                        print("[LiveRecs] Added \(newUniqueMovies.count) new unique movies to buffer.")
-                        // Append to the buffer (allFetchedMovies), NOT directly to recommendations.
-                        // loadMoreMovies() will handle moving them to the active view if needed.
-                        self.allFetchedMovies.append(contentsOf: newUniqueMovies)
-                        
-                        // Trigger loadMoreMovies to update the UI if the user was waiting at the bottom
-                        // or to just log the new status.
-                        self.loadMoreMovies()
-                    } else {
-                        print("[LiveRecs] No new unique movies found to add.")
-                    }
-                    
+                    // Trigger loadMoreMovies to update the UI if the user was waiting at the bottom
+                    // or to just log the new status.
+                    self.loadMoreMovies()
                 } else {
-                    // Fresh Load (Replace)
-                    // Ensure we don't accidentally replace with empty if there's an error, 
-                    // but here we are in success path.
-                    print("[LiveRecs] Fresh load complete. Replaced list with \(fetchedMovies.count) movies.")
-                    self.allFetchedMovies = fetchedMovies
-                    
-                    // Initial page size
-                    self.recommendations = Array(fetchedMovies.prefix(10))
-                    self.printQueueStatus()
+                    print("[LiveRecs] No new unique movies found to add.")
                 }
+                
+            } else {
+                // Fresh Load (Replace)
+                // Ensure we don't accidentally replace with empty if there's an error, 
+                // but here we are in success path.
+                print("[LiveRecs] Fresh load complete. Replaced list with \(fetchedMovies.count) movies.")
+                self.allFetchedMovies = fetchedMovies
+                
+                // Initial page size
+                self.recommendations = Array(fetchedMovies.prefix(10))
+                self.printQueueStatus()
             }
         } catch {
             print("[LiveRecs] Failed to fetch recommendations: \(error)")
@@ -395,14 +375,13 @@ class UserState: ObservableObject {
         let idsToSync = Array(shownMovieIds)
         guard !idsToSync.isEmpty else { return }
         
-        // Queue the sync action
-        // We clear the local set immediately because we've safely moved the IDs into the pending queue.
-        // Even if the network fails, they remain in 'pendingActions'.
         shownMovieIds.removeAll()
         
         print("[LiveRecs] Queuing sync for \(idsToSync.count) shown IDs...")
-        pendingActions.append(.syncShown(movieIds: idsToSync))
-        processPendingActions()
+        Task {
+            await pendingActions.enqueue(.syncShown(movieIds: idsToSync))
+            processPendingActions()
+        }
     }
     
     private func printQueueStatus() {
@@ -460,5 +439,27 @@ class UserState: ObservableObject {
         recommendations.append(contentsOf: nextBatch)
         print("[LiveRecs] Paged \(batchSize) movies from buffer.")
         printQueueStatus()
+    }
+}
+
+actor PendingActionsQueue {
+    private var actions: [UserState.PendingAction] = []
+    
+    func enqueue(_ action: UserState.PendingAction) {
+        actions.append(action)
+    }
+    
+    func peek() -> UserState.PendingAction? {
+        actions.first
+    }
+    
+    func removeFirst() {
+        if !actions.isEmpty {
+            actions.removeFirst()
+        }
+    }
+    
+    var isEmpty: Bool {
+        actions.isEmpty
     }
 }
