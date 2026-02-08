@@ -27,6 +27,10 @@ class AuthenticationManager: NSObject, ObservableObject {
         authorizationController.performRequests()
     }
     
+    func handleAuthorization(_ authorization: ASAuthorization) {
+        processAuthorization(authorization)
+    }
+    
     func loginAsDev() {
         guard Configuration.isDevelopmentMode else { return }
         saveToken("dev-session-token")
@@ -36,6 +40,27 @@ class AuthenticationManager: NSObject, ObservableObject {
     func signOut() {
         deleteToken()
         isAuthenticated = false
+    }
+    
+    private func processAuthorization(_ authorization: ASAuthorization) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let identityToken = appleIDCredential.identityToken,
+              let idTokenString = String(data: identityToken, encoding: .utf8),
+              let authorizationCode = appleIDCredential.authorizationCode,
+              let authCodeString = String(data: authorizationCode, encoding: .utf8) else {
+            return
+        }
+        
+        Task {
+            do {
+                isLoading = true
+                try await sendToBackend(idToken: idTokenString, authCode: authCodeString)
+                isLoading = false
+            } catch {
+                self.error = error
+                isLoading = false
+            }
+        }
     }
     
     // MARK: - Keychain Helpers
@@ -59,7 +84,7 @@ class AuthenticationManager: NSObject, ObservableObject {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: tokenKey,
-            kSecReturnData as String: true,
+            kSecValueData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
         
@@ -83,24 +108,7 @@ class AuthenticationManager: NSObject, ObservableObject {
 
 extension AuthenticationManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-              let identityToken = appleIDCredential.identityToken,
-              let idTokenString = String(data: identityToken, encoding: .utf8),
-              let authorizationCode = appleIDCredential.authorizationCode,
-              let authCodeString = String(data: authorizationCode, encoding: .utf8) else {
-            return
-        }
-        
-        Task {
-            do {
-                isLoading = true
-                try await sendToBackend(idToken: idTokenString, authCode: authCodeString)
-                isLoading = false
-            } catch {
-                self.error = error
-                isLoading = false
-            }
-        }
+        processAuthorization(authorization)
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

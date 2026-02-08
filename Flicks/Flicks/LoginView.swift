@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct LoginView: View {
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @EnvironmentObject var userState: UserState
+    @EnvironmentObject var authManager: AuthenticationManager
     
     var body: some View {
         ZStack {
@@ -38,10 +40,10 @@ struct LoginView: View {
                 // App Title & Tagline
                 VStack(spacing: 8) {
                     Text("Whatflix")
-                        .font(.system(size: 48, weight: .black, design: .rounded))
+                        .font(.system(size: 48, weight: .black))
                         .foregroundColor(.white)
                     
-                    Text("Your AI Movie Companion")
+                    Text("find. watch. share.")
                         .font(.title3)
                         .fontWeight(.medium)
                         .foregroundColor(.white.opacity(0.8))
@@ -49,41 +51,86 @@ struct LoginView: View {
                 .padding(.bottom, 20)
                 
                 // Sign in with Apple Button
-                // Per guidelines: White button on dark backgrounds
-                Button(action: {
-                    Task {
-                        // Check if user has a profile
-                        let profileExists = await userState.fetchUserProfile()
-                        
-                        await MainActor.run {
-                            if profileExists {
-                                hasCompletedOnboarding = true
-                            }
-                            withAnimation {
-                                isLoggedIn = true
-                            }
+                SignInWithAppleButton(
+                    .signIn,
+                    onRequest: { request in
+                        request.requestedScopes = [.fullName, .email]
+                    },
+                    onCompletion: { result in
+                        switch result {
+                        case .success(let authorization):
+                            authManager.handleAuthorization(authorization)
+                        case .failure(let error):
+                            authManager.error = error
                         }
                     }
-                }) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "apple.logo")
-                            .font(.system(size: 20))
-                            .offset(y: -1) // Optical alignment
-                        
-                        Text("Sign in with Apple")
-                            .font(.system(size: 19, weight: .semibold))
-                    }
-                    .foregroundColor(.black)
-                    .frame(maxWidth: 250)
-                    .frame(height: 50)
-                    .background(Color.white)
-                    .cornerRadius(30) // Standard SIWA corner radius is usually smaller, or pill. 8 is safe.
-                }
+                )
+                .signInWithAppleButtonStyle(.white)
+                .frame(maxWidth: 250)
+                .frame(height: 50)
                 .padding(.horizontal, 40)
-                .padding(.bottom, 60)
+                
+                // Dev Login Button
+                if Configuration.isDevelopmentMode {
+                    Button(action: {
+                        authManager.loginAsDev()
+                    }) {
+                        Text("Dev: Login as Shamik")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
+                            .underline()
+                    }
+                    .padding(.top, 10)
+                }
+                
+                Spacer()
+                    .frame(height: 60)
+            }
+        }
+        .onChange(of: authManager.isAuthenticated) { authenticated in
+            if authenticated {
+                Task {
+                    // Check if user has a profile
+                    let profileExists = await userState.fetchUserProfile()
+                    
+                    await MainActor.run {
+                        if profileExists {
+                            hasCompletedOnboarding = true
+                        }
+                        withAnimation {
+                            isLoggedIn = true
+                        }
+                    }
+                }
+            }
+        }
+        .alert(item: Binding<ErrorAlert?>(
+            get: { authManager.error.map { ErrorAlert(error: $0) } },
+            set: { _ in authManager.error = nil }
+        )) { alert in
+            Alert(
+                title: Text("Authentication Error"),
+                message: Text(alert.error.localizedDescription),
+                dismissButton: .default(Text("OK"))
+            )
+        }
+        .overlay {
+            if authManager.isLoading {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    ProgressView()
+                        .tint(.white)
+                        .scaleEffect(1.5)
+                }
             }
         }
     }
+}
+
+struct ErrorAlert: Identifiable {
+    let id = UUID()
+    let error: Error
 }
 
 #Preview {
