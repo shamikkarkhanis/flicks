@@ -131,4 +131,6 @@ struct ErrorAlert: Identifiable {
 
 #Preview {
     LoginView()
+        .environmentObject(UserState())
+        .environmentObject(AuthenticationManager())
 }
