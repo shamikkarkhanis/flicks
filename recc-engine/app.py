@@ -6,6 +6,11 @@ from typing import Optional, List
 import numpy as np
 from logging.handlers import RotatingFileHandler
 
+import jwt
+import requests
+import portalocker
+from jwt.algorithms import RSAAlgorithm
+
 from fastapi import FastAPI, HTTPException, Query, Path, Request
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -63,6 +68,130 @@ class Persona(BaseModel):
     color: str
     icon: str
     image: str
+
+
+class AppleAuthRequest(BaseModel):
+    identityToken: str
+    user: Optional[str] = None  # JSON string from Apple
+    email: Optional[str] = None
+    fullName: Optional[dict] = None
+
+
+@app.post("/auth/apple")
+def apple_auth(request: AppleAuthRequest):
+    """
+    Verifies Apple Identity Token and issues a session token.
+    Creates a user profile if one doesn't exist.
+    """
+    try:
+        # 1. Verify Apple Token
+        apple_keys_url = "https://appleid.apple.com/auth/keys"
+
+        # Fetch Apple's public keys
+        key_payload = requests.get(apple_keys_url).json()
+        keys = key_payload.get("keys", [])
+
+        # Get the kid from the header
+        header = jwt.get_unverified_header(request.identityToken)
+        kid = header.get("kid")
+        alg = header.get("alg")
+
+        # Find the matching key
+        key = next((k for k in keys if k["kid"] == kid), None)
+        if not key:
+            raise HTTPException(status_code=401, detail="Invalid token: key not found")
+
+        public_key = RSAAlgorithm.from_jwk(json.dumps(key))
+
+        # Decode and verify signature
+        # We don't verify 'aud' strictly here as per request context, but in production we should.
+        payload = jwt.decode(
+            request.identityToken,
+            public_key,
+            algorithms=[alg],
+            options={"verify_aud": False},
+        )
+
+        user_sub = payload.get("sub")
+        if not user_sub:
+            raise HTTPException(status_code=401, detail="Invalid token: no sub claim")
+
+        # 2. Get or Create User
+        # Use user_sub as the unique user ID
+        user_id = user_sub
+        file_path = f"users/{user_id}.json"
+        lock_file = f"users/{user_id}.lock"
+
+        # Ensure 'users' directory exists
+        os.makedirs("users", exist_ok=True)
+
+        profile = None
+
+        # Atomic creation/read
+        with portalocker.Lock(lock_file, timeout=5):
+            if os.path.exists(file_path):
+                try:
+                    profile = user.load_user_profile(file_path)
+                except Exception as e:
+                    logger.error(f"Failed to load profile for {user_id}: {e}")
+                    # If corrupt, maybe re-create? Or fail. Let's fail safe.
+                    raise HTTPException(status_code=500, detail="Profile load error")
+            else:
+                # Create new profile
+                # Parse name if provided
+                name_part = "User"
+                if request.fullName:
+                    given = request.fullName.get("givenName", "")
+                    family = request.fullName.get("familyName", "")
+                    # Combine if present
+                    parts = [p for p in [given, family] if p]
+                    if parts:
+                        name_part = " ".join(parts)
+
+                # Create default profile structure
+                profile = {
+                    "id": user_id,
+                    "name": name_part,
+                    "email": request.email or payload.get("email"),
+                    "genres": [],
+                    "data": {
+                        "liked": [],
+                        "disliked": [],
+                        "neutral": [],
+                        "watchlist": [],
+                        "history": [],
+                        "shown": [],
+                    },
+                    "keywords": {},
+                    "personas": [],
+                }
+                user.save_user_profile(file_path, profile)
+                logger.info(f"Created new user profile: {user_id}")
+
+        # 3. Generate Session Token
+        secret_key = os.getenv("JWT_SECRET_KEY", "dev-secret")
+        # Standard claims
+        session_payload = {
+            "sub": user_id,
+            "iat": time.time(),
+            "exp": time.time() + (24 * 3600 * 7),  # 7 days expiration
+        }
+
+        session_token = jwt.encode(session_payload, secret_key, algorithm="HS256")
+
+        return {
+            "token": session_token,
+            "user": profile,
+            "needs_onboarding": len(profile.get("personas", [])) == 0,
+        }
+
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.InvalidTokenError as e:
+        raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
+    except Exception as e:
+        logger.error(f"Auth error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 class BatchMovieRequest(BaseModel):
