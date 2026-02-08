@@ -9,7 +9,6 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var authManager: AuthenticationManager
     
@@ -89,14 +88,7 @@ struct LoginView: View {
         .onChange(of: authManager.isAuthenticated) { authenticated in
             if authenticated {
                 Task {
-                    // Check if user has a profile
-                    let profileExists = await userState.fetchUserProfile()
-                    
-                    await MainActor.run {
-                        if profileExists {
-                            hasCompletedOnboarding = true
-                        }
-                    }
+                    await userState.fetchUserProfile()
                 }
             }
         }

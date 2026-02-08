@@ -273,6 +273,7 @@ struct UserProfileDTO: Codable {
     let genres: [String]?
     let movie_ids: [Int]?
     let data: UserDataDTO
+    let personas: [String]?
 }
 
 struct UserDataDTO: Codable {

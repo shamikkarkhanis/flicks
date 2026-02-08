@@ -1,15 +1,7 @@
-//
-//  FlicksApp.swift
-//  Flicks
-//
-//  Created by Shamik Karkhanis on 11/19/25.
-//
-
 import SwiftUI
 
 @main
 struct FlicksApp: App {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @StateObject private var userState = UserState()
     @StateObject private var authManager = AuthenticationManager()
 
@@ -20,7 +12,7 @@ struct FlicksApp: App {
                     .environmentObject(userState)
                     .environmentObject(authManager)
                     .statusBarHidden(true)
-            } else if hasCompletedOnboarding {
+            } else if userState.hasCompletedOnboarding {
                 ContentView()
                     .environmentObject(userState)
                     .environmentObject(authManager)

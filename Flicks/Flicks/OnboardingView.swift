@@ -9,7 +9,6 @@ import SwiftUI
 
 struct OnboardingView: View {
     @EnvironmentObject var userState: UserState
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     
     // Selection state
     @State private var selectedPersonas: Set<UUID> = []
@@ -129,7 +128,7 @@ struct OnboardingView: View {
             await userState.syncUserProfile(personas: selectedTitles)
             
             withAnimation {
-                hasCompletedOnboarding = true
+                userState.hasCompletedOnboarding = true
             }
         }
     }

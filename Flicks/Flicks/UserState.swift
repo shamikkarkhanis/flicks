@@ -99,11 +99,17 @@ class UserState: ObservableObject {
         }
     }
     
+    @Published var hasCompletedOnboarding: Bool = false
+    
     func fetchUserProfile() async -> Bool {
         do {
             let profile = try await APIService.shared.fetchUserProfile(for: currentUserId)
             
             print("Profile fetched: \(profile.name)")
+            
+            // Check if user has completed onboarding (has personas)
+            let hasPersonas = !(profile.personas?.isEmpty ?? true)
+            self.hasCompletedOnboarding = hasPersonas
             
             // 1. Collect all IDs that need hydration
             var allIds: Set<Int> = []
