@@ -33,7 +33,7 @@ enum APIError: Error {
 
 class APIService {
     static let shared = APIService()
-    private let baseURL = "http://192.168.1.18:8000"
+    private var baseURL: String { Configuration.backendURL }
 
     private init() {}
     
