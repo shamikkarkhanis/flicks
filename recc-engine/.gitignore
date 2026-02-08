@@ -5,3 +5,4 @@ data/
 __pycache__/
 chroma/
 data/tmdb_api.py
+logs/

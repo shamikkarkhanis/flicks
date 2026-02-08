@@ -1,8 +1,0 @@
-2026-01-09 13:49:56,947 [INFO] Starting server run #22. Logging to logs/server_22.log
-2026-01-09 13:50:02,646 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0011s | status 404
-2026-01-09 13:50:02,958 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2026-01-09 13:50:02,958 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2026-01-09 13:50:03,004 [INFO] path /onboarding | method GET | duration 0.1112s | status 200
-2026-01-09 13:50:03,009 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
-2026-01-09 13:50:03,072 [INFO] action search_movies | duration 0.0651s | exclude_count 0 | candidates_reranked 250
-2026-01-09 13:50:03,073 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.1895s | status 200

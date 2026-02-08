@@ -1,8 +1,0 @@
-2026-01-24 11:54:11,624 [INFO] Starting server run #46. Logging to logs/server_46.log
-2026-01-24 11:54:21,661 [INFO] path /users/Shamik Karkhanis | method GET | duration 0.0048s | status 200
-2026-01-24 11:54:21,824 [INFO] path /onboarding/personas | method GET | duration 0.0037s | status 200
-2026-01-24 11:54:21,869 [INFO] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2026-01-24 11:54:22,083 [INFO] action search_movies | where_filter: {"language": "en"} | fetch_k: 250
-2026-01-24 11:54:22,238 [INFO] action search_movies | duration 0.1569s | exclude_count 7 | candidates_reranked 246
-2026-01-24 11:54:22,239 [INFO] path /users/Shamik Karkhanis/recommendations | method GET | duration 0.4115s | status 200
-2026-01-24 11:54:32,895 [INFO] path /encode | method POST | duration 0.0129s | status 400
