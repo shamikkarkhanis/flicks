@@ -2,9 +2,9 @@ import json
 import os
 import time
 import logging
-import glob
 from typing import Optional, List
 import numpy as np
+from logging.handlers import RotatingFileHandler
 
 from fastapi import FastAPI, HTTPException, Query, Path, Request
 from pydantic import BaseModel
@@ -13,37 +13,41 @@ from dotenv import load_dotenv
 from tmdb_api import TMDBClient
 import user
 
-# Configure logging with rotating run files
+# Configure logging with rotating file handler
 os.makedirs("logs", exist_ok=True)
-existing_logs = glob.glob("logs/server_*.log")
-indices = [int(f.split("_")[-1].split(".")[0]) for f in existing_logs if "_" in f]
-next_index = max(indices) + 1 if indices else 1
-log_filename = f"logs/server_{next_index}.log"
+log_filename = "logs/server.log"
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler(log_filename),
-        logging.StreamHandler()
-    ]
+        RotatingFileHandler(log_filename, maxBytes=5 * 1024 * 1024, backupCount=3),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger("recc-engine")
-logger.info("Starting server run #%d. Logging to %s", next_index, log_filename)
+logger.info("Starting server. Logging to %s", log_filename)
 
 load_dotenv()
 tmdb_client = TMDBClient(os.getenv("TMDB_BEARER"))
 
 app = FastAPI(title="Recc Engine API")
 
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     start_time = time.time()
     response = await call_next(request)
     duration = time.time() - start_time
-    logger.info("path %s | method %s | duration %.4fs | status %d", 
-                request.url.path, request.method, duration, response.status_code)
+    logger.info(
+        "path %s | method %s | duration %.4fs | status %d",
+        request.url.path,
+        request.method,
+        duration,
+        response.status_code,
+    )
     return response
+
 
 class Recommendation(BaseModel):
     movie_id: str
@@ -52,6 +56,7 @@ class Recommendation(BaseModel):
     genres: List[str]
     backdrop_path: Optional[str] = None
 
+
 class Persona(BaseModel):
     title: str
     description: str
@@ -59,8 +64,10 @@ class Persona(BaseModel):
     icon: str
     image: str
 
+
 class BatchMovieRequest(BaseModel):
     movie_ids: List[int]
+
 
 @app.post("/movies/batch", response_model=List[Recommendation])
 def get_movies_batch(request: BatchMovieRequest):
@@ -71,31 +78,33 @@ def get_movies_batch(request: BatchMovieRequest):
     try:
         # Deduplicate IDs
         unique_ids = list(set(request.movie_ids))
-        
+
         # Fetch from TMDB (via wrapper)
         tmdb_results = tmdb_client.movie_details_batch(unique_ids)
-        
+
         movies = []
         for data in tmdb_results:
             # Map TMDB format to Recommendation/MovieDTO format
             genres = [g["name"] for g in data.get("genres", [])]
-            
+
             rec = Recommendation(
                 movie_id=str(data.get("id")),
                 title=data.get("title", "Unknown"),
-                score=0.0, # Not applicable for direct fetch
+                score=0.0,  # Not applicable for direct fetch
                 genres=genres,
-                backdrop_path=data.get("backdrop_path")
+                backdrop_path=data.get("backdrop_path"),
             )
             movies.append(rec)
-            
+
         return movies
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Recc Engine API"}
+
 
 @app.get("/onboarding/personas", response_model=List[Persona])
 def get_onboarding_personas():
@@ -103,18 +112,50 @@ def get_onboarding_personas():
     Returns a static list of onboarding personas.
     """
     return [
-        Persona(title="The Thrill Seeker", description="High stakes, explosions, and edge-of-your-seat action.", color="red", icon="flame.fill", image="matrix.jpg"),
-        Persona(title="The Dreamer", description="Sci-fi worlds, fantasy epics, and magical realism.", color="purple", icon="sparkles", image="interstellar.jpg"),
-        Persona(title="The Detective", description="Mind-bending mysteries, true crime, and thrillers.", color="blue", icon="magnifyingglass", image="darkknight.jpg"),
-        Persona(title="The Romantic", description="Love stories, rom-coms, and heartwarming drama.", color="pink", icon="heart.fill", image="lalaland.jpg"),
-        Persona(title="The Indie Spirit", description="Art house, documentaries, and hidden gems.", color="orange", icon="camera.aperture", image="everything.jpg")
+        Persona(
+            title="The Thrill Seeker",
+            description="High stakes, explosions, and edge-of-your-seat action.",
+            color="red",
+            icon="flame.fill",
+            image="matrix.jpg",
+        ),
+        Persona(
+            title="The Dreamer",
+            description="Sci-fi worlds, fantasy epics, and magical realism.",
+            color="purple",
+            icon="sparkles",
+            image="interstellar.jpg",
+        ),
+        Persona(
+            title="The Detective",
+            description="Mind-bending mysteries, true crime, and thrillers.",
+            color="blue",
+            icon="magnifyingglass",
+            image="darkknight.jpg",
+        ),
+        Persona(
+            title="The Romantic",
+            description="Love stories, rom-coms, and heartwarming drama.",
+            color="pink",
+            icon="heart.fill",
+            image="lalaland.jpg",
+        ),
+        Persona(
+            title="The Indie Spirit",
+            description="Art house, documentaries, and hidden gems.",
+            color="orange",
+            icon="camera.aperture",
+            image="everything.jpg",
+        ),
     ]
+
 
 class UserCreate(BaseModel):
     name: str
     genres: List[str]
     movie_ids: List[int]
     personas: Optional[List[str]] = []
+
 
 def update_keyword_counts(profile_keywords, new_keywords):
     """
@@ -130,8 +171,14 @@ def update_keyword_counts(profile_keywords, new_keywords):
 
     for kw in new_keywords:
         counts[kw] = counts.get(kw, 0) + 1
-    
+
     return counts
+
+
+def validate_user_id(user_id: str):
+    if not user_id or user_id != os.path.basename(user_id) or user_id in [".", ".."]:
+        raise HTTPException(status_code=400, detail="Invalid user ID")
+
 
 @app.post("/encode")
 def encode_user(user_data: UserCreate):
@@ -142,7 +189,9 @@ def encode_user(user_data: UserCreate):
     """
     try:
         if not user_data.personas:
-             raise HTTPException(status_code=400, detail="Personas are required for encoding.")
+            raise HTTPException(
+                status_code=400, detail="Personas are required for encoding."
+            )
 
         # 1. Calculate Persona Embedding
         persona_embeddings_list = []
@@ -157,9 +206,9 @@ def encode_user(user_data: UserCreate):
                 print(f"Loaded persona embedding for {p_id}")
             except Exception as e:
                 print(f"Warning: Persona {p_id} not found: {e}")
-        
+
         if not persona_embeddings_list:
-             raise HTTPException(status_code=400, detail="No valid personas found.")
+            raise HTTPException(status_code=400, detail="No valid personas found.")
 
         # Average them
         final_embedding = np.mean(persona_embeddings_list, axis=0).tolist()
@@ -167,33 +216,34 @@ def encode_user(user_data: UserCreate):
         # 2. Create Empty Profile
         profile = {
             "name": user_data.name,
-            "genres": user_data.genres, # Keep genres as preference metadata
+            "genres": user_data.genres,  # Keep genres as preference metadata
             "data": {
                 "liked": [],
                 "disliked": [],
                 "neutral": [],
                 "watchlist": [],
                 "history": [],
-                "shown": []
+                "shown": [],
             },
             "keywords": {},
-            "personas": user_data.personas
+            "personas": user_data.personas,
         }
-        
+
         # Save to disk
+        validate_user_id(user_data.name)
         file_path = f"users/{user_data.name}.json"
         user.save_user_profile(file_path, profile)
 
         # 3. Upsert to DB
         # We need 'query_text' for the DB document, though embedding is pre-calculated.
         # We can use genres + personas names.
-        query_text = user.build_user_text(profile) # Uses genres
-        
+        query_text = user.build_user_text(profile)  # Uses genres
+
         user.upsert_user_profile(user_data.name, query_text, final_embedding, profile)
-        
+
         return {
             "message": f"User {user_data.name} initialized with personas: {user_data.personas}",
-            "profile_preview": profile
+            "profile_preview": profile,
         }
 
     except HTTPException:
@@ -201,23 +251,27 @@ def encode_user(user_data: UserCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/users/{user_id}")
 def get_user_profile(user_id: str):
     """
     Returns the full user profile (watchlist, history, ratings, etc.)
     """
+    validate_user_id(user_id)
     file_path = f"users/{user_id}.json"
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="User profile not found")
-    
+
     try:
         profile = user.load_user_profile(file_path)
         return profile
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 class WatchlistRequest(BaseModel):
     movie_id: int
+
 
 @app.post("/users/{user_id}/watchlist")
 def add_to_watchlist(user_id: str, request: WatchlistRequest):
@@ -225,14 +279,18 @@ def add_to_watchlist(user_id: str, request: WatchlistRequest):
     Adds a movie to the user's watchlist.
     """
     try:
+        validate_user_id(user_id)
         file_path = f"users/{user_id}.json"
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="User profile not found")
 
-        updated_profile = user.update_user_data(file_path, request.movie_id, "watchlist")
+        updated_profile = user.update_user_data(
+            file_path, request.movie_id, "watchlist"
+        )
         return {"message": "Added to watchlist", "data": updated_profile["data"]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.delete("/users/{user_id}/watchlist/{movie_id}")
 def remove_from_watchlist(user_id: str, movie_id: int):
@@ -240,6 +298,7 @@ def remove_from_watchlist(user_id: str, movie_id: int):
     Removes a movie from the user's watchlist.
     """
     try:
+        validate_user_id(user_id)
         file_path = f"users/{user_id}.json"
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="User profile not found")
@@ -249,9 +308,11 @@ def remove_from_watchlist(user_id: str, movie_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 class RatingRequest(BaseModel):
     movie_id: int
     rating: str  # "like", "dislike", "neutral"
+
 
 @app.post("/users/{user_id}/ratings")
 def rate_movie(user_id: str, request: RatingRequest):
@@ -261,7 +322,10 @@ def rate_movie(user_id: str, request: RatingRequest):
     to provide live recommendation updates.
     """
     if request.rating not in ["like", "dislike", "neutral"]:
-         raise HTTPException(status_code=400, detail="Invalid rating. Must be 'like', 'dislike', or 'neutral'.")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid rating. Must be 'like', 'dislike', or 'neutral'.",
+        )
 
     try:
         file_path = f"users/{user_id}.json"
@@ -269,13 +333,11 @@ def rate_movie(user_id: str, request: RatingRequest):
             raise HTTPException(status_code=404, detail="User profile not found")
 
         # 1. Update the local JSON data (history, liked/disliked lists)
-        action_map = {
-            "like": "liked",
-            "dislike": "disliked",
-            "neutral": "neutral"
-        }
-        updated_profile = user.update_user_data(file_path, request.movie_id, action_map[request.rating])
-        
+        action_map = {"like": "liked", "dislike": "disliked", "neutral": "neutral"}
+        updated_profile = user.update_user_data(
+            file_path, request.movie_id, action_map[request.rating]
+        )
+
         # 2. If liked, we need to update keywords and re-embed for live recs
         if request.rating == "like":
             try:
@@ -283,33 +345,41 @@ def rate_movie(user_id: str, request: RatingRequest):
                 kw_resp = tmdb_client.keywords(request.movie_id)
                 keywords_data = kw_resp.get("keywords", [])
                 new_kws = [k["name"] for k in keywords_data if "name" in k]
-                
+
                 # Merge with existing keywords using helper to update counts
                 current_keywords_data = updated_profile.get("keywords", {})
-                updated_keywords_dict = update_keyword_counts(current_keywords_data, new_kws)
+                updated_keywords_dict = update_keyword_counts(
+                    current_keywords_data, new_kws
+                )
                 updated_profile["keywords"] = updated_keywords_dict
-                
+
                 # Save the keyword update to disk
                 user.save_user_profile(file_path, updated_profile)
-                
+
                 # Re-encode and Upsert
                 query_text = user.build_user_text(updated_profile)
                 embedding = user.encode_user_text(query_text)
-                user.upsert_user_profile(user_id, query_text, embedding, updated_profile)
+                user.upsert_user_profile(
+                    user_id, query_text, embedding, updated_profile
+                )
             except Exception as tmdb_error:
-                print(f"Warning: Failed to fetch keywords or re-embed for movie {request.movie_id}: {tmdb_error}")
+                print(
+                    f"Warning: Failed to fetch keywords or re-embed for movie {request.movie_id}: {tmdb_error}"
+                )
                 # We don't fail the request, just the optimization
-        
+
         return {
-            "message": f"Movie rated {request.rating}", 
-            "data": updated_profile["data"]
+            "message": f"Movie rated {request.rating}",
+            "data": updated_profile["data"],
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 class SyncRequest(BaseModel):
     shown_ids: List[int]
+
 
 @app.post("/users/{user_id}/sync")
 def sync_user_data(user_id: str, request: SyncRequest):
@@ -324,27 +394,39 @@ def sync_user_data(user_id: str, request: SyncRequest):
             raise HTTPException(status_code=404, detail="User profile not found")
 
         profile = user.load_user_profile(file_path)
-        
+
         # Update 'shown' list
         current_shown = set(profile["data"].get("shown", []))
         incoming_ids = set(request.shown_ids)
         current_shown.update(incoming_ids)
         profile["data"]["shown"] = list(current_shown)
-        
+
         user.save_user_profile(file_path, profile)
-        print(f"[Backend] Sync successful. Total shown now: {len(profile['data']['shown'])}")
-        return {"message": "Sync successful", "shown_count": len(profile["data"]["shown"])}
+        print(
+            f"[Backend] Sync successful. Total shown now: {len(profile['data']['shown'])}"
+        )
+        return {
+            "message": "Sync successful",
+            "shown_count": len(profile["data"]["shown"]),
+        }
     except Exception as e:
         print(f"[Backend] Sync error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/users/{user_id}/recommendations", response_model=List[Recommendation])
 def get_recommendations(
-    user_id: str, 
-    top_k: int = 20, 
-    genres: Optional[str] = Query(None, description="Comma-separated list of genres to filter by"),
-    language: Optional[str] = Query(None, description="Language code to filter by (e.g. 'en', 'es')"),
-    min_year: Optional[int] = Query(1995, description="Minimum release year to filter by")
+    user_id: str,
+    top_k: int = 20,
+    genres: Optional[str] = Query(
+        None, description="Comma-separated list of genres to filter by"
+    ),
+    language: Optional[str] = Query(
+        None, description="Language code to filter by (e.g. 'en', 'es')"
+    ),
+    min_year: Optional[int] = Query(
+        1995, description="Minimum release year to filter by"
+    ),
 ):
     """
     Get movie recommendations for a user based on their stored embedding.
@@ -364,17 +446,19 @@ def get_recommendations(
             profile = user.load_user_profile(file_path)
             # Exclude shown, liked, disliked, and watchlist
             data = profile.get("data", {})
-            exclude_ids = list(set(
-                data.get("shown", []) + 
-                data.get("liked", []) + 
-                data.get("disliked", []) + 
-                data.get("watchlist", []) +
-                data.get("history", [])
-            ))
+            exclude_ids = list(
+                set(
+                    data.get("shown", [])
+                    + data.get("liked", [])
+                    + data.get("disliked", [])
+                    + data.get("watchlist", [])
+                    + data.get("history", [])
+                )
+            )
             print(f"[Backend] Loaded profile. Exclusion list size: {len(exclude_ids)}")
             if not genres:
                 filter_genres = profile.get("genres", [])
-            
+
             # Process Keywords: Filter Top 100
             raw_keywords = profile.get("keywords", {})
             if isinstance(raw_keywords, list):
@@ -383,10 +467,12 @@ def get_recommendations(
                 user_keywords_list = raw_keywords[:100]
             elif isinstance(raw_keywords, dict):
                 # Sort by count (descending)
-                sorted_kws = sorted(raw_keywords.items(), key=lambda item: item[1], reverse=True)
+                sorted_kws = sorted(
+                    raw_keywords.items(), key=lambda item: item[1], reverse=True
+                )
                 # Take top 100 keys
                 user_keywords_list = [k for k, v in sorted_kws[:100]]
-            
+
         else:
             print(f"[Backend] Profile file NOT FOUND: {file_path}")
 
@@ -409,31 +495,33 @@ def get_recommendations(
             filter_genres = [g.strip() for g in genres.split(",")]
 
         if not embedding:
-            raise HTTPException(status_code=500, detail="Failed to obtain user embedding.")
+            raise HTTPException(
+                status_code=500, detail="Failed to obtain user embedding."
+            )
 
         # 3. Search with exclusion and language filter
         results = user.search_movies(
-            embedding, 
-            top_k, 
-            filters=filter_genres, 
+            embedding,
+            top_k,
+            filters=filter_genres,
             exclude_ids=exclude_ids,
             language=language,
             user_keywords=user_keywords_list,
-            min_year=min_year
+            min_year=min_year,
         )
-        
+
         recommendations = []
         if results and results["ids"]:
             ids = results["ids"][0]
             metadatas = results["metadatas"][0]
             distances = results["distances"][0]
-            
+
             print(f"[Backend] Engine returned {len(ids)} candidates after exclusion.")
-            
+
             for idx, movie_id in enumerate(ids):
                 meta = metadatas[idx]
                 payload = json.loads(meta.get("payload", "{}"))
-                
+
                 # Extract genre names if they are objects
                 raw_genres = payload.get("genres", [])
                 processed_genres = []
@@ -448,10 +536,10 @@ def get_recommendations(
                     title=payload.get("title", "Unknown"),
                     score=distances[idx],
                     genres=processed_genres,
-                    backdrop_path=payload.get("backdrop_path")
+                    backdrop_path=payload.get("backdrop_path"),
                 )
                 recommendations.append(rec)
-                
+
         return recommendations
 
     except HTTPException:
